@@ -1,4 +1,4 @@
-/* Direct login/logo runtime for GitHub Pages. */
+/* Direct login + logo initializer. Does not depend on google.script.run. */
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
 
@@ -23,10 +23,10 @@
 
     if(!username||!password){
       if(typeof tampilkanPesan==='function') tampilkanPesan(message,'Username dan password wajib diisi.','error');
-      return;
+      return false;
     }
 
-    if(button){button.classList.add('loading');button.textContent='MEMPROSES...';}
+    if(button){button.classList.add('loading');button.textContent='MEMPROSES...';button.disabled=true;}
 
     const controller=new AbortController();
     const timer=setTimeout(function(){controller.abort();},15000);
@@ -48,36 +48,43 @@
     })
     .then(function(result){
       clearTimeout(timer);
-      if(button){button.classList.remove('loading');button.textContent='MASUK';}
       if(!result||!result.success){
+        if(button){button.classList.remove('loading');button.textContent='MASUK';button.disabled=false;}
         if(typeof tampilkanPesan==='function') tampilkanPesan(message,result?.message||'Login gagal.','error');
         return;
       }
 
-      /* IMPORTANT: index.html declares `let currentUser`.
-         Assign that lexical global, not window.currentUser. */
+      // index.html declares the lexical global `currentUser`.
       currentUser=result.user;
-
       try{sessionStorage.setItem('monitoringUser',JSON.stringify(result.user));}catch(e){}
       if(typeof tutupModal==='function') tutupModal('modalLogin');
       if(typeof bukaDashboard==='function') bukaDashboard();
     })
     .catch(function(err){
       clearTimeout(timer);
-      if(button){button.classList.remove('loading');button.textContent='MASUK';}
+      if(button){button.classList.remove('loading');button.textContent='MASUK';button.disabled=false;}
       const msg=err?.name==='AbortError'?'Koneksi ke server timeout.':(err?.message||'Terjadi kesalahan saat login.');
       if(typeof tampilkanPesan==='function') tampilkanPesan(message,msg,'error');
     });
+    return false;
   }
 
-  /* Run immediately when possible; also run after DOM ready for cached/late loads. */
   function init(){
     setLogos();
-    window.prosesLogin=loginDirect;
+    const button=document.getElementById('btnLogin');
+    if(button){
+      // Replace the old inline google.script.run handler with the direct Supabase login.
+      button.onclick=function(e){
+        if(e) e.preventDefault();
+        return loginDirect();
+      };
+    }
   }
 
-  init();
+  window.prosesLoginDirect=loginDirect;
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',init,{once:true});
+  }else{
+    init();
   }
 })();
