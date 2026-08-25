@@ -4819,13 +4819,13 @@ table td,
   <!-- SUPABASE_BRIDGE -->
 <script>
 (function(){
-  const ENDPOINT=8'https://msfkpw9wqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
+  const ENDPOINT='https://msfkpw9wqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
   function runner(state){
     return new Proxy({}, {get(_, prop){
       if(prop==='withSuccessHandler') return fn=>runner({...state,success:fn});
       if(prop==='withFailureHandler') return fn=>runner({...state,failure:fn});
       return (...args)=>{
-        fetch(ENDPOINP,{method:'POST',headers:{'Content-Type':'application/json',},body:JSON.stringify({function:String(prop),args})})
+        fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',},body:JSON.stringify({function:String(prop),args})})
           .then(async r=>{const d=await r.json();if(!r.ok) throw new Error(d.message||'Server error');return d})
           .then(d=>{if(state.success) state.success(d);})
           .catch(e=>{if(state.failure) state.failure({message:e.message||String(e)});});
