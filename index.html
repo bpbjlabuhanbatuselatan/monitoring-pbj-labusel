@@ -1,2 +1,1921 @@
 <!DOCTYPE html>
-<!-- placeholder -->
+
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+  >
+
+  <title>
+    Monitoring Progres Pekerjaan Fisik
+  </title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: #101828;
+
+      background:
+        radial-gradient(
+          circle at top left,
+          rgba(255,255,255,.96),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(205,214,228,.78),
+          transparent 40%
+        ),
+        linear-gradient(
+          135deg,
+          #eef2f7,
+          #dfe6ef
+        );
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .view {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+
+    /* =====================================================
+       HOME
+       ===================================================== */
+
+    .home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+    }
+
+    .home-inner {
+      width: 100%;
+      max-width: 760px;
+      text-align: center;
+    }
+
+    .logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .logo-box {
+      width: 95px;
+      height: 95px;
+      padding: 9px;
+
+      border-radius: 18px;
+
+      background:
+        rgba(255,255,255,.95);
+
+      box-shadow:
+        0 8px 25px
+        rgba(15,23,42,.08);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .main-title {
+      margin: 0;
+
+      font-size:
+        clamp(
+          29px,
+          5vw,
+          50px
+        );
+
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: -1.4px;
+      text-transform: uppercase;
+    }
+
+    .main-subtitle {
+      margin:
+        16px auto 28px;
+
+      color: #526071;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .home-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      min-width: 170px;
+      padding: 14px 22px;
+      border-radius: 13px;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #101828;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #101828;
+      border:
+        1px solid #d0d5dd;
+    }
+
+    .footer {
+      margin-top: 28px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================================
+       MODAL
+       ===================================================== */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      z-index: 1000;
+
+      padding: 15px;
+
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(15,23,42,.62);
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 450px;
+
+      max-height: 92vh;
+      overflow-y: auto;
+
+      padding: 25px;
+
+      background: #fff;
+      border-radius: 19px;
+
+      box-shadow:
+        0 25px 70px
+        rgba(15,23,42,.25);
+    }
+
+    .modal-title {
+      margin:
+        0 0 19px;
+
+      text-align: center;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .field {
+      margin-bottom: 13px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+
+      color: #344054;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+
+      padding: 12px 13px;
+
+      border:
+        1px solid #d0d5dd;
+
+      border-radius: 10px;
+
+      outline: none;
+
+      background: #fff;
+
+      font-size: 14px;
+    }
+
+    .field textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .readonly {
+      background:
+        #f8fafc !important;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+    }
+
+    .message {
+      display: none;
+
+      margin-top: 12px;
+      padding: 10px;
+
+      border-radius: 9px;
+
+      text-align: center;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      color: #b42318;
+      background: #fef3f2;
+    }
+
+    .message.success {
+      color: #027a48;
+      background: #ecfdf3;
+    }
+
+    .loading {
+      opacity: .65;
+      pointer-events: none;
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+       ===================================================== */
+
+    .dashboard {
+      min-height: 100vh;
+      padding: 15px;
+    }
+
+    .dashboard-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 14px;
+
+      padding:
+        14px 17px;
+
+      margin-bottom: 17px;
+
+      background:
+        rgba(255,255,255,.95);
+
+      border-radius: 17px;
+
+      box-shadow:
+        0 8px 24px
+        rgba(15,23,42,.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 47px;
+      height: 47px;
+
+      flex-shrink: 0;
+
+      padding: 5px;
+
+      border-radius: 11px;
+
+      background: #fff;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .brand-role {
+      margin-top: 3px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .notification-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background: #fff4f4;
+      color: #b42318;
+      border: 1px solid #fecdca;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .notification-button span {
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #d92d20;
+      color: #fff;
+      font-size: 10px;
+    }
+
+    .verification-header {
+      margin-bottom: 13px;
+    }
+
+    .verify-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 23px;
+      height: 23px;
+      margin-left: 6px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: #d92d20;
+      color: #fff;
+      font-size: 11px;
+      vertical-align: middle;
+    }
+
+    .verify-keterangan {
+      margin-top: 8px;
+      padding: 9px 10px;
+      border-radius: 9px;
+      background: #f8fafc;
+      color: #344054;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .verify-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-logout {
+      padding:
+        10px 16px;
+
+      border-radius: 10px;
+
+      background: #101828;
+      color: #fff;
+    }
+
+    .welcome {
+      margin-bottom: 17px;
+    }
+
+    .welcome h1 {
+      margin: 0;
+      font-size:
+        clamp(
+          23px,
+          4vw,
+          33px
+        );
+      font-weight: 900;
+    }
+
+    .welcome p {
+      margin:
+        6px 0 0;
+
+      color: #667085;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================================
+       STAT
+       ===================================================== */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 13px;
+
+      margin-bottom: 17px;
+    }
+
+    .stat-card {
+      padding: 17px;
+
+      background:
+        rgba(255,255,255,.95);
+
+      border-radius: 17px;
+
+      box-shadow:
+        0 8px 24px
+        rgba(15,23,42,.06);
+    }
+
+    .stat-label {
+      color: #667085;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      margin-top: 7px;
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+
+    /* =====================================================
+       CARD
+       ===================================================== */
+
+    .report-card,
+    .table-card {
+      margin-bottom: 17px;
+      padding: 19px;
+
+      background:
+        rgba(255,255,255,.95);
+
+      border-radius: 17px;
+
+      box-shadow:
+        0 8px 24px
+        rgba(15,23,42,.06);
+    }
+
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      margin-bottom: 14px;
+    }
+
+    .report-title,
+    .table-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .report-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 13px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .save-btn {
+      padding:
+        12px 17px;
+
+      border-radius: 10px;
+
+      background: #101828;
+      color: #fff;
+
+      font-size: 13px;
+    }
+
+
+    /* =====================================================
+       RUP SEARCH
+       ===================================================== */
+
+    .rup-search-box {
+      position: relative;
+    }
+
+    .rup-input-wrap {
+      position: relative;
+    }
+
+    .rup-suggestions {
+      display: none;
+
+      position: absolute;
+
+      z-index: 500;
+
+      top:
+        calc(100% + 4px);
+
+      left: 0;
+      right: 0;
+
+      max-height: 230px;
+      overflow-y: auto;
+
+      padding: 4px;
+
+      background: #fff;
+
+      border:
+        1px solid #d0d5dd;
+
+      border-radius: 11px;
+
+      box-shadow:
+        0 14px 30px
+        rgba(15,23,42,.14);
+    }
+
+    .rup-suggestions.show {
+      display: block;
+    }
+
+    .rup-option {
+      display: block;
+
+      width: 100%;
+
+      padding:
+        10px 11px;
+
+      border-radius: 8px;
+
+      background: transparent;
+
+      color: #101828;
+
+      text-align: left;
+
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .rup-option:hover {
+      background: #f2f4f7;
+    }
+
+    .rup-package {
+      margin-top: 3px;
+      color: #667085;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rup-empty {
+      padding: 11px;
+
+      color: #667085;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================================
+       WEEK
+       ===================================================== */
+
+    .week-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 8px;
+
+      margin-top: 6px;
+      padding:
+        9px 11px;
+
+      background:
+        #f8fafc;
+
+      border:
+        1px solid #eaecf0;
+
+      border-radius: 9px;
+
+      color: #475467;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .week-number {
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+
+    /* =====================================================
+       ADENDUM
+       ===================================================== */
+
+    .adendum-box {
+      display: none;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid #eaecf0;
+    }
+
+    .adendum-box.show {
+      display: block;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 9px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .check-row input {
+      width: auto;
+    }
+
+
+    /* =====================================================
+       TABLE
+       ===================================================== */
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid #eaecf0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #eaecf0;
+      text-align: left;
+      vertical-align: top;
+      font-size: 12px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #344054;
+      font-weight: 900;
+    }
+
+    td {
+      color: #475467;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .empty {
+      padding: 18px;
+      text-align: center;
+      color: #667085;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 820px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .dashboard {
+        padding: 10px;
+      }
+
+      .topbar {
+        padding: 11px 12px;
+      }
+
+      .top-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .notification-button,
+      .btn-logout {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .report-card,
+      .table-card {
+        padding: 14px;
+      }
+
+      .report-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .save-btn {
+        width: 100%;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- HOME -->
+  <section id="homeView" class="view active home">
+
+    <div class="home-inner">
+
+      <div class="logos">
+
+        <div class="logo-box">
+          <img id="logoLKPP" alt="LKPP">
+        </div>
+
+        <div class="logo-box">
+          <img id="logoLabusel" alt="Labuhanbatu Selatan">
+        </div>
+
+        <div class="logo-box">
+          <img id="logoUKPBJ" alt="UKPBJ">
+        </div>
+
+      </div>
+
+      <h1 class="main-title">
+        SISTEM INFORMASI
+        MONITORING PROGRES
+      </h1>
+
+      <p class="main-subtitle">
+        Sistem Informasi Monitoring Progres Pekerjaan Fisik
+      </p>
+
+      <div class="home-buttons">
+        <button
+          class="btn-primary"
+          type="button"
+          onclick="openModal('loginModal')"
+        >
+          LOGIN
+        </button>
+
+        <button
+          class="btn-secondary"
+          type="button"
+          onclick="openModal('registerModal')"
+        >
+          DAFTAR
+        </button>
+      </div>
+
+      <div class="footer">
+        UKPBJ Kabupaten Labuhanbatu Selatan
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal">
+
+    <div class="modal-card">
+
+      <h2 class="modal-title">LOGIN</h2>
+
+      <div class="field">
+        <label for="loginUsername">Username</label>
+        <input
+          id="loginUsername"
+          type="text"
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <div class="modal-buttons">
+        <button
+          type="button"
+          class="btn-secondary"
+          onclick="closeModal('loginModal')"
+        >
+          BATAL
+        </button>
+
+        <button
+          id="btnLogin"
+          type="button"
+          class="btn-primary"
+          onclick="login()"
+        >
+          MASUK
+        </button>
+      </div>
+
+      <div
+        id="loginMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- REGISTER MODAL -->
+  <div id="registerModal" class="modal">
+
+    <div class="modal-card">
+
+      <h2 class="modal-title">DAFTAR AKUN</h2>
+
+      <div class="field">
+        <label for="registerNama">Nama</label>
+        <input id="registerNama" type="text">
+      </div>
+
+      <div class="field">
+        <label for="registerUsername">Username</label>
+        <input id="registerUsername" type="text">
+      </div>
+
+      <div class="field">
+        <label for="registerPassword">Password</label>
+        <input id="registerPassword" type="password">
+      </div>
+
+      <div class="field">
+        <label for="registerRole">Role</label>
+        <select id="registerRole">
+          <option value="">Pilih role</option>
+          <option value="PPK">PPK</option>
+          <option value="PPBJ">PPBJ</option>
+          <option value="PIMPINAN">PIMPINAN</option>
+        </select>
+      </div>
+
+      <div class="modal-buttons">
+        <button
+          type="button"
+          class="btn-secondary"
+          onclick="closeModal('registerModal')"
+        >
+          BATAL
+        </button>
+
+        <button
+          id="btnRegister"
+          type="button"
+          class="btn-primary"
+          onclick="registerUser()"
+        >
+          DAFTAR
+        </button>
+      </div>
+
+      <div
+        id="registerMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- DASHBOARD -->
+  <section id="dashboardView" class="view dashboard">
+
+    <div class="dashboard-inner">
+
+      <div class="topbar">
+
+        <div class="brand">
+
+          <div class="brand-logo">
+            <img id="brandLogo" alt="UKPBJ">
+          </div>
+
+          <div>
+            <div id="brandTitle" class="brand-title">
+              -
+            </div>
+            <div id="brandRole" class="brand-role">
+              -
+            </div>
+          </div>
+
+        </div>
+
+        <div class="top-actions">
+
+          <button
+            id="verificationButton"
+            type="button"
+            class="notification-button"
+            onclick="showVerificationPanel()"
+            style="display:none"
+          >
+            VERIFIKASI
+            <span id="verificationCount">0</span>
+          </button>
+
+          <button
+            class="btn-logout"
+            type="button"
+            onclick="logout()"
+          >
+            KELUAR
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="welcome">
+        <h1>Dashboard Monitoring</h1>
+        <p>
+          Kelola proyek, laporan mingguan, dan verifikasi dalam panel terpisah.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Proyek</div>
+          <div id="statTotalProyek" class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Laporan</div>
+          <div id="statLaporan" class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Verifikasi</div>
+          <div id="statVerifikasi" class="stat-value">0</div>
+        </div>
+      </div>
+
+      <div id="dashboardMessage" class="message"></div>
+
+      <div id="reportSection" class="report-card">
+        <div class="report-header">
+          <div>
+            <h2 class="report-title">Laporan Mingguan</h2>
+            <div style="margin-top:5px;color:#667085;font-size:12px;font-weight:700">
+              Input progres fisik, foto lapangan, dan teruskan ke PPBJ untuk diketahui.
+            </div>
+          </div>
+        </div>
+
+        <div class="report-grid">
+
+          <div class="field full rup-search-box">
+            <label for="kodeRupInput">Kode RUP</label>
+            <div class="rup-input-wrap">
+              <input
+                id="kodeRupInput"
+                type="text"
+                autocomplete="off"
+                placeholder="Cari / pilih Kode RUP"
+              >
+              <div id="rupSuggestions" class="rup-suggestions"></div>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="namaPaketInput">Nama Paket</label>
+            <textarea id="namaPaketInput" class="readonly" readonly></textarea>
+          </div>
+
+          <div class="field">
+            <label for="mingguKeInput">Minggu Ke</label>
+            <input id="mingguKeInput" type="number" min="1" step="1">
+            <div id="weekInfo" class="week-info">
+              <span>Minggu terakhir: <strong id="mingguTerakhir">0</strong></span>
+              <span>Berikutnya: <strong id="mingguBerikutnya" class="week-number">1</strong></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="progressInput">Progress Fisik (%)</label>
+            <input id="progressInput" type="number" min="0" max="100" step="0.01" value="0">
+          </div>
+
+          <div class="field">
+            <label for="lokasiInput">Lokasi</label>
+            <input id="lokasiInput" type="text" placeholder="Lokasi pekerjaan">
+          </div>
+
+          <div class="field">
+            <label for="penyediaInput">Nama Penyedia</label>
+            <input id="penyediaInput" class="readonly" type="text" readonly>
+          </div>
+
+          <div class="field full">
+            <label class="check-row" for="teruskanPPBJInput">
+              <input id="teruskanPPBJInput" type="checkbox">
+              PPBJ perlu mengetahui laporan ini
+            </label>
+          </div>
+
+          <div class="field">
+            <label for="ppbjTujuanInput">PPBJ Tujuan</label>
+            <select id="ppbjTujuanInput">
+              <option value="">Pilih tujuan</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="fotoInput">Upload Foto Lapangan</label>
+            <input id="fotoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+            <div style="margin-top:5px;color:#667085;font-size:11px;font-weight:700">
+              Maksimal 10 MB per foto. Format JPG, PNG, WEBP.
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="keteranganInput">Keterangan</label>
+            <textarea id="keteranganInput" placeholder="Catatan progres"></textarea>
+          </div>
+
+          <div class="full" style="display:flex;justify-content:flex-end">
+            <button
+              id="btnSimpanLaporan"
+              class="save-btn"
+              type="button"
+              onclick="simpanLaporan()"
+            >
+              SIMPAN LAPORAN
+            </button>
+          </div>
+
+          <div class="full">
+            <div id="laporanMessage" class="message"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="verificationSection" class="table-card" style="display:none">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Verifikasi Masuk</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Kode RUP</th>
+                <th>Nama Paket</th>
+                <th>Minggu</th>
+                <th>Progres</th>
+                <th>Dari</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="verificationBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="adminSection" class="table-card" style="display:none">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Kelola Pengguna</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="masterSection" class="table-card">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Master Proyek</h2>
+            <div style="margin-top:5px;color:#667085;font-size:12px;font-weight:700">
+              Data proyek langsung dari Supabase.
+            </div>
+          </div>
+          <div id="masterCount" style="font-size:12px;font-weight:900;color:#475467">0 proyek</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <input id="masterRupSearch" type="text" placeholder="Cari / pilih Kode RUP">
+          <input id="masterPaketSearch" type="text" placeholder="Cari nama paket">
+        </div>
+        <div id="masterRupSuggestions" class="rup-suggestions" style="position:relative;top:auto;max-height:220px"></div>
+        <div id="masterPaketSuggestions" class="rup-suggestions" style="position:relative;top:auto;max-height:220px"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Satuan Kerja</th>
+                <th>Tahun</th>
+                <th>Metode</th>
+                <th>Nama Paket</th>
+                <th>Penyedia</th>
+                <th>Kode RUP</th>
+                <th>Lokasi</th>
+                <th>Nilai</th>
+                <th>Adendum</th>
+              </tr>
+            </thead>
+            <tbody id="masterBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="laporanSection" class="table-card">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Laporan Mingguan</h2>
+            <div style="margin-top:5px;color:#667085;font-size:12px;font-weight:700">
+              Riwayat laporan dari seluruh proyek.
+            </div>
+          </div>
+          <div id="laporanCount" style="font-size:12px;font-weight:900;color:#475467">0 laporan</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Kode RUP</th>
+                <th>Nama Paket</th>
+                <th>Minggu</th>
+                <th>Progres</th>
+                <th>Dibuat Oleh</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="laporanBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="pimpinanSection" class="table-card" style="display:none">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Dashboard Pimpinan</h2>
+            <div style="margin-top:5px;color:#667085;font-size:12px;font-weight:700">
+              Rekap progres seluruh pekerjaan fisik.
+            </div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><div class="stat-label">Total Proyek</div><div id="pimpinanTotalProyek" class="stat-value">0</div></div>
+          <div class="stat-card"><div class="stat-label">Berjalan</div><div id="pimpinanBerjalan" class="stat-value">0</div></div>
+          <div class="stat-card"><div class="stat-label">Selesai</div><div id="pimpinanSelesai" class="stat-value">0</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Kode RUP</th>
+                <th>Nama Paket</th>
+                <th>Penyedia</th>
+                <th>Lokasi</th>
+                <th>Nilai</th>
+                <th>Progres</th>
+                <th>Minggu</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="pimpinanBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="detailSection" class="table-card" style="display:none">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Detail Proyek</h2>
+          </div>
+          <button type="button" class="btn-secondary" onclick="closeDetailProyek()">TUTUP</button>
+        </div>
+        <div id="detailProjectInfo" style="margin-bottom:13px"></div>
+        <div id="detailWeeks"></div>
+      </div>
+
+      <div id="logSection" class="table-card" style="display:none">
+        <div class="report-header">
+          <div>
+            <h2 class="table-title">Log Aktivitas</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Username</th>
+                <th>Aktivitas</th>
+              </tr>
+            </thead>
+            <tbody id="logBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <script>
+
+    let currentUser = null;
+    let masterProyek = [];
+    let laporanMingguan = [];
+    let proyekTerpilih = null;
+
+
+    function showMessage(element, text, type) {
+      if (!element) return;
+      element.textContent = text || '';
+      element.className = 'message show ' + (type || 'error');
+    }
+
+    function clearMessage(element) {
+      if (!element) return;
+      element.textContent = '';
+      element.className = 'message';
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('show');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('show');
+    }
+
+    function setLoading(button, yes) {
+      if (!button) return;
+      button.disabled = !!yes;
+      button.classList.toggle('loading', !!yes);
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('btnLogin');
+      const msg = document.getElementById('loginMessage');
+      clearMessage(msg);
+      if (!username || !password) {
+        showMessage(msg, 'Username dan password wajib diisi.', 'error');
+        return;
+      }
+      setLoading(btn, true);
+      google.script.run
+        .withSuccessHandler(function(res) {
+          setLoading(btn, false);
+          if (!res || !res.success) {
+            showMessage(msg, (res && res.message) || 'Login gagal.', 'error');
+            return;
+          }
+          currentUser = res.user;
+          sessionStorage.setItem('monitoring_user', JSON.stringify(currentUser));
+          closeModal('loginModal');
+          renderDashboard();
+        })
+        .withFailureHandler(function(err) {
+          setLoading(btn, false);
+          showMessage(msg, err && err.message ? err.message : String(err), 'error');
+        })
+        .login(username, password);
+    }
+
+    function registerUser() {
+      const nama = document.getElementById('registerNama').value.trim();
+      const username = document.getElementById('registerUsername').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const role = document.getElementById('registerRole').value;
+      const btn = document.getElementById('btnRegister');
+      const msg = document.getElementById('registerMessage');
+      clearMessage(msg);
+      if (!nama || !username || !password || !role) {
+        showMessage(msg, 'Semua data wajib diisi.', 'error');
+        return;
+      }
+      setLoading(btn, true);
+      google.script.run
+        .withSuccessHandler(function(res) {
+          setLoading(btn, false);
+          if (!res || !res.success) {
+            showMessage(msg, (res && res.message) || 'Pendaftaran gagal.', 'error');
+            return;
+          }
+          showMessage(msg, res.message || 'Pendaftaran berhasil.', 'success');
+          document.getElementById('registerNama').value = '';
+          document.getElementById('registerUsername').value = '';
+          document.getElementById('registerPassword').value = '';
+          document.getElementById('registerRole').value = '';
+        })
+        .withFailureHandler(function(err) {
+          setLoading(btn, false);
+          showMessage(msg, err && err.message ? err.message : String(err), 'error');
+        })
+        .daftarUser({ nama, username, password, role });
+    }
+
+    function logout() {
+      sessionStorage.removeItem('monitoring_user');
+      currentUser = null;
+      document.getElementById('dashboardView').classList.remove('active');
+      document.getElementById('homeView').classList.add('active');
+    }
+
+    function restoreSession() {
+      try {
+        const raw = sessionStorage.getItem('monitoring_user');
+        if (!raw) return;
+        currentUser = JSON.parse(raw);
+        if (currentUser && currentUser.username) renderDashboard();
+      } catch (e) {
+        sessionStorage.removeItem('monitoring_user');
+      }
+    }
+
+    function renderDashboard() {
+      document.getElementById('homeView').classList.remove('active');
+      document.getElementById('dashboardView').classList.add('active');
+      document.getElementById('brandTitle').textContent = currentUser.nama || currentUser.username || '-';
+      document.getElementById('brandRole').textContent = currentUser.role || '-';
+      loadDashboardData();
+    }
+
+    function loadDashboardData() {
+      google.script.run
+        .withSuccessHandler(function(master) {
+          masterProyek = Array.isArray(master) ? master : [];
+          document.getElementById('statTotalProyek').textContent = masterProyek.length;
+          populateMaster(masterProyek);
+          populateRupSuggestions(masterProyek);
+          populatePPBJ();
+          loadLaporan();
+          if (String(currentUser.role || '').toUpperCase() === 'ADMIN') loadAdmin();
+          if (String(currentUser.role || '').toUpperCase() === 'PIMPINAN') loadPimpinan();
+        })
+        .withFailureHandler(function(err) {
+          showMessage(document.getElementById('dashboardMessage'), err && err.message ? err.message : 'Gagal memuat master proyek.', 'error');
+        })
+        .getMasterProyek();
+    }
+
+    function loadLogos() {
+      google.script.run
+        .withSuccessHandler(function(logos) {
+          if (!logos) return;
+          if (logos.lkpp) {
+            document.getElementById('logoLKPP').src = logos.lkpp;
+          }
+          if (logos.labusel) {
+            document.getElementById('logoLabusel').src = logos.labusel;
+          }
+          if (logos.ukpbj) {
+            document.getElementById('logoUKPBJ').src = logos.ukpbj;
+            document.getElementById('brandLogo').src = logos.ukpbj;
+          }
+        })
+        .withFailureHandler(function(err) {
+          console.error(err);
+        })
+        .getLogoData();
+    }
+
+    function populateMaster(rows) {
+      const body = document.getElementById('masterBody');
+      const count = document.getElementById('masterCount');
+      if (count) count.textContent = rows.length + ' proyek';
+      if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="10" class="empty">Tidak ada data.</td></tr>';
+        return;
+      }
+      body.innerHTML = rows.map(function(r) {
+        return '<tr>' +
+          '<td>' + esc(r.no) + '</td>' +
+          '<td>' + esc(r.satuanKerja) + '</td>' +
+          '<td>' + esc(r.tahunAnggaran) + '</td>' +
+          '<td>' + esc(r.metodePengadaan) + '</td>' +
+          '<td>' + esc(r.namaPaket) + '</td>' +
+          '<td>' + esc(r.namaPenyedia) + '</td>' +
+          '<td>' + esc(r.kodeRup) + '</td>' +
+          '<td>' + esc(r.lokasi) + '</td>' +
+          '<td>' + esc(r.totalNilai) + '</td>' +
+          '<td>' + esc(r.adendum) + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function populateRupSuggestions(rows) {
+      const input = document.getElementById('kodeRupInput');
+      const box = document.getElementById('rupSuggestions');
+      input.addEventListener('input', function() {
+        const q = input.value.trim().toLowerCase();
+        if (!q) {
+          box.classList.remove('show');
+          box.innerHTML = '';
+          return;
+        }
+        const hit = rows.filter(function(r) {
+          return String(r.kodeRup || '').toLowerCase().includes(q) || String(r.namaPaket || '').toLowerCase().includes(q);
+        }).slice(0, 25);
+        box.innerHTML = hit.length ? hit.map(function(r) {
+          return '<button type="button" class="rup-option" data-rup="' + escAttr(r.kodeRup) + '">' +
+            '<div>' + esc(r.kodeRup) + '</div>' +
+            '<div class="rup-package">' + esc(r.namaPaket) + '</div>' +
+            '</button>';
+        }).join('') : '<div class="rup-empty">Tidak ditemukan.</div>';
+        box.classList.add('show');
+        box.querySelectorAll('[data-rup]').forEach(function(btn) {
+          btn.onclick = function() {
+            pilihRup(btn.getAttribute('data-rup'));
+          };
+        });
+      });
+    }
+
+    function pilihRup(rup) {
+      const p = masterProyek.find(function(x) { return String(x.kodeRup) === String(rup); });
+      if (!p) return;
+      proyekTerpilih = p;
+      document.getElementById('kodeRupInput').value = p.kodeRup || '';
+      document.getElementById('namaPaketInput').value = p.namaPaket || '';
+      document.getElementById('penyediaInput').value = p.namaPenyedia || '';
+      document.getElementById('rupSuggestions').classList.remove('show');
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (!res) return;
+          document.getElementById('mingguTerakhir').textContent = res.mingguTerakhir || 0;
+          document.getElementById('mingguBerikutnya').textContent = res.mingguBerikutnya || 1;
+          document.getElementById('mingguKeInput').value = res.mingguBerikutnya || 1;
+          if (res.namaPenyediaTerakhir) document.getElementById('penyediaInput').value = res.namaPenyediaTerakhir;
+        })
+        .withFailureHandler(function(err) {
+          showMessage(document.getElementById('laporanMessage'), err && err.message ? err.message : 'Gagal memuat minggu berikutnya.', 'error');
+        })
+        .getMingguBerikutnya(String(rup));
+    }
+
+    function populatePPBJ() {
+      const sel = document.getElementById('ppbjTujuanInput');
+      google.script.run
+        .withSuccessHandler(function(rows) {
+          sel.innerHTML = '<option value="">Pilih tujuan</option>' + (rows || []).map(function(r) {
+            return '<option value="' + escAttr(r.username || r.email || '') + '">' + esc(r.nama || r.username || r.email) + '</option>';
+          }).join('');
+        })
+        .getDaftarPPBJ();
+    }
+
+    function loadLaporan() {
+      google.script.run
+        .withSuccessHandler(function(rows) {
+          laporanMingguan = Array.isArray(rows) ? rows : [];
+          document.getElementById('statLaporan').textContent = laporanMingguan.length;
+          const body = document.getElementById('laporanBody');
+          document.getElementById('laporanCount').textContent = laporanMingguan.length + ' laporan';
+          body.innerHTML = laporanMingguan.length ? laporanMingguan.map(function(r) {
+            return '<tr>' +
+              '<td>' + esc(r.tanggal) + '</td>' +
+              '<td>' + esc(r.kodeRup) + '</td>' +
+              '<td>' + esc(r.namaPaket) + '</td>' +
+              '<td>' + esc(r.mingguKe) + '</td>' +
+              '<td>' + esc(r.progres) + '%</td>' +
+              '<td>' + esc(r.dibuatOleh) + '</td>' +
+              '<td>' + esc(r.verifikasi && r.verifikasi.status ? r.verifikasi.status : (r.statusVerifikasi || 'DIAJUKAN')) + '</td>' +
+              '</tr>';
+          }).join('') : '<tr><td colspan="7" class="empty">Belum ada laporan.</td></tr>';
+          const role = String(currentUser.role || '').toUpperCase();
+          if (role === 'PPK' || role === 'PPBJ') loadVerification();
+        })
+        .withFailureHandler(function(err) {
+          showMessage(document.getElementById('dashboardMessage'), err && err.message ? err.message : 'Gagal memuat laporan.', 'error');
+        })
+        .getLaporanMingguan();
+    }
+
+    function simpanLaporan() {
+      const btn = document.getElementById('btnSimpanLaporan');
+      const msg = document.getElementById('laporanMessage');
+      clearMessage(msg);
+      if (!proyekTerpilih) {
+        showMessage(msg, 'Pilih Kode RUP terlebih dahulu.', 'error');
+        return;
+      }
+      const data = {
+        kodeRup: proyekTerpilih.kodeRup,
+        namaPaket: proyekTerpilih.namaPaket,
+        namaPenyedia: document.getElementById('penyediaInput').value,
+        mingguKe: Number(document.getElementById('mingguKeInput').value || 1),
+        progres: Number(document.getElementById('progressInput').value || 0),
+        lokasi: document.getElementById('lokasiInput').value.trim(),
+        keterangan: document.getElementById('keteranganInput').value.trim(),
+        diteruskan: document.getElementById('teruskanPPBJInput').checked ? 'YA' : 'TIDAK',
+        ppbjUsername: document.getElementById('ppbjTujuanInput').value
+      };
+      if (data.progres < 0 || data.progres > 100) {
+        showMessage(msg, 'Progress fisik harus 0 sampai 100%.', 'error');
+        return;
+      }
+      setLoading(btn, true);
+      google.script.run
+        .withSuccessHandler(function(res) {
+          setLoading(btn, false);
+          if (!res || !res.success) {
+            showMessage(msg, (res && res.message) || 'Gagal menyimpan laporan.', 'error');
+            return;
+          }
+          showMessage(msg, res.message || 'Laporan berhasil disimpan.', 'success');
+          document.getElementById('progressInput').value = 0;
+          document.getElementById('lokasiInput').value = '';
+          document.getElementById('keteranganInput').value = '';
+          document.getElementById('fotoInput').value = '';
+          loadLaporan();
+          pilihRup(proyekTerpilih.kodeRup);
+        })
+        .withFailureHandler(function(err) {
+          setLoading(btn, false);
+          showMessage(msg, err && err.message ? err.message : String(err), 'error');
+        })
+        .simpanLaporan(data);
+    }
+
+    function loadVerification() {
+      google.script.run
+        .withSuccessHandler(function(rows) {
+          rows = rows || [];
+          const section = document.getElementById('verificationSection');
+          const body = document.getElementById('verificationBody');
+          if (!rows.length) {
+            section.style.display = 'none';
+            document.getElementById('statVerifikasi').textContent = '0';
+            return;
+          }
+          section.style.display = 'block';
+          document.getElementById('statVerifikasi').textContent = rows.length;
+          document.getElementById('verificationCount').textContent = rows.length;
+          document.getElementById('verificationButton').style.display = 'inline-flex';
+          body.innerHTML = rows.map(function(v) {
+            const r = v.laporan || {};
+            return '<tr>' +
+              '<td>' + esc(v.tanggal) + '</td>' +
+              '<td>' + esc(r.kode_rup || r.kodeRup) + '</td>' +
+              '<td>' + esc(r.nama_paket || r.namaPaket) + '</td>' +
+              '<td>' + esc(r.minggu_ke || r.mingguKe) + '</td>' +
+              '<td>' + esc(r.persentase_progres || r.progres) + '%</td>' +
+              '<td>' + esc(v.dari) + '</td>' +
+              '<td><button class="save-btn" type="button" onclick="prosesVerifikasi(\'' + escAttr(v.idVerifikasi) + '\',\'' + escAttr(v.idLaporan) + '\',\'DITERIMA\')">TERIMA</button></td>' +
+              '</tr>';
+          }).join('');
+        })
+        .withFailureHandler(function(err) {
+          console.error(err);
+        })
+        .getVerifikasiMasuk(currentUser.username);
+    }
+
+    function showVerificationPanel() {
+      const el = document.getElementById('verificationSection');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function prosesVerifikasi(idVerifikasi, idLaporan, status) {
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (!res || !res.success) {
+            alert((res && res.message) || 'Gagal memproses verifikasi.');
+            return;
+          }
+          loadVerification();
+          loadLaporan();
+        })
+        .withFailureHandler(function(err) {
+          alert(err && err.message ? err.message : String(err));
+        })
+        .prosesVerifikasi({
+          idVerifikasi,
+          idLaporan,
+          statusBaru: status,
+          usernamePenerima: currentUser.username,
+          catatan: ''
+        });
+    }
+
+    function loadAdmin() {
+      const section = document.getElementById('adminSection');
+      section.style.display = 'block';
+      google.script.run
+        .withSuccessHandler(function(res) {
+          const rows = (res && res.daftar) || [];
+          document.getElementById('adminUsersBody').innerHTML = rows.length ? rows.map(function(x) {
+            return '<tr>' +
+              '<td>' + esc(x.nama) + '</td>' +
+              '<td>' + esc(x.username) + '</td>' +
+              '<td>' + esc(x.role) + '</td>' +
+              '<td>' + esc(x.status) + '</td>' +
+              '<td><button class="save-btn" type="button" onclick="adminSetStatus(\'' + escAttr(x.username) + '\',\'' + (String(x.status).toUpperCase() === 'AKTIF' ? 'NONAKTIF' : 'AKTIF') + '\')">' + (String(x.status).toUpperCase() === 'AKTIF' ? 'NONAKTIFKAN' : 'AKTIFKAN') + '</button></td>' +
+              '</tr>';
+          }).join('') : '<tr><td colspan="5" class="empty">Belum ada pengguna.</td></tr>';
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('adminUsersBody').innerHTML = '<tr><td colspan="5" class="empty">' + esc(err && err.message ? err.message : 'Gagal memuat data pengguna.') + '</td></tr>';
+        })
+        .getAdminDashboardData(currentUser.username);
+    }
+
+    function adminSetStatus(username, status) {
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (!res || !res.success) {
+            alert((res && res.message) || 'Gagal mengubah status.');
+            return;
+          }
+          loadAdmin();
+        })
+        .withFailureHandler(function(err) {
+          alert(err && err.message ? err.message : String(err));
+        })
+        .adminSetStatus(currentUser.username, username, status);
+    }
+
+    function loadPimpinan() {
+      document.getElementById('pimpinanSection').style.display = 'block';
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (!res) return;
+          document.getElementById('pimpinanTotalProyek').textContent = res.totalProyek || 0;
+          document.getElementById('pimpinanBerjalan').textContent = res.proyekBerjalan || 0;
+          document.getElementById('pimpinanSelesai').textContent = res.proyekSelesai || 0;
+          const rows = res.daftar || [];
+          document.getElementById('pimpinanBody').innerHTML = rows.length ? rows.map(function(x) {
+            return '<tr>' +
+              '<td>' + esc(x.kodeRup) + '</td>' +
+              '<td>' + esc(x.namaPaket) + '</td>' +
+              '<td>' + esc(x.namaPenyedia) + '</td>' +
+              '<td>' + esc(x.lokasi) + '</td>' +
+              '<td>' + esc(x.totalNilai) + '</td>' +
+              '<td>' + esc(x.progres) + '%</td>' +
+              '<td>' + esc(x.mingguKe) + '</td>' +
+              '<td>' + esc(x.status) + '</td>' +
+              '</tr>';
+          }).join('') : '<tr><td colspan="8" class="empty">Belum ada data proyek.</td></tr>';
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('pimpinanBody').innerHTML = '<tr><td colspan="8" class="empty">' + esc(err && err.message ? err.message : 'Gagal memuat dashboard pimpinan.') + '</td></tr>';
+        })
+        .getPimpinanDashboardData();
+    }
+
+    function closeDetailProyek() {
+      document.getElementById('detailSection').style.display = 'none';
+    }
+
+    function esc(value) {
+      const s = value == null ? '' : String(value);
+      return s.replace(/[&<>"']/g, function(ch) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' })[ch];
+      });
+    }
+
+    function escAttr(value) {
+      return esc(value).replace(/`/g, '&#96;');
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.rup-search-box')) {
+        const box = document.getElementById('rupSuggestions');
+        if (box) box.classList.remove('show');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadLogos();
+      restoreSession();
+      const rup = document.getElementById('masterRupSearch');
+      const paket = document.getElementById('masterPaketSearch');
+      if (rup) rup.addEventListener('input', function() { renderMasterSuggestions(rup.value, 'masterRupSuggestions', 'rup'); });
+      if (paket) paket.addEventListener('input', function() { renderMasterSuggestions(paket.value, 'masterPaketSuggestions', 'paket'); });
+    });
+
+    function renderMasterSuggestions(q, id, mode) {
+      const box = document.getElementById(id);
+      if (!box) return;
+      q = String(q || '').trim().toLowerCase();
+      if (!q) { box.classList.remove('show'); box.innerHTML=''; return; }
+      const rows = masterProyek.filter(function(r) {
+        const a = String(r.kodeRup || '').toLowerCase();
+        const b = String(r.namaPaket || '').toLowerCase();
+        return mode === 'rup' ? a.includes(q) : b.includes(q);
+      }).slice(0, 50);
+      box.innerHTML = rows.map(function(r) {
+        return '<button class="rup-option" type="button" onclick="selectMasterSuggestion(\'' + escAttr(r.kodeRup) + '\',\'' + mode + '\')"><div>' + esc(r.kodeRup) + '</div><div class="rup-package">' + esc(r.namaPaket) + '</div></button>';
+      }).join('') || '<div class="rup-empty">Tidak ditemukan.</div>';
+      box.classList.add('show');
+    }
+
+    function selectMasterSuggestion(rup, mode) {
+      const r = masterProyek.find(function(x){return String(x.kodeRup)===String(rup);});
+      if (!r) return;
+      if (mode === 'rup') document.getElementById('masterRupSearch').value = r.kodeRup;
+      else document.getElementById('masterPaketSearch').value = r.namaPaket;
+      document.getElementById('masterRupSuggestions').classList.remove('show');
+      document.getElementById('masterPaketSuggestions').classList.remove('show');
+    }
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-bridge.js?v=20260825-2200"></script>
+</body>
+</html>
