@@ -39,7 +39,7 @@ jobs:
 
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
-          bridge = '<script src="gas-bridge.js?v=20260825-2335"></script>'
+          bridge = '<script src="gas-bridge.js?v=20260825-2350"></script>'
 
           if 'gas-bridge.js' not in s:
               if '</body>' in s:
