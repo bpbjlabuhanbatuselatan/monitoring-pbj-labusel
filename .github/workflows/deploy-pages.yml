@@ -26,10 +26,27 @@ jobs:
         uses: actions/checkout@v6
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Prepare site
+        run: |
+          rm -rf site
+          mkdir site
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'site' ./ site/
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('site/index.html')
+          s = p.read_text(encoding='utf-8')
+          bridge = '\n<script src="gas-bridge.js?v=20260825-2205"></script>\n'
+          if 'gas-bridge.js' not in s:
+              if '</body>' in s:
+                  s = s.replace('</body>', bridge + '</body>', 1)
+              else:
+                  s += bridge
+          p.write_text(s, encoding='utf-8')
+          PY
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
