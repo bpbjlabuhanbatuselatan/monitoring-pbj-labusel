@@ -1,4 +1,4 @@
-/* Emergency-safe login/logo path. Independent of google.script.run. */
+/* Direct login/logo runtime for GitHub Pages. */
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
 
@@ -53,7 +53,11 @@
         if(typeof tampilkanPesan==='function') tampilkanPesan(message,result?.message||'Login gagal.','error');
         return;
       }
-      window.currentUser=result.user;
+
+      /* IMPORTANT: index.html declares `let currentUser`.
+         Assign that lexical global, not window.currentUser. */
+      currentUser=result.user;
+
       try{sessionStorage.setItem('monitoringUser',JSON.stringify(result.user));}catch(e){}
       if(typeof tutupModal==='function') tutupModal('modalLogin');
       if(typeof bukaDashboard==='function') bukaDashboard();
@@ -66,8 +70,14 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded',function(){
+  /* Run immediately when possible; also run after DOM ready for cached/late loads. */
+  function init(){
     setLogos();
     window.prosesLogin=loginDirect;
-  });
+  }
+
+  init();
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init,{once:true});
+  }
 })();
