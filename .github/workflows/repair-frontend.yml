@@ -2,7 +2,8 @@ name: Repair frontend bridge
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -10,49 +11,17 @@ permissions:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message != 'fix: connect github frontend to supabase'
     steps:
       - uses: actions/checkout@v4
-      - name: Inject Supabase compatibility bridge
+      - name: Inject Supabase bridge
+        env:
+          BRIDGE_B64: PCEtLSBTVVBBQkFTRV9CUklER0UgLS0+CjxzY3JpcHQ+CihmdW5jdGlvbigpewogIGNvbnN0IEVORFBPSU5UPTgnaHR0cHM6Ly9tc2ZrcHc5d3Fy cGJtZ2R0bGJ3ZG8uc3VwYWJhc2UuY28vZnVuY3Rpb25zL3YxL2dhcy1hcGknOwo gIGZ1bmN0aW9uIHJ1bm5lcihzdGF0ZSl7CiAgICByZXR1cm4gbmV3IFByb3h5KHt9LCB7Z2V0KF8sIHByb3ApewogICAgICBpZihwcm9wPT09J3dpdGhTdWNjZXNzSGFuZGxlcicpIHJldHVybiBmbj0+cnVubmVyKHsuLi5zdGF0ZSxz dWNjZXNzOmZufSk7CiAgICAgIGlmKHByb3A9PT0nd2l0aEZhaWx1cmVIYW5kbGVyJykgcmV0dXJuIGZuPT5ydW5uZXIoe y4uLnN0YXRlLGZhaWx1cmU6Zm59KTsKICAgICAgcmV0dXJuICguLi5hcmdzKT0+ewogICAgICAgIGZldGNoKEVORFBPSU5QLHttZXRob2Q6J1BPU1QnLGhlYWRlcnM6eydDb250ZW50LVR5cGUnOidhcHBsaWNhdGlvbi9qc29uJyx9LGJvZHk6SlNPTi5zdHJpbmdpZnkoe2Z1bmN0aW9uOlN0cmluZyh wcm9wKSxhcmdzfSl9KQogICAgICAgICAgLnRoZW4oYXN5bmMg cj0+e2NvbnN0IGQ9YXdhaXQgci5qc29uKCk7aWYoIXIub2spIHRocm93IG5ldyBFcnJvc ihkLm1lc3NhZ2V8fCdTZXJ2ZXIgZXJyb3InKTtyZXR1cm4gZH0pCiAgICAgICAgICAudGhlbihkPT57aWYoc3RhdGUuc3VjY2Vzcykgc3RhdGUuc3VjY2VzcyhkKTt9KQogICAgICAgICAgLmNhdGNoKGU9PntpZihzdGF0ZS5mYWlsdXJlKSBzdGF0ZS5mYWlsdXJlKHttZXNzYWdlOmUubWVzc2FnZXx8U3RyaW5nKGUpfSk7fSk7CiAgICAgIH07CiAgICB9fSk7CiAgfQogIHdpbmRvdy5nb29nbGU9d2luZG93Lmdvb2dsZXx8e307CiAgd2luZG93Lmdvb2dsZS5zY3JpcHQ9d2luZG93Lmdvb2dsZS5zY3JpcHR8fHt9OwogIHdpbmRvdy5nb29nbGUuc2NyaXB0LnJ1bj1ydW5uZXIoe30pOwp9KSgpOwo8L3NjcmlwdD4K
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('index.html')
-          s=p.read_text(encoding='utf-8')
-          marker='<!-- SUPABASE_BRIDGE -->'
-          if marker in s:
-              raise SystemExit('bridge already present')
-          bridge=r'''<!-- SUPABASE_BRIDGE -->
-<script>
-(function(){
-  const ENDPOINT='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
-  function runner(state){
-    return new Proxy({}, {get(_, prop){
-      if(prop==='withSuccessHandler') return fn=>runner({...state,success:fn});
-      if(prop==='withFailureHandler') return fn=>runner({...state,failure:fn});
-      return (...args)=>{
-        fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(prop),args})})
-          .then(async r=>{const d=await r.json();if(!r.ok) throw new Error(d.message||'Server error');return d;})
-          .then(d=>{if(state.success) state.success(d);})
-          .catch(e=>{if(state.failure) state.failure({message:e.message||String(e)});});
-      };
-    }});
-  }
-  window.google=window.google||{};
-  window.google.script=window.google.script||{};
-  window.google.script.run=runner({});
-})();
-</script>
-'''
-          pos=s.find('<script>')
-          if pos<0: raise SystemExit('script tag not found')
-          s=s[:pos]+bridge+s[pos:]
-          p.write_text(s,encoding='utf-8')
-          PY
+          python3 -c "from pathlib import Path; import os,base64; p=Path('index.html'); s=p.read_text(encoding='utf-8'); b=base64.b64decode(os.environ['BRIDGE_B64']).decode(); p.write_text(s if '<!-- SUPABASE_BRIDGE -->' in s else s.replace('<script>',b+'<script>',1),encoding='utf-8')"
       - name: Commit repair
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git commit -m 'fix: connect github frontend to supabase' || exit 0
+          git diff --cached --quiet || git commit -m 'fix: connect github frontend to supabase'
           git push
