@@ -1,0 +1,43 @@
+name: Fix runtime bridge
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: ${{ !contains(github.event.head_commit.message, '[runtime-fixed]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inject Supabase bridge and direct login
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '<!-- SUPABASE_BRIDGE -->'
+          inject = '''<!-- SUPABASE_BRIDGE -->\n<script src="./gas-bridge.js?v=20260826-03"></script>\n<script src="./login-direct.js?v=20260826-03"></script>'''
+
+          if './gas-bridge.js?v=20260826-03' not in s:
+              if marker not in s:
+                  raise SystemExit('Marker SUPABASE_BRIDGE tidak ditemukan')
+              s = s.replace(marker, inject, 1)
+
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix runtime bridge [runtime-fixed]"
+          git push
