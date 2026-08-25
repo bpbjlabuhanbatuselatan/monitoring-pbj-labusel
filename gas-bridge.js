@@ -1,7 +1,6 @@
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
-  const RAW='https://raw.githubusercontent.com/bpbjlabuhanbatuselatan/monitoring-pbj-labusel/main/';
-  const local={getLogoData:()=>({lkpp:RAW+'logo-lkpp.png',labusel:RAW+'logo-labusel.png',ukpbj:RAW+'logo-ukpbj.png'})};
+  const local={getLogoData:()=>({lkpp:'./logo-lkpp.png',labusel:'./logo-labusel.png',ukpbj:'./logo-ukpbj.png'})};
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
 
   function makeRunner(success,failure){
