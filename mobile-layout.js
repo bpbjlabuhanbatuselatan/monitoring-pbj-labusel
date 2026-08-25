@@ -107,8 +107,8 @@
     var originalCariRUP=window.cariRUP;
 
     window.cariRUP=function(){
-      var data=(typeof window.masterProyek !== 'undefined' && Array.isArray(window.masterProyek))
-        ? window.masterProyek : null;
+      var data=(typeof masterProyek !== 'undefined' && Array.isArray(masterProyek))
+        ? masterProyek : null;
 
       if(data && data.length){
         loaded=true;
@@ -137,8 +137,8 @@
         .withSuccessHandler(function(list){
           loading=false;
           loaded=true;
-          if(typeof window.masterProyek !== 'undefined'){
-            window.masterProyek=Array.isArray(list)?list:[];
+          if(typeof masterProyek !== 'undefined'){
+            masterProyek=Array.isArray(list)?list:[];
           }
           originalCariRUP.call(window);
         })
