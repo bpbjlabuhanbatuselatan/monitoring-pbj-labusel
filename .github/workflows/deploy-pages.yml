@@ -2,8 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -21,32 +20,80 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Prepare site
+        shell: bash
         run: |
           rm -rf site
           mkdir site
           rsync -a --exclude '.git' --exclude '.github' --exclude 'site' ./ site/
           python3 - <<'PY'
           from pathlib import Path
+
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
-          bridge = '\n<script src="gas-bridge.js?v=20260825-2205"></script>\n'
-          if 'gas-bridge.js' not in s:
-              if '</body>' in s:
-                  s = s.replace('</body>', bridge + '</body>', 1)
-              else:
-                  s += bridge
+
+          adapter = r'''
+          <script>
+          (function () {
+            const API = 'https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
+            function runner(success, failure) {
+              let ok = success || null;
+              let bad = failure || null;
+              const proxy = new Proxy({}, {
+                get: function (_target, name) {
+                  if (name === 'withSuccessHandler') return function (fn) { ok = fn; return proxy; };
+                  if (name === 'withFailureHandler') return function (fn) { bad = fn; return proxy; };
+                  return async function () {
+                    const args = Array.prototype.slice.call(arguments);
+                    try {
+                      const res = await fetch(API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ function: String(name), args: args })
+                      });
+                      const text = await res.text();
+                      let data;
+                      try { data = text ? JSON.parse(text) : null; }
+                      catch (e) { throw new Error(text || 'Respons backend tidak valid.'); }
+                      if (!res.ok) throw new Error((data && data.message) || 'Request backend gagal.');
+                      if (typeof ok === 'function') ok(data);
+                      return data;
+                    } catch (e) {
+                      const err = { message: e && e.message ? e.message : String(e) };
+                      if (typeof bad === 'function') bad(err);
+                      return null;
+                    }
+                  };
+                }
+              });
+              return proxy;
+            }
+            window.google = window.google || {};
+            window.google.script = window.google.script || {};
+            window.google.script.run = runner(null, null);
+          })();
+          </script>
+          '''
+
+          if 'window.google.script.run = runner' not in s:
+              s = s.replace('</body>', adapter + '\n</body>', 1)
+
           p.write_text(s, encoding='utf-8')
           PY
-      - name: Upload artifact
+
+      - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
           path: site
-      - name: Deploy to GitHub Pages
+
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
