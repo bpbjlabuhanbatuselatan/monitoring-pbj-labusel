@@ -33,10 +33,22 @@
   #dashboardView .pimpinan-table th:nth-child(2),#dashboardView .pimpinan-table td:nth-child(2){white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
   #dashboardView .pimpinan-table td:nth-child(2) *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;max-width:none!important;height:auto!important;max-height:none!important}
 
-  /* Weekly report also fits, without horizontal scrolling. */
+  /* Weekly report: screen-fit with the same compact treatment for every role. */
   #dashboardView .admin-table-wrap,#dashboardView .admin-table{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
   #dashboardView .admin-table{table-layout:fixed!important}
-  #dashboardView .admin-table th,#dashboardView .admin-table td{font-size:11px!important;padding:7px 4px!important;line-height:1.2!important;white-space:normal!important;overflow:hidden!important;overflow-wrap:anywhere!important}
+  #dashboardView .admin-table th,#dashboardView .admin-table td{font-size:11px!important;padding:7px 3px!important;line-height:1.2!important;white-space:normal!important;overflow:hidden!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
+  /* Management Laporan: all roles use this same mobile layout. */
+  #dashboardView .admin-table th:nth-child(1),#dashboardView .admin-table td:nth-child(1){width:13%!important}
+  #dashboardView .admin-table th:nth-child(2),#dashboardView .admin-table td:nth-child(2){width:12%!important}
+  #dashboardView .admin-table th:nth-child(3),#dashboardView .admin-table td:nth-child(3){width:25%!important}
+  #dashboardView .admin-table th:nth-child(4),#dashboardView .admin-table td:nth-child(4){width:8%!important}
+  #dashboardView .admin-table th:nth-child(5),#dashboardView .admin-table td:nth-child(5){width:10%!important}
+  #dashboardView .admin-table th:nth-child(6),#dashboardView .admin-table td:nth-child(6){width:12%!important}
+  #dashboardView .admin-table th:nth-child(7),#dashboardView .admin-table td:nth-child(7){width:10%!important}
+  #dashboardView .admin-table th:nth-child(8),#dashboardView .admin-table td:nth-child(8){width:10%!important}
+  /* Management package names are never clipped. */
+  #dashboardView .admin-table th:nth-child(3),#dashboardView .admin-table td:nth-child(3),#dashboardView .admin-table td:nth-child(3) *{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;word-break:normal!important;max-width:none!important;max-height:none!important;height:auto!important}
+  #dashboardView .admin-table td:nth-child(8) button,#dashboardView .admin-table td:nth-child(8) .btn,#dashboardView .admin-table td:nth-child(8) a{width:100%!important;min-width:0!important;padding:7px 2px!important;font-size:10px!important;line-height:1.1!important;white-space:normal!important}
 
   /* RUP suggestions remain visible inside the phone width. */
   #dashboardView .rup-input-wrap{position:relative!important;z-index:20!important}
