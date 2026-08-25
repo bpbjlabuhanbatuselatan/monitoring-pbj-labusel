@@ -1,9 +1,9 @@
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
   const DRIVE={
-    lkpp:'https://drive.google.com/uc?export=view&id=1hrEQHiXqXL5-8gfDKQ3OQai0FXu0p5oK',
-    labusel:'https://drive.google.com/uc?export=view&id=1gig7Cps9DnqnTcBJ4ffjJx5CPn0IXj7A',
-    ukpbj:'https://drive.google.com/uc?export=view&id=1B5wA7Lf_52FJzxwxDUUNE5WqI6b6coBP'
+    lkpp:'https://drive.google.com/thumbnail?id=1hrEQHiXqXL5-8gfDKQ3OQai0FXu0p5oK&sz=w1000',
+    labusel:'https://drive.google.com/thumbnail?id=1gig7Cps9DnqnTcBJ4ffjJx5CPn0IXj7A&sz=w1000',
+    ukpbj:'https://drive.google.com/thumbnail?id=1B5wA7Lf_52FJzxwxDUUNE5WqI6b6coBP&sz=w1000'
   };
   function runner(success,failure){
     let ok=success||null,bad=failure||null;
