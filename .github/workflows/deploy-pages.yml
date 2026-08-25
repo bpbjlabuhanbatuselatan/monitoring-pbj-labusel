@@ -36,20 +36,27 @@ jobs:
           rsync -a --exclude '.git' --exclude '.github' --exclude 'site' ./ site/
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
 
-          mobile_css = '<link rel="stylesheet" href="mobile-layout.css?v=20260826-01">'
-          if 'mobile-layout.css' not in s and '</head>' in s:
-              s = s.replace('</head>', mobile_css + '\n</head>', 1)
+          # Always remove old generated bridge/mobile tags first.
+          s = re.sub(r'<script[^>]+src=["\'][^"\']*gas-bridge\.js[^>]*></script>\s*', '', s, flags=re.I)
+          s = re.sub(r'<script[^>]+src=["\'][^"\']*mobile-layout\.js[^>]*></script>\s*', '', s, flags=re.I)
+          s = re.sub(r'<link[^>]+href=["\'][^"\']*mobile-layout\.css[^>]*>\s*', '', s, flags=re.I)
 
+          mobile_css = '<link rel="stylesheet" href="mobile-layout.css?v=20260826-02">'
           bridge = '<script src="gas-bridge.js?v=20260825-2350"></script>'
-          mobile_js = '<script src="mobile-layout.js?v=20260826-01"></script>'
-          if 'gas-bridge.js' not in s and '</body>' in s:
+          mobile_js = '<script src="mobile-layout.js?v=20260826-02"></script>'
+
+          if '</head>' in s:
+              s = s.replace('</head>', mobile_css + '\n</head>', 1)
+          if '</body>' in s:
+              # Bridge is deliberately loaded before the mobile script.
               s = s.replace('</body>', bridge + '\n' + mobile_js + '\n</body>', 1)
-          elif 'mobile-layout.js' not in s and '</body>' in s:
-              s = s.replace('</body>', mobile_js + '\n</body>', 1)
+          else:
+              s += '\n' + bridge + '\n' + mobile_js
 
           p.write_text(s, encoding='utf-8')
           PY
