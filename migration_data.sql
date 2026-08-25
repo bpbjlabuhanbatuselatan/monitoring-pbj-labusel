@@ -1,0 +1,11 @@
+BEGIN;
+DELETE FROM users;
+DELETE FROM laporan_mingguan;
+DELETE FROM verifikasi;
+DELETE FROM foto_laporan;
+DELETE FROM log_aktivitas;
+DELETE FROM master_proyek;
+
+-- DATA MIGRASI MASTER PROYEK / USERS / LAPORAN / VERIFIKASI / FOTO / LOG
+
+COMMIT;
