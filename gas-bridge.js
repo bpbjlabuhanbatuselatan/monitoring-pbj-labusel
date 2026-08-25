@@ -1,45 +1,23 @@
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
-  const DRIVE={
-    lkpp:'https://drive.google.com/thumbnail?id=1hrEQHiXqXL5-8gfDKQ3OQai0FXu0p5oK&sz=w1000',
-    labusel:'https://drive.google.com/thumbnail?id=1gig7Cps9DnqnTcBJ4ffjJx5CPn0IXj7A&sz=w1000',
-    ukpbj:'https://drive.google.com/thumbnail?id=1B5wA7Lf_52FJzxwxDUUNE5WqI6b6coBP&sz=w1000'
-  };
+  const RAW='https://raw.githubusercontent.com/bpbjlabuhanbatuselatan/monitoring-pbj-labusel/main/';
+  const local={getLogoData:()=>({lkpp:RAW+'logo-lkpp.png',labusel:RAW+'logo-labusel.png',ukpbj:RAW+'logo-ukpbj.png'})};
   function runner(success,failure){
-    let ok=success||null,bad=failure||null;
+    let ok=success,bad=failure;
     const proxy=new Proxy({}, {get(_,name){
       if(name==='withSuccessHandler') return fn=>{ok=fn;return proxy;};
       if(name==='withFailureHandler') return fn=>{bad=fn;return proxy;};
       return async (...args)=>{
         try{
-          if(name==='getLogoData'){
-            const v={lkpp:DRIVE.lkpp,labusel:DRIVE.labusel,ukpbj:DRIVE.ukpbj};
-            if(typeof ok==='function') ok(v);
-            return v;
-          }
-          const res=await fetch(API,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({function:String(name),args})
-          });
-          const text=await res.text();
-          let data;
-          try{data=text?JSON.parse(text):null;}
-          catch(e){throw new Error(text||'Respons backend tidak valid.');}
-          if(!res.ok) throw new Error((data&&data.message)||'Request backend gagal.');
-          if(typeof ok==='function') ok(data);
-          return data;
-        }catch(err){
-          const e={message:err&&err.message?err.message:String(err)};
-          if(typeof bad==='function') bad(e);
-          return null;
-        }
+          if(name==='getLogoData'){const v=local.getLogoData();ok&&ok(v);return v;}
+          const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(name),args})});
+          const text=await res.text();let data;try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
+          if(!res.ok)throw new Error(data.message||'Request gagal.');
+          ok&&ok(data);return data;
+        }catch(err){bad&&bad({message:err.message||String(err)});}
       };
     }});
     return proxy;
   }
-  window.google=window.google||{};
-  window.google.script=window.google.script||{};
-  window.google.script.run=runner(null,null);
-  window.__supabaseBridge=runner;
+  window.google=window.google||{};window.google.script=window.google.script||{};window.google.script.run=runner(null,null);window.__supabaseBridge=runner;
 })();
