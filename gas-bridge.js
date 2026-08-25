@@ -2,6 +2,7 @@
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
   const RAW='https://raw.githubusercontent.com/bpbjlabuhanbatuselatan/monitoring-pbj-labusel/main/';
   const local={getLogoData:()=>({lkpp:RAW+'logo-lkpp.png',labusel:RAW+'logo-labusel.png',ukpbj:RAW+'logo-ukpbj.png'})};
+  const aliases={authenticate:'login',registerAccount:'daftarUser'};
   function runner(success,failure){
     let ok=success,bad=failure;
     const proxy=new Proxy({}, {get(_,name){
@@ -10,7 +11,8 @@
       return async (...args)=>{
         try{
           if(name==='getLogoData'){const v=local.getLogoData();ok&&ok(v);return v;}
-          const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(name),args})});
+          const fn=aliases[name]||name;
+          const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args})});
           const text=await res.text();let data;try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
           if(!res.ok)throw new Error(data.message||'Request gagal.');
           ok&&ok(data);return data;
