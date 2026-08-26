@@ -10,44 +10,102 @@ permissions:
 
 jobs:
   cleanup:
-    if: ${{ !startsWith(github.event.head_commit.message, 'Fix mobile HTML artifacts') }}
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Clean accidental literal newline markers
+      - name: Clean mobile HTML and add safe mobile speed patch
         run: |
           python - <<'PY'
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          old = s
 
-          s = s.replace('\\n/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */\\n', '/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */\n')
-          s = s.replace('</style>\\n\\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V1 -->\\n<script>', '</style>\n\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V1 -->\n<script>')
-          s = s.replace('</script>\\n\\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V2 -->\\n<script>', '</script>\n\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V2 -->\n<script>')
-          s = s.replace('</script>\\n</body>', '</script>\n</body>')
+          # Remove literal backslash-at-end-of-line only from the old
+          # photo-compression patch. Other application code is untouched.
+          marker = '<!-- PHOTO_COMPRESSION_STATUS_PATCH_V2 -->'
+          start = s.find(marker)
+          if start >= 0:
+              end = s.find('</script>', start)
+              if end >= 0:
+                  end += len('</script>')
+                  section = s[start:end]
+                  section = section.replace(chr(92) + chr(13) + chr(10), chr(13) + chr(10))
+                  section = section.replace(chr(92) + chr(10), chr(10))
+                  s = s[:start] + section + s[end:]
 
-          if s != old:
-              p.write_text(s, encoding='utf-8')
-              print('HTML artifacts cleaned.')
-          else:
-              print('No matching artifacts found.')
+          fast_marker = '<!-- MOBILE_DASHBOARD_FAST_STATS_V1 -->'
+          if fast_marker not in s:
+              patch = '''<!-- MOBILE_DASHBOARD_FAST_STATS_V1 -->
+          <script>
+          (function(){
+            function isMobile(){ return window.matchMedia('(max-width:760px)').matches; }
+            function toNumber(v){
+              var raw=String(v==null?'':v).trim();
+              if(!raw) return 0;
+              raw=Array.from(raw).filter(function(ch){ return '0123456789,.-'.indexOf(ch)>=0; }).join('');
+              if(raw.indexOf(',')>=0 && raw.indexOf('.')>=0){ raw=raw.replaceAll('.','').replace(',','.'); }
+              else if(raw.indexOf('.')>=0){ var a=raw.split('.'); if(a.length>1 && a.slice(1).every(function(x){return x.length===3;})) raw=a.join(''); }
+              else if(raw.indexOf(',')>=0){ raw=raw.replace(',','.'); }
+              var n=Number(raw);
+              return Number.isFinite(n)?n:0;
+            }
+            function rupiah(n){ return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+            function updateStats(){
+              if(!isMobile() || !Array.isArray(window.masterProyek) || !window.masterProyek.length) return;
+              var list=window.masterProyek, total=list.length, nilai=0, berjalan=0, selesai=0, jumlahProgress=0;
+              list.forEach(function(x){
+                nilai += toNumber(x.totalNilai);
+                var p=toNumber(x.progres);
+                jumlahProgress += p;
+                var st=String(x.status||'').toUpperCase();
+                if(p>=100 || st.indexOf('SELESAI')>=0) selesai++;
+                else if(p>0 || st.indexOf('BERJALAN')>=0 || st.indexOf('PROSES')>=0) berjalan++;
+              });
+              var avg=total ? jumlahProgress/total : 0;
+              var el=document.getElementById('pimpinanTotalProyek'); if(el) el.textContent=total;
+              el=document.getElementById('pimpinanTotalNilai'); if(el) el.textContent=rupiah(nilai);
+              el=document.getElementById('pimpinanBerjalan'); if(el) el.textContent=berjalan;
+              el=document.getElementById('pimpinanSelesai'); if(el) el.textContent=selesai;
+              el=document.getElementById('pimpinanRataProgres'); if(el) el.textContent=(Math.round(avg*100)/100)+'%';
+            }
+            function install(){
+              if(window.__mobileFastStatsInstalled || typeof window.loadPimpinanDashboard!=='function') return;
+              window.__mobileFastStatsInstalled=true;
+              var original=window.loadPimpinanDashboard;
+              window.loadPimpinanDashboard=function(){
+                var panel=document.getElementById('monitoringProyekPanel');
+                var monitoringOpen=panel && getComputedStyle(panel).display!=='none';
+                if(isMobile() && !monitoringOpen){ updateStats(); return; }
+                return original.apply(this,arguments);
+              };
+              updateStats();
+            }
+            function boot(){ install(); updateStats(); }
+            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+            setTimeout(boot,300); setTimeout(boot,1000); setTimeout(boot,2000);
+          })();
+          </script>
+          '''
+              s = s.replace('</body>', patch + '</body>')
+
+          p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Remove temporary cleanup workflow files
+      - name: Remove temporary trigger files
         run: |
-          rm -f .github/workflows/fix-mobile-newline.yml TEMP_TRIGGER.txt
+          rm -f .github/workflows/fix-mobile-newline.yml .github/workflows/mobile-safe-fix.yml TEMP_TRIGGER.txt
 
       - name: Commit cleanup
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html .github/workflows/fix-mobile-newline.yml TEMP_TRIGGER.txt
+          git add index.html .github/workflows/fix-mobile-newline.yml .github/workflows/mobile-safe-fix.yml TEMP_TRIGGER.txt
           if git diff --cached --quiet; then
             echo 'Nothing to commit.'
             exit 0
           fi
-          git commit -m 'Fix mobile HTML artifacts'
+          git commit -m 'Fix mobile HTML artifacts and speed dashboard'
           git push
