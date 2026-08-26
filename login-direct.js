@@ -106,7 +106,6 @@
     const style=document.createElement('style');
     style.id='safeUiPatchStyle';
     style.textContent=`
-      /* Safe final patch: spacing only, no layout rewrite. */
       #dashboardView .pimpinan-action-btn,
       #dashboardView .pimpinan-monitoring-btn{
         display:inline-flex !important;
@@ -253,7 +252,7 @@
     if(typeof window.loadDashboardData!=='function' || window.__safeKabagPatch) return;
     const original=window.loadDashboardData;
     window.loadDashboardData=function(){
-      const role=String(window.currentUser?.role||'').toUpperCase();
+      const role=String((typeof currentUser!=='undefined' && currentUser && currentUser.role) || '').toUpperCase();
       window.isKabag=(role==='KABAG'||role==='KABAG UKPBJ'||role==='KABAG BPBJ');
       return original.apply(this,arguments);
     };
@@ -273,7 +272,6 @@
       };
     }
 
-    /* Replace the old logout handler without touching backend/data. */
     document.querySelectorAll('.btn-logout').forEach(function(btn){
       btn.onclick=function(e){
         if(e) e.preventDefault();
