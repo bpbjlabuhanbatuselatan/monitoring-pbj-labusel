@@ -36,3 +36,47 @@ table td,.admin-table td,.pimpinan-table td{color:#526b7b!important;border-botto
 .rup-suggestions,.pimpinan-suggestions{background:#fff!important;border-color:#cbdbe4!important;box-shadow:0 18px 38px rgba(11,48,72,.13)!important;}
 .rup-option:hover,.pimpinan-suggestion:hover{background:#e8f3f8!important;}
 .verification-header{border-left-color:var(--bp-gold)!important;}
+
+/* LOG AKTIVITAS — mobile only: one complete card = one color. */
+@media (max-width:760px){
+  #dashboardView .admin-list .log-card,
+  #dashboardView .admin-list .admin-log-card,
+  #dashboardView .admin-list .activity-card,
+  #dashboardView .admin-list .activity-item,
+  #dashboardView .admin-list .log-item,
+  #dashboardView .log-card,
+  #dashboardView .admin-log-card,
+  #dashboardView .activity-card,
+  #dashboardView .activity-item,
+  #dashboardView .log-item{border-radius:12px!important;overflow:hidden!important;}
+  #dashboardView .admin-list .log-card:nth-of-type(odd),
+  #dashboardView .admin-list .admin-log-card:nth-of-type(odd),
+  #dashboardView .admin-list .activity-card:nth-of-type(odd),
+  #dashboardView .admin-list .activity-item:nth-of-type(odd),
+  #dashboardView .admin-list .log-item:nth-of-type(odd),
+  #dashboardView .log-card:nth-of-type(odd),
+  #dashboardView .admin-log-card:nth-of-type(odd),
+  #dashboardView .activity-card:nth-of-type(odd),
+  #dashboardView .activity-item:nth-of-type(odd),
+  #dashboardView .log-item:nth-of-type(odd){background:#eaf4fb!important;}
+  #dashboardView .admin-list .log-card:nth-of-type(even),
+  #dashboardView .admin-list .admin-log-card:nth-of-type(even),
+  #dashboardView .admin-list .activity-card:nth-of-type(even),
+  #dashboardView .admin-list .activity-item:nth-of-type(even),
+  #dashboardView .admin-list .log-item:nth-of-type(even),
+  #dashboardView .log-card:nth-of-type(even),
+  #dashboardView .admin-log-card:nth-of-type(even),
+  #dashboardView .activity-card:nth-of-type(even),
+  #dashboardView .activity-item:nth-of-type(even),
+  #dashboardView .log-item:nth-of-type(even){background:#fff!important;}
+  #dashboardView .admin-list .log-card > *,
+  #dashboardView .admin-list .admin-log-card > *,
+  #dashboardView .admin-list .activity-card > *,
+  #dashboardView .admin-list .activity-item > *,
+  #dashboardView .admin-list .log-item > *,
+  #dashboardView .log-card > *,
+  #dashboardView .admin-log-card > *,
+  #dashboardView .activity-card > *,
+  #dashboardView .activity-item > *,
+  #dashboardView .log-item > *{background:transparent!important;}
+}
