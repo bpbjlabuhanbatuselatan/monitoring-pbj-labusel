@@ -35,7 +35,9 @@
 
   function setText(id,value){
     const el=document.getElementById(id);
-    if(el) el.textContent=value;
+    if(!el)return;
+    const next=String(value);
+    if(el.textContent!==next)el.textContent=next;
   }
 
   function paintDashboardData(data){
