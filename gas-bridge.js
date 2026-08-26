@@ -1,9 +1,25 @@
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
-  const DASHBOARD_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/dashboard-fast';
   const local={getLogoData:()=>({lkpp:'./logo-lkpp.png',labusel:'./logo-labusel.png',ukpbj:'./logo-ukpbj.png'})};
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
+  const DASH_CACHE_KEY='monitoring_dashboard_cache_v1';
   let activeRunner=null;
+
+  function getDashboardCache(){
+    try{
+      const raw=localStorage.getItem(DASH_CACHE_KEY);
+      if(!raw) return null;
+      const parsed=JSON.parse(raw);
+      if(!parsed||!parsed.data||parsed.data.success===false) return null;
+      return parsed.data;
+    }catch(e){return null;}
+  }
+
+  function saveDashboardCache(data){
+    try{
+      if(data&&data.success!==false) localStorage.setItem(DASH_CACHE_KEY,JSON.stringify({savedAt:Date.now(),data:data}));
+    }catch(e){}
+  }
 
   function makeRunner(){
     let ok=null,bad=null;
@@ -14,6 +30,17 @@
       return (...args)=>{
         const success=ok, failure=bad;
         ok=null; bad=null;
+
+        /* DASHBOARD INSTANT MODE:
+           show the last successful numbers immediately, then refresh silently
+           from Supabase and replace them with the newest values. */
+        if(name==='getPimpinanDashboardData'&&success){
+          const cached=getDashboardCache();
+          if(cached){
+            try{success(cached);}catch(e){console.error(e);}
+          }
+        }
+
         return new Promise(async resolve=>{
           let lastError=null;
           for(let attempt=1;attempt<=2;attempt++){
@@ -25,17 +52,17 @@
                 return;
               }
               const fn=aliases[name]||name;
-              const endpoint=fn==='getPimpinanDashboardData'?DASHBOARD_API:API;
               const controller=new AbortController();
               const timer=setTimeout(()=>controller.abort(),30000);
               let res;
               try{
-                res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
+                res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
               }finally{clearTimeout(timer);}
               const text=await res.text();
               let data;
               try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
               if(!res.ok){const err=new Error(data&&data.message?data.message:'Request gagal.');err.httpStatus=res.status;throw err;}
+              if(name==='getPimpinanDashboardData') saveDashboardCache(data);
               if(success) success(data);
               resolve(data);
               return;
@@ -47,6 +74,8 @@
             }
           }
           const message=lastError&&lastError.name==='AbortError'?'Koneksi ke server timeout. Silakan coba lagi.':(lastError&&lastError.message?lastError.message:String(lastError));
+          /* If cached dashboard was already shown, do not overwrite it with an
+             error. The next refresh can update it when the server is reachable. */
           if(failure) failure({message}); else console.error(message);
           resolve({success:false,message});
         });
