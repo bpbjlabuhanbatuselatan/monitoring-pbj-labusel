@@ -1,0 +1,64 @@
+name: Dashboard stats fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ !startsWith(github.event.head_commit.message, 'Apply dashboard stats fix') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch dashboard bridge
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('gas-bridge.js')
+          s = p.read_text(encoding='utf-8')
+
+          s = s.replace("pimpinanRataRata", "pimpinanRataProgres")
+
+          marker = "  loadSafeTheme();\n  document.addEventListener('DOMContentLoaded',loadSafeTheme,{once:true});"
+          patch = r'''
+  /* ADMIN DASHBOARD DATA FIX — safe bridge only */
+  document.addEventListener('DOMContentLoaded',function(){
+    var tries=0;
+    var timer=setInterval(function(){
+      tries++;
+      if(typeof window.bukaDashboard==='function'){
+        clearInterval(timer);
+        if(window.__adminDashboardStatsFixApplied)return;
+        window.__adminDashboardStatsFixApplied=true;
+        var original=window.bukaDashboard;
+        window.bukaDashboard=function(){
+          original.apply(this,arguments);
+          setTimeout(function(){
+            try{
+              if(window.currentUser && String(window.currentUser.role||'').toUpperCase()==='ADMIN' && typeof window.loadPimpinanDashboard==='function'){
+                window.loadPimpinanDashboard();
+              }
+            }catch(e){console.error('Dashboard stats fix:',e);}
+          },50);
+        };
+      }
+      if(tries>=200)clearInterval(timer);
+    },100);
+  });
+'''
+          if "__adminDashboardStatsFixApplied" not in s:
+              s = s.replace(marker, marker + patch, 1)
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add gas-bridge.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Apply dashboard stats fix'
+          git push
