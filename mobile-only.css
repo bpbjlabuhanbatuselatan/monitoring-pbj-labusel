@@ -20,30 +20,10 @@
   #dashboardView .pimpinan-table{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important;border:0!important;border-collapse:separate!important;border-spacing:0!important}
   #dashboardView .pimpinan-table thead{display:none!important}
   #dashboardView .pimpinan-table tbody{display:grid!important;gap:8px!important;width:100%!important;margin:0!important;padding:0!important}
-  #dashboardView .pimpinan-table tbody tr{
-    display:grid!important;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-    grid-template-rows:auto auto auto auto!important;
-    grid-auto-flow:row!important;
-    width:100%!important;min-width:0!important;max-width:100%!important;
-    margin:0!important;padding:9px!important;
-    background:#fff!important;border:1px solid #d9e3e9!important;border-radius:12px!important;
-    box-shadow:0 2px 8px rgba(15,23,42,.05)!important;overflow:hidden!important;
-  }
-  #dashboardView .pimpinan-table tbody tr td,
-  #dashboardView .pimpinan-table tbody tr td *{box-sizing:border-box!important}
-  #dashboardView .pimpinan-table tbody td{
-    display:block!important;position:static!important;
-    width:100%!important;min-width:0!important;max-width:100%!important;height:auto!important;min-height:0!important;
-    margin:0!important;padding:3px 4px!important;border:0!important;background:transparent!important;
-    color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;
-    white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important;
-  }
-  #dashboardView .pimpinan-table tbody td::before{
-    display:block!important;width:100%!important;margin:0 0 2px!important;
-    color:#8193a0!important;font-size:8px!important;line-height:1.1!important;font-weight:900!important;
-    letter-spacing:.3px!important;text-transform:uppercase!important;
-  }
+  #dashboardView .pimpinan-table tbody tr{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto auto auto auto!important;grid-auto-flow:row!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;padding:9px!important;background:#fff!important;border:1px solid #d9e3e9!important;border-radius:12px!important;box-shadow:0 2px 8px rgba(15,23,42,.05)!important;overflow:hidden!important}
+  #dashboardView .pimpinan-table tbody tr td,#dashboardView .pimpinan-table tbody tr td *{box-sizing:border-box!important}
+  #dashboardView .pimpinan-table tbody td{display:block!important;position:static!important;width:100%!important;min-width:0!important;max-width:100%!important;height:auto!important;min-height:0!important;margin:0!important;padding:3px 4px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
+  #dashboardView .pimpinan-table tbody td::before{display:block!important;width:100%!important;margin:0 0 2px!important;color:#8193a0!important;font-size:8px!important;line-height:1.1!important;font-weight:900!important;letter-spacing:.3px!important;text-transform:uppercase!important}
   #dashboardView .pimpinan-table tbody td:nth-child(1)::before{content:'Kode RUP'}
   #dashboardView .pimpinan-table tbody td:nth-child(2)::before{content:'Nama Paket'}
   #dashboardView .pimpinan-table tbody td:nth-child(3)::before{content:'Total Nilai'}
@@ -64,6 +44,60 @@
   #dashboardView .pimpinan-table tbody td:nth-child(1)>*,#dashboardView .pimpinan-table tbody td:nth-child(3)>*,#dashboardView .pimpinan-table tbody td:nth-child(5)>*,#dashboardView .pimpinan-table tbody td:nth-child(6)>*,#dashboardView .pimpinan-table tbody td:nth-child(7)>*{display:block!important;width:auto!important;max-width:100%!important;font-size:inherit!important;line-height:inherit!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important}
   #dashboardView .pimpinan-table tbody td:nth-child(4) .progress-pill,#dashboardView .pimpinan-table tbody td:nth-child(4) .progress-badge{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:40px!important;min-height:23px!important;padding:3px 8px!important;border-radius:7px!important;background:#d7ecff!important;color:#111827!important;font-weight:900!important}
   #dashboardView .pimpinan-table tbody td:nth-child(8) .pimpinan-action-btn,#dashboardView .pimpinan-table tbody td:nth-child(8) button{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:82px!important;max-width:120px!important;min-height:30px!important;margin:0!important;padding:6px 9px!important;border-radius:7px!important;background:#2f80b7!important;background-image:none!important;color:#111827!important;border:1px solid #246b98!important;box-shadow:none!important;font-size:10px!important;font-weight:900!important;line-height:1.1!important;white-space:normal!important;overflow:visible!important;text-align:center!important}
+
+  /* Laporan Mingguan — compact, clean mobile card. Desktop is untouched. */
+  #dashboardView #inputLaporanSection{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    margin:0 0 12px!important;padding:12px!important;
+    border-radius:14px!important;border:1px solid #dce6ec!important;
+    background:#fff!important;box-shadow:0 4px 14px rgba(15,23,42,.06)!important;
+    overflow:visible!important;
+  }
+  #dashboardView #inputLaporanSection .report-header{
+    display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;
+    gap:8px!important;margin:0 0 10px!important;padding:0 1px!important;
+  }
+  #dashboardView #inputLaporanSection .report-title{
+    margin:0!important;font-size:16px!important;line-height:1.2!important;font-weight:900!important;color:#12304a!important;
+  }
+  #dashboardView #inputLaporanSection .save-btn{
+    flex:0 0 auto!important;min-width:0!important;width:auto!important;min-height:34px!important;padding:8px 10px!important;
+    border-radius:8px!important;background:#173f5c!important;color:#fff!important;font-size:9px!important;font-weight:900!important;white-space:nowrap!important;
+  }
+  #dashboardView #inputLaporanSection .report-grid{
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;width:100%!important;margin:0!important;
+  }
+  #dashboardView #inputLaporanSection .report-grid>.field{
+    min-width:0!important;width:100%!important;margin:0!important;padding:7px!important;
+    border:1px solid #e4ebef!important;border-radius:9px!important;background:#f8fafc!important;
+  }
+  #dashboardView #inputLaporanSection .report-grid>.field.full,
+  #dashboardView #inputLaporanSection #adendumBox{
+    grid-column:1 / -1!important;
+  }
+  #dashboardView #inputLaporanSection .report-grid>.field.full{
+    background:#fff!important;padding:6px!important;
+  }
+  #dashboardView #inputLaporanSection .field label{
+    margin:0 0 4px!important;font-size:9px!important;line-height:1.15!important;color:#718493!important;font-weight:900!important;letter-spacing:.2px!important;
+  }
+  #dashboardView #inputLaporanSection .field input,
+  #dashboardView #inputLaporanSection .field select,
+  #dashboardView #inputLaporanSection .field textarea{
+    min-width:0!important;width:100%!important;max-width:100%!important;padding:8px 9px!important;
+    border-radius:7px!important;border:1px solid #d7e1e7!important;background:#fff!important;font-size:12px!important;line-height:1.25!important;
+  }
+  #dashboardView #inputLaporanSection .field textarea{min-height:64px!important}
+  #dashboardView #inputLaporanSection #laporanNamaPaket{min-height:56px!important;height:auto!important;line-height:1.3!important;white-space:pre-wrap!important;overflow:hidden!important}
+  #dashboardView #inputLaporanSection .week-info{
+    margin-top:5px!important;padding:6px 8px!important;border-radius:7px!important;font-size:9px!important;line-height:1.2!important;
+  }
+  #dashboardView #inputLaporanSection .week-number{font-size:14px!important}
+  #dashboardView #inputLaporanSection .adendum-box{margin:0!important;padding:8px!important;border-radius:9px!important}
+  #dashboardView #inputLaporanSection .adendum-title{font-size:10px!important;margin-bottom:6px!important}
+  #dashboardView #inputLaporanSection .adendum-box .field{padding:6px!important}
+  #dashboardView #inputLaporanSection .adendum-box.show{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+  #dashboardView #inputLaporanSection .adendum-box.show .adendum-title{grid-column:1 / -1!important}
 
   /* Search */
   #dashboardView .rup-input-wrap{position:relative!important;z-index:20!important}
@@ -108,6 +142,14 @@
   #dashboardView .pimpinan-table tbody td{font-size:11px!important;padding:3px 4px!important}
   #dashboardView .pimpinan-table tbody td:nth-child(2){font-size:13px!important;width:100%!important;max-width:none!important}
   #dashboardView .pimpinan-table tbody td:nth-child(8) button{min-width:76px!important;min-height:28px!important;font-size:9px!important;padding:5px 7px!important}
+  #dashboardView #inputLaporanSection{padding:10px!important;border-radius:12px!important}
+  #dashboardView #inputLaporanSection .report-header{gap:6px!important}
+  #dashboardView #inputLaporanSection .report-title{font-size:15px!important}
+  #dashboardView #inputLaporanSection .save-btn{min-height:31px!important;padding:7px 8px!important;font-size:8px!important}
+  #dashboardView #inputLaporanSection .report-grid{gap:6px!important}
+  #dashboardView #inputLaporanSection .report-grid>.field{padding:6px!important}
+  #dashboardView #inputLaporanSection .field input,#dashboardView #inputLaporanSection .field select,#dashboardView #inputLaporanSection .field textarea{font-size:11px!important;padding:7px 8px!important}
+  #dashboardView #inputLaporanSection .field label{font-size:8px!important}
   #dashboardView .admin-table tbody tr{padding:10px!important;border-radius:13px!important}
   #dashboardView .admin-table tbody td{font-size:12px!important;padding:6px 5px!important}
   #dashboardView .admin-table tbody td:nth-child(3){font-size:14px!important}
