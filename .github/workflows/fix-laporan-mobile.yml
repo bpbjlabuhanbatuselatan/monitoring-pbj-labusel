@@ -1,72 +1,53 @@
-name: Fix mobile Laporan Mingguan
+name: Fix mobile HTML artifacts
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  patch:
-    if: ${{ !startsWith(github.event.head_commit.message, 'Apply mobile Laporan Mingguan card CSS') }}
+  cleanup:
+    if: ${{ !startsWith(github.event.head_commit.message, 'Fix mobile HTML artifacts') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Patch index.html
-        shell: python
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Clean accidental literal newline markers
         run: |
+          python - <<'PY'
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          marker = '<style id="laporanMobileCardFinal">'
-          if marker in s:
-              print('Patch already present')
-              raise SystemExit(0)
-          css = r'''<style id="laporanMobileCardFinal">
-          @media (max-width:760px){
-            #dashboardView #laporanTableSection{width:100%!important;max-width:100%!important;min-width:0!important;padding:14px!important;margin:0 0 12px!important;border-radius:16px!important;overflow:hidden!important;}
-            #dashboardView #laporanTableSection .table-wrap{width:100%!important;max-width:100%!important;overflow:visible!important;}
-            #dashboardView #laporanTableSection table{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;table-layout:auto!important;border-collapse:separate!important;border-spacing:0!important;}
-            #dashboardView #laporanTableSection thead{display:none!important;}
-            #dashboardView #laporanTableSection tbody{display:grid!important;width:100%!important;gap:10px!important;margin:0!important;padding:0!important;}
-            #dashboardView #laporanTableSection tbody tr{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-auto-rows:auto!important;gap:0!important;width:100%!important;min-width:0!important;margin:0!important;padding:11px!important;background:#fff!important;border:1px solid #dce6ec!important;border-radius:13px!important;box-shadow:0 3px 11px rgba(15,23,42,.055)!important;overflow:hidden!important;}
-            #dashboardView #laporanTableSection tbody td{display:block!important;width:auto!important;min-width:0!important;max-width:100%!important;height:auto!important;margin:0!important;padding:5px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.32!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important;}
-            #dashboardView #laporanTableSection tbody td::before{display:block!important;margin:0 0 3px!important;color:#8193a0!important;font-size:8px!important;line-height:1.15!important;font-weight:900!important;letter-spacing:.35px!important;text-transform:uppercase!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(1)::before{content:'ID Laporan';}
-            #dashboardView #laporanTableSection tbody td:nth-child(2)::before{content:'Tanggal';}
-            #dashboardView #laporanTableSection tbody td:nth-child(3)::before{content:'Kode RUP';}
-            #dashboardView #laporanTableSection tbody td:nth-child(4)::before{content:'Nama Paket';}
-            #dashboardView #laporanTableSection tbody td:nth-child(5)::before{content:'Nama Penyedia';}
-            #dashboardView #laporanTableSection tbody td:nth-child(6)::before{content:'Lokasi';}
-            #dashboardView #laporanTableSection tbody td:nth-child(7)::before{content:'Minggu';}
-            #dashboardView #laporanTableSection tbody td:nth-child(8)::before{content:'Progress';}
-            #dashboardView #laporanTableSection tbody td:nth-child(9)::before{content:'Dibuat Oleh';}
-            #dashboardView #laporanTableSection tbody td:nth-child(10)::before{content:'Status';}
-            #dashboardView #laporanTableSection tbody td:nth-child(11)::before{content:'Keterangan';}
-            #dashboardView #laporanTableSection tbody td:nth-child(1){grid-column:1!important;grid-row:1!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(2){grid-column:2!important;grid-row:1!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(3){grid-column:1!important;grid-row:2!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(7){grid-column:2!important;grid-row:2!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(4){grid-column:1 / -1!important;grid-row:3!important;padding-top:7px!important;padding-bottom:8px!important;color:#17384d!important;font-size:14px!important;font-weight:900!important;line-height:1.3!important;overflow-wrap:break-word!important;word-break:normal!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(5){grid-column:1!important;grid-row:4!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(6){grid-column:2!important;grid-row:4!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(8){grid-column:1!important;grid-row:5!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(10){grid-column:2!important;grid-row:5!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(9){grid-column:1!important;grid-row:6!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(11){grid-column:2!important;grid-row:6!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(8) *{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:38px!important;padding:4px 8px!important;border-radius:8px!important;background:#d7ecff!important;color:#111827!important;font-size:10px!important;font-weight:900!important;line-height:1.1!important;white-space:nowrap!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(10) *{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;max-width:100%!important;padding:4px 8px!important;border-radius:8px!important;background:#eef2f6!important;color:#344054!important;font-size:9px!important;font-weight:900!important;line-height:1.15!important;white-space:normal!important;text-align:center!important;}
-            #dashboardView #laporanTableSection tbody td:nth-child(11){color:#667085!important;font-size:10px!important;}
-          }
-          </style>'''
-          s = s.replace('</head>', css + '\n</head>', 1)
-          p.write_text(s, encoding='utf-8')
-      - name: Commit patch
+          old = s
+
+          s = s.replace('\\n/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */\\n', '/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */\n')
+          s = s.replace('</style>\\n\\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V1 -->\\n<script>', '</style>\n\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V1 -->\n<script>')
+          s = s.replace('</script>\\n\\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V2 -->\\n<script>', '</script>\n\n<!-- PHOTO_COMPRESSION_STATUS_PATCH_V2 -->\n<script>')
+          s = s.replace('</script>\\n</body>', '</script>\n</body>')
+
+          if s != old:
+              p.write_text(s, encoding='utf-8')
+              print('HTML artifacts cleaned.')
+          else:
+              print('No matching artifacts found.')
+          PY
+
+      - name: Remove temporary cleanup workflow files
+        run: |
+          rm -f .github/workflows/fix-mobile-newline.yml TEMP_TRIGGER.txt
+
+      - name: Commit cleanup
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html
-          git diff --cached --quiet && exit 0
-          git commit -m 'Apply mobile Laporan Mingguan card CSS'
+          git add index.html .github/workflows/fix-mobile-newline.yml TEMP_TRIGGER.txt
+          if git diff --cached --quiet; then
+            echo 'Nothing to commit.'
+            exit 0
+          fi
+          git commit -m 'Fix mobile HTML artifacts'
           git push
