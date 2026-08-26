@@ -3984,6 +3984,26 @@ table td,
   }
 }
 </style>
+
+<style id="logAktivitasMobileLabels">
+/* MOBILE LOG AKTIVITAS LABELS */
+@media (max-width:760px){
+  /* Only Log Aktivitas: restore the correct column headings
+     used by the mobile card layout. Desktop is untouched. */
+  #logAktivitasSection .admin-table tbody td:nth-child(1)::before{
+    content:"ID LOG" !important;
+  }
+  #logAktivitasSection .admin-table tbody td:nth-child(2)::before{
+    content:"TANGGAL" !important;
+  }
+  #logAktivitasSection .admin-table tbody td:nth-child(3)::before{
+    content:"USERNAME" !important;
+  }
+  #logAktivitasSection .admin-table tbody td:nth-child(4)::before{
+    content:"AKTIVITAS" !important;
+  }
+}
+</style>
 </head>
 
 
