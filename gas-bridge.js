@@ -147,7 +147,7 @@
     const link=document.createElement('link');
     link.id='safeVisualTheme';
     link.rel='stylesheet';
-    link.href='./theme-safe-preview.css?v=20260826-01';
+    link.href='./theme-safe-preview.css?v=20260826-02';
     document.head.appendChild(link);
   }
   loadSafeTheme();
