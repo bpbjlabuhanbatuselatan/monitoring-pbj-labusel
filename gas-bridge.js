@@ -13,30 +13,66 @@
         const success=ok, failure=bad;
         ok=null; bad=null;
         return new Promise(async resolve=>{
-          try{
-            if(name==='getLogoData'){
-              const value=local.getLogoData();
-              if(success) success(value);
-              resolve(value);
+          let lastError=null;
+          for(let attempt=1;attempt<=2;attempt++){
+            try{
+              if(name==='getLogoData'){
+                const value=local.getLogoData();
+                if(success) success(value);
+                resolve(value);
+                return;
+              }
+
+              const fn=aliases[name]||name;
+              const controller=new AbortController();
+              const timer=setTimeout(()=>controller.abort(),45000);
+
+              let res;
+              try{
+                res=await fetch(API,{
+                  method:'POST',
+                  headers:{'Content-Type':'application/json'},
+                  body:JSON.stringify({function:String(fn),args}),
+                  signal:controller.signal,
+                  cache:'no-store'
+                });
+              }finally{
+                clearTimeout(timer);
+              }
+
+              const text=await res.text();
+              let data;
+              try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
+
+              if(!res.ok){
+                const err=new Error(data&&data.message?data.message:'Request gagal.');
+                err.httpStatus=res.status;
+                throw err;
+              }
+
+              if(success) success(data);
+              resolve(data);
               return;
+            }catch(err){
+              lastError=err;
+              const retryable=err&&(
+                err.name==='AbortError'||
+                err.httpStatus===408||
+                err.httpStatus===429||
+                err.httpStatus>=500
+              );
+              if(!retryable||attempt===2) break;
+              await new Promise(r=>setTimeout(r,700));
             }
-            const fn=aliases[name]||name;
-            const controller=new AbortController();
-            const timer=setTimeout(()=>controller.abort(),15000);
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
-            clearTimeout(timer);
-            const text=await res.text();
-            let data;
-            try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
-            if(!res.ok) throw new Error(data.message||'Request gagal.');
-            if(success) success(data);
-            resolve(data);
-          }catch(err){
-            const message=err&&err.name==='AbortError'?'Koneksi ke server timeout.':(err&&err.message?err.message:String(err));
-            if(failure) failure({message});
-            else console.error(message);
-            resolve({success:false,message});
           }
+
+          const message=lastError&&lastError.name==='AbortError'
+            ?'Koneksi ke server timeout. Silakan coba lagi.'
+            :(lastError&&lastError.message?lastError.message:String(lastError));
+
+          if(failure) failure({message});
+          else console.error(message);
+          resolve({success:false,message});
         });
       };
     }});
