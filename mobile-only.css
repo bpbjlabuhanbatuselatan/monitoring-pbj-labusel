@@ -195,3 +195,12 @@
   #dashboardView #laporanTableSection tbody td{font-size:10px!important;padding:4px!important}
   #dashboardView #laporanTableSection tbody td:nth-child(4){font-size:13px!important}
 }
+
+
+/* MOBILE INPUT LAPORAN NAMA PAKET FONT ONLY */
+@media (max-width:760px){
+  #dashboardView #inputLaporanSection #laporanNamaPaket{
+    font-size:12px !important;
+    line-height:1.25 !important;
+  }
+}
