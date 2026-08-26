@@ -143,6 +143,11 @@
         word-break:normal !important;
       }
 
+      /* Monitoring: jangan pernah tampilkan baris loading sebagai card. */
+      #dashboardView #pimpinanBody tr.pimpinan-loading-row{
+        display:none !important;
+      }
+
       .safe-logout-modal{
         position:fixed;
         inset:0;
@@ -250,6 +255,34 @@
       }
     `;
     document.head.appendChild(style);
+  }
+
+  /*
+    Hapus hanya row sementara "Memuat data proyek...".
+    Pesan "Belum ada proyek" dan pesan error tetap dibiarkan tampil.
+  */
+  function removePimpinanLoadingRow(){
+    const body=document.getElementById('pimpinanBody');
+    if(!body || body.__loadingObserverInstalled) return;
+
+    const remove=function(){
+      body.querySelectorAll('tr').forEach(function(tr){
+        const text=String(tr.textContent||'').trim();
+        if(/^Memuat data proyek\.\.\.$/i.test(text)){
+          tr.classList.add('pimpinan-loading-row');
+          tr.remove();
+        }
+      });
+    };
+
+    body.__loadingObserverInstalled=true;
+    remove();
+
+    const observer=new MutationObserver(function(){
+      remove();
+    });
+
+    observer.observe(body,{childList:true,subtree:true});
   }
 
   function showLogoutPopup(){
@@ -374,6 +407,7 @@
     setLogos();
     installSafeCss();
     patchPackageField();
+    removePimpinanLoadingRow();
     watchSuccessMessages();
 
     const button=document.getElementById('btnLogin');
