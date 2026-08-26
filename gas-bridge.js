@@ -4,7 +4,9 @@
   const local={getLogoData:()=>({lkpp:'./logo-lkpp.png',labusel:'./logo-labusel.png',ukpbj:'./logo-ukpbj.png'})};
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
   const DASH_CACHE_KEY='monitoring_dashboard_cache_v1';
+  const DASH_IDS=['pimpinanTotalProyek','pimpinanTotalNilai','pimpinanBerjalan','pimpinanSelesai','pimpinanRataRata'];
   let activeRunner=null;
+  let dashboardDataReady=false;
 
   function getDashboardCache(){
     try{
@@ -25,6 +27,7 @@
   function paintCachedDashboard(){
     const data=getDashboardCache();
     if(!data) return;
+    dashboardDataReady=true;
     const set=function(id,value){const el=document.getElementById(id);if(el)el.textContent=value;};
     set('pimpinanTotalProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
     set('pimpinanTotalNilai',data.totalNilaiDisplay||'—');
@@ -33,20 +36,36 @@
     set('pimpinanRataRata',Number.isFinite(Number(data.rataRataProgres))?Number(data.rataRataProgres)+'%':'—');
   }
 
+  function isZeroPlaceholder(value){
+    return /^(0|Rp 0|0%)$/.test(String(value||'').trim());
+  }
+
   function preventZeroFlash(){
-    const ids=['pimpinanTotalProyek','pimpinanTotalNilai','pimpinanBerjalan','pimpinanSelesai','pimpinanRataRata'];
     const fix=function(){
-      const cached=getDashboardCache();
-      if(cached){paintCachedDashboard();return;}
-      ids.forEach(function(id){
+      if(dashboardDataReady) return;
+      DASH_IDS.forEach(function(id){
         const el=document.getElementById(id);
-        if(el && /^(0|Rp 0|0%)$/.test(String(el.textContent||'').trim())) el.textContent='—';
+        if(el && isZeroPlaceholder(el.textContent)) el.textContent='—';
       });
     };
-    fix();
-    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fix,{once:true});
-    else setTimeout(fix,0);
+    const start=function(){
+      fix();
+      const observer=new MutationObserver(function(mutations){
+        if(dashboardDataReady){observer.disconnect();return;}
+        mutations.forEach(function(m){
+          if(m.type!=='characterData'&&m.type!=='childList') return;
+          const target=m.target&&m.target.nodeType===3?m.target.parentElement:m.target;
+          if(!target) return;
+          const el=target.closest?target.closest('#pimpinanTotalProyek,#pimpinanTotalNilai,#pimpinanBerjalan,#pimpinanSelesai,#pimpinanRataRata'):null;
+          if(el&&isZeroPlaceholder(el.textContent)) el.textContent='—';
+        });
+      });
+      observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+    };
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
+    else start();
   }
+  paintCachedDashboard();
   preventZeroFlash();
 
   function makeRunner(){
@@ -62,6 +81,7 @@
         if(name==='getPimpinanDashboardData'&&success){
           const cached=getDashboardCache();
           if(cached){
+            dashboardDataReady=true;
             try{success(cached);}catch(e){console.error(e);}
           }
         }
@@ -88,7 +108,10 @@
               let data;
               try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
               if(!res.ok){const err=new Error(data&&data.message?data.message:'Request gagal.');err.httpStatus=res.status;throw err;}
-              if(name==='getPimpinanDashboardData') saveDashboardCache(data);
+              if(name==='getPimpinanDashboardData'){
+                saveDashboardCache(data);
+                dashboardDataReady=true;
+              }
               if(success) success(data);
               resolve(data);
               return;
