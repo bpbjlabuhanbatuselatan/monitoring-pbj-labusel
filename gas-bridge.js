@@ -23,55 +23,29 @@
                 resolve(value);
                 return;
               }
-
               const fn=aliases[name]||name;
               const controller=new AbortController();
               const timer=setTimeout(()=>controller.abort(),30000);
               let res;
               try{
-                res=await fetch(API,{
-                  method:'POST',
-                  headers:{'Content-Type':'application/json'},
-                  body:JSON.stringify({function:String(fn),args}),
-                  signal:controller.signal,
-                  cache:'no-store'
-                });
-              }finally{
-                clearTimeout(timer);
-              }
-
+                res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
+              }finally{clearTimeout(timer);}
               const text=await res.text();
               let data;
               try{data=JSON.parse(text);}catch(e){throw new Error(text||'Respons backend tidak valid.');}
-
-              if(!res.ok){
-                const err=new Error(data&&data.message?data.message:'Request gagal.');
-                err.httpStatus=res.status;
-                throw err;
-              }
-
+              if(!res.ok){const err=new Error(data&&data.message?data.message:'Request gagal.');err.httpStatus=res.status;throw err;}
               if(success) success(data);
               resolve(data);
               return;
             }catch(err){
               lastError=err;
-              const retryable=err&&(
-                err.name==='AbortError'||
-                err.httpStatus===408||
-                err.httpStatus===429||
-                err.httpStatus>=500
-              );
+              const retryable=err&&(err.name==='AbortError'||err.httpStatus===408||err.httpStatus===429||err.httpStatus>=500);
               if(!retryable||attempt===2) break;
               await new Promise(r=>setTimeout(r,700));
             }
           }
-
-          const message=lastError&&lastError.name==='AbortError'
-            ?'Koneksi ke server timeout. Silakan coba lagi.'
-            :(lastError&&lastError.message?lastError.message:String(lastError));
-
-          if(failure) failure({message});
-          else console.error(message);
+          const message=lastError&&lastError.name==='AbortError'?'Koneksi ke server timeout. Silakan coba lagi.':(lastError&&lastError.message?lastError.message:String(lastError));
+          if(failure) failure({message}); else console.error(message);
           resolve({success:false,message});
         });
       };
@@ -83,132 +57,67 @@
     window.google=window.google||{};
     window.google.script=window.google.script||{};
     activeRunner=makeRunner();
-
-    /*
-      index.html masih memiliki bridge inline lama dengan endpoint typo.
-      Kunci properti `run` supaya assignment bridge lama tidak dapat
-      menggantikan runner Supabase yang benar.
-    */
     const scriptObj=window.google.script;
     const desc=Object.getOwnPropertyDescriptor(scriptObj,'run');
-    if(!desc || desc.configurable){
-      Object.defineProperty(scriptObj,'run',{
-        configurable:true,
-        enumerable:true,
-        get:function(){return activeRunner;},
-        set:function(){activeRunner=makeRunner();}
-      });
+    if(!desc||desc.configurable){
+      Object.defineProperty(scriptObj,'run',{configurable:true,enumerable:true,get:function(){return activeRunner;},set:function(){activeRunner=makeRunner();}});
     }
   }
-
   installBridge();
   window.__supabaseBridge=makeRunner;
   window.__installSupabaseBridge=installBridge;
-
-  /* Jalankan ulang setelah script inline selesai, lalu pastikan tetap aktif
-     saat DOM siap. Ini membuat dashboard/menu langsung menarik data tanpa
-     tombol REFRESH dan tidak mengganggu login. */
   setTimeout(installBridge,0);
   setTimeout(installBridge,100);
   setTimeout(installBridge,500);
   document.addEventListener('DOMContentLoaded',installBridge,{once:true});
 
-  /* MOBILE ONLY: foto detail tampil langsung penuh, bukan thumbnail/card kecil. */
+  /* MOBILE ONLY: load the existing mobile card stylesheet at runtime.
+     Desktop is untouched. This fixes the previous issue where the CSS file
+     existed in GitHub but index.html did not load it. */
+  function loadMobileCardCss(){
+    if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
+    if(document.getElementById('mobileCardCss')) return;
+    const link=document.createElement('link');
+    link.id='mobileCardCss';
+    link.rel='stylesheet';
+    link.href='./mobile-only.css?v=20260826-01';
+    document.head.appendChild(link);
+  }
+  loadMobileCardCss();
+  document.addEventListener('DOMContentLoaded',loadMobileCardCss,{once:true});
+
+  /* MOBILE ONLY: foto detail tampil langsung penuh. */
   document.addEventListener('DOMContentLoaded',function(){
     if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
     if(typeof window.renderProgressDetail!=='function') return;
-
     const originalRender=window.renderProgressDetail;
-
     window.renderProgressDetail=function(mingguList){
       if(!Array.isArray(mingguList)) return originalRender(mingguList);
-
       const body=document.getElementById('progressDetailBody');
       if(!body) return originalRender(mingguList);
-
       body.innerHTML='';
-
-      if(!mingguList.length){
-        body.innerHTML='<div class="empty">Belum ada laporan mingguan untuk proyek ini.</div>';
-        return;
-      }
-
+      if(!mingguList.length){body.innerHTML='<div class="empty">Belum ada laporan mingguan untuk proyek ini.</div>';return;}
       mingguList.forEach(function(item){
         const laporan=item&&item.laporan||{};
-        const block=document.createElement('div');
-        block.className='week-block';
-
-        const head=document.createElement('div');
-        head.className='week-head';
-        const weekTitle=document.createElement('div');
-        weekTitle.className='week-title';
-        weekTitle.textContent='Minggu ke-'+(item.mingguKe||laporan.mingguKe||'-');
-        const progress=document.createElement('div');
-        progress.className='week-progress';
-        progress.textContent=(laporan.progres||'0')+'%';
-        head.appendChild(weekTitle);
-        head.appendChild(progress);
-        block.appendChild(head);
-
-        const meta=document.createElement('div');
-        meta.className='week-meta';
-        meta.textContent='Tanggal: '+(laporan.tanggal||'-')+' | Penyedia: '+(laporan.namaPenyedia||'-')+' | Dibuat oleh: '+(laporan.dibuatOleh||'-');
-        block.appendChild(meta);
-
-        if(laporan.keterangan){
-          const note=document.createElement('div');
-          note.className='week-note';
-          note.textContent='Keterangan: '+laporan.keterangan;
-          block.appendChild(note);
-        }
-
+        const block=document.createElement('div');block.className='week-block';
+        const head=document.createElement('div');head.className='week-head';
+        const weekTitle=document.createElement('div');weekTitle.className='week-title';weekTitle.textContent='Minggu ke-'+(item.mingguKe||laporan.mingguKe||'-');
+        const progress=document.createElement('div');progress.className='week-progress';progress.textContent=(laporan.progres||'0')+'%';
+        head.appendChild(weekTitle);head.appendChild(progress);block.appendChild(head);
+        const meta=document.createElement('div');meta.className='week-meta';meta.textContent='Tanggal: '+(laporan.tanggal||'-')+' | Penyedia: '+(laporan.namaPenyedia||'-')+' | Dibuat oleh: '+(laporan.dibuatOleh||'-');block.appendChild(meta);
+        if(laporan.keterangan){const note=document.createElement('div');note.className='week-note';note.textContent='Keterangan: '+laporan.keterangan;block.appendChild(note);}
         const photos=Array.isArray(item.foto)?item.foto:[];
-
-        if(!photos.length){
-          const emptyPhoto=document.createElement('div');
-          emptyPhoto.className='no-photo';
-          emptyPhoto.style.marginTop='10px';
-          emptyPhoto.textContent='Belum ada foto dokumentasi pada minggu ini.';
-          block.appendChild(emptyPhoto);
-        }else{
-          const grid=document.createElement('div');
-          grid.className='week-photo-grid';
-          grid.style.display='block';
-          grid.style.width='100%';
-          grid.style.marginTop='12px';
-
+        if(!photos.length){const emptyPhoto=document.createElement('div');emptyPhoto.className='no-photo';emptyPhoto.style.marginTop='10px';emptyPhoto.textContent='Belum ada foto dokumentasi pada minggu ini.';block.appendChild(emptyPhoto);}
+        else{
+          const grid=document.createElement('div');grid.className='week-photo-grid';grid.style.display='block';grid.style.width='100%';grid.style.marginTop='12px';
           photos.forEach(function(photo,index){
-            const href=photo&&photo.linkFoto?photo.linkFoto:'';
-            if(!href) return;
-
-            const card=document.createElement('div');
-            card.className='week-photo-card';
-            card.style.width='100%';
-            card.style.margin='0 0 14px 0';
-            card.style.padding='0';
-            card.style.border='0';
-            card.style.background='transparent';
-            card.style.boxShadow='none';
-
-            const img=document.createElement('img');
-            img.src=href;
-            img.alt='Foto dokumentasi minggu ke-'+(item.mingguKe||'-')+' nomor '+(index+1);
-            img.loading='lazy';
-            img.style.display='block';
-            img.style.width='100%';
-            img.style.height='auto';
-            img.style.maxWidth='100%';
-            img.style.objectFit='contain';
-            img.style.borderRadius='10px';
-            img.style.background='#f4f7f9';
-
-            card.appendChild(img);
-            grid.appendChild(card);
+            const href=photo&&photo.linkFoto?photo.linkFoto:'';if(!href)return;
+            const card=document.createElement('div');card.className='week-photo-card';card.style.width='100%';card.style.margin='0 0 14px 0';card.style.padding='0';card.style.border='0';card.style.background='transparent';card.style.boxShadow='none';
+            const img=document.createElement('img');img.src=href;img.alt='Foto dokumentasi minggu ke-'+(item.mingguKe||'-')+' nomor '+(index+1);img.loading='lazy';img.style.display='block';img.style.width='100%';img.style.height='auto';img.style.maxWidth='100%';img.style.objectFit='contain';img.style.borderRadius='10px';img.style.background='#f4f7f9';
+            card.appendChild(img);grid.appendChild(card);
           });
-
           block.appendChild(grid);
         }
-
         body.appendChild(block);
       });
     };
