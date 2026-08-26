@@ -1,0 +1,42 @@
+name: Fix mobile Log Aktivitas labels
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ !contains(github.event.head_commit.message, '[log-mobile-labels]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch only mobile Log Aktivitas labels
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* MOBILE LOG AKTIVITAS LABELS */'
+          if marker in s:
+              print('Patch already present')
+              raise SystemExit(0)
+
+          css = '''\n<style id="logAktivitasMobileLabels">\n/* MOBILE LOG AKTIVITAS LABELS */\n@media (max-width:760px){\n  /* Only Log Aktivitas: restore the correct column headings\n     used by the mobile card layout. Desktop is untouched. */\n  #logAktivitasSection .admin-table tbody td:nth-child(1)::before{\n    content:"ID LOG" !important;\n  }\n  #logAktivitasSection .admin-table tbody td:nth-child(2)::before{\n    content:"TANGGAL" !important;\n  }\n  #logAktivitasSection .admin-table tbody td:nth-child(3)::before{\n    content:"USERNAME" !important;\n  }\n  #logAktivitasSection .admin-table tbody td:nth-child(4)::before{\n    content:"AKTIVITAS" !important;\n  }\n}\n</style>\n'''
+
+          if '</head>' not in s:
+              raise SystemExit('head closing tag not found')
+          s = s.replace('</head>', css + '</head>', 1)
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit patch and remove one-time workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/fix-log-mobile-labels.yml
+          git commit -m 'Fix mobile Log Aktivitas labels [log-mobile-labels]'
+          git push
