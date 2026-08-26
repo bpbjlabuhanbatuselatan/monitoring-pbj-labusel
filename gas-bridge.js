@@ -47,4 +47,106 @@
   window.google.script=window.google.script||{};
   window.google.script.run=makeRunner();
   window.__supabaseBridge=makeRunner;
+
+  /* MOBILE ONLY: foto detail tampil langsung penuh, bukan thumbnail/card kecil.
+     Desktop tidak disentuh. Login/auth/bridge di atas tidak diubah. */
+  document.addEventListener('DOMContentLoaded',function(){
+    if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
+    if(typeof window.renderProgressDetail!=='function') return;
+
+    const originalRender=window.renderProgressDetail;
+
+    window.renderProgressDetail=function(mingguList){
+      if(!Array.isArray(mingguList)) return originalRender(mingguList);
+
+      const body=document.getElementById('progressDetailBody');
+      if(!body) return originalRender(mingguList);
+
+      body.innerHTML='';
+
+      if(!mingguList.length){
+        body.innerHTML='<div class="empty">Belum ada laporan mingguan untuk proyek ini.</div>';
+        return;
+      }
+
+      mingguList.forEach(function(item){
+        const laporan=item&&item.laporan||{};
+        const block=document.createElement('div');
+        block.className='week-block';
+
+        const head=document.createElement('div');
+        head.className='week-head';
+        const weekTitle=document.createElement('div');
+        weekTitle.className='week-title';
+        weekTitle.textContent='Minggu ke-'+(item.mingguKe||laporan.mingguKe||'-');
+        const progress=document.createElement('div');
+        progress.className='week-progress';
+        progress.textContent=(laporan.progres||'0')+'%';
+        head.appendChild(weekTitle);
+        head.appendChild(progress);
+        block.appendChild(head);
+
+        const meta=document.createElement('div');
+        meta.className='week-meta';
+        meta.textContent='Tanggal: '+(laporan.tanggal||'-')+' | Penyedia: '+(laporan.namaPenyedia||'-')+' | Dibuat oleh: '+(laporan.dibuatOleh||'-');
+        block.appendChild(meta);
+
+        if(laporan.keterangan){
+          const note=document.createElement('div');
+          note.className='week-note';
+          note.textContent='Keterangan: '+laporan.keterangan;
+          block.appendChild(note);
+        }
+
+        const photos=Array.isArray(item.foto)?item.foto:[];
+
+        if(!photos.length){
+          const emptyPhoto=document.createElement('div');
+          emptyPhoto.className='no-photo';
+          emptyPhoto.style.marginTop='10px';
+          emptyPhoto.textContent='Belum ada foto dokumentasi pada minggu ini.';
+          block.appendChild(emptyPhoto);
+        }else{
+          const grid=document.createElement('div');
+          grid.className='week-photo-grid';
+          grid.style.display='block';
+          grid.style.width='100%';
+          grid.style.marginTop='12px';
+
+          photos.forEach(function(photo,index){
+            const href=photo&&photo.linkFoto?photo.linkFoto:'';
+            if(!href) return;
+
+            const card=document.createElement('div');
+            card.className='week-photo-card';
+            card.style.width='100%';
+            card.style.margin='0 0 14px 0';
+            card.style.padding='0';
+            card.style.border='0';
+            card.style.background='transparent';
+            card.style.boxShadow='none';
+
+            const img=document.createElement('img');
+            img.src=href;
+            img.alt='Foto dokumentasi minggu ke-'+(item.mingguKe||'-')+' nomor '+(index+1);
+            img.loading='lazy';
+            img.style.display='block';
+            img.style.width='100%';
+            img.style.height='auto';
+            img.style.maxWidth='100%';
+            img.style.objectFit='contain';
+            img.style.borderRadius='10px';
+            img.style.background='#f4f7f9';
+
+            card.appendChild(img);
+            grid.appendChild(card);
+          });
+
+          block.appendChild(grid);
+        }
+
+        body.appendChild(block);
+      });
+    };
+  },{once:true});
 })();
