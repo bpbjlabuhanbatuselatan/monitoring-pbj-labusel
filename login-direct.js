@@ -196,6 +196,58 @@
         font-weight:900;
         cursor:pointer;
       }
+
+      .safe-success-modal{
+        position:fixed;
+        inset:0;
+        z-index:100000;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:18px;
+        background:rgba(15,23,42,.42);
+        animation:safeSuccessFadeIn .18s ease-out;
+      }
+      .safe-success-card{
+        width:min(430px,92vw);
+        padding:28px 24px 24px;
+        border-radius:20px;
+        background:#fff;
+        box-shadow:0 25px 70px rgba(15,23,42,.30);
+        text-align:center;
+        transform:translateY(0);
+      }
+      .safe-success-icon{
+        width:62px;
+        height:62px;
+        margin:0 auto 13px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:50%;
+        background:#eaf7f0;
+        color:#087443;
+        font-size:31px;
+        font-weight:900;
+      }
+      .safe-success-title{
+        margin:0;
+        color:#12304a;
+        font-size:22px;
+        line-height:1.2;
+        font-weight:900;
+      }
+      .safe-success-text{
+        margin:8px 0 0;
+        color:#526071;
+        font-size:14px;
+        line-height:1.5;
+        font-weight:700;
+      }
+      @keyframes safeSuccessFadeIn{
+        from{opacity:0}
+        to{opacity:1}
+      }
     `;
     document.head.appendChild(style);
   }
@@ -220,6 +272,65 @@
       modal.remove();
       if(typeof bukaLogin==='function') bukaLogin();
     };
+  }
+
+  function showSuccessPopup(text){
+    const message=String(text||'Data berhasil disimpan.').trim();
+    let old=document.getElementById('safeSuccessModal');
+    if(old) old.remove();
+
+    const modal=document.createElement('div');
+    modal.id='safeSuccessModal';
+    modal.className='safe-success-modal';
+    modal.innerHTML=''
+      +'<div class="safe-success-card" role="status" aria-live="polite">'
+      +'<div class="safe-success-icon">✓</div>'
+      +'<h2 class="safe-success-title">Berhasil Disimpan</h2>'
+      +'<p class="safe-success-text"></p>'
+      +'</div>';
+
+    modal.querySelector('.safe-success-text').textContent=message;
+    document.body.appendChild(modal);
+
+    setTimeout(function(){
+      if(modal.parentNode) modal.remove();
+    },3500);
+  }
+
+  function watchSuccessMessages(){
+    const showIfSuccess=function(el){
+      if(!el || el.nodeType!==1) return;
+      if(el.id==='safeSuccessModal' || el.closest('#safeSuccessModal')) return;
+      const text=String(el.textContent||'').trim();
+      if(!text) return;
+      const isSuccess=el.classList.contains('success') || /berhasil|sukses|disimpan|tersimpan/i.test(text);
+      if(isSuccess && !el.dataset.safeSuccessShown){
+        el.dataset.safeSuccessShown='1';
+        showSuccessPopup(text);
+      }
+    };
+
+    document.querySelectorAll('.message.success').forEach(showIfSuccess);
+
+    const observer=new MutationObserver(function(mutations){
+      mutations.forEach(function(mutation){
+        if(mutation.type==='childList'){
+          mutation.addedNodes.forEach(function(node){
+            if(node.nodeType!==1) return;
+            showIfSuccess(node);
+            node.querySelectorAll?.('.message.success, .message').forEach(showIfSuccess);
+          });
+        }
+        if(mutation.type==='characterData' && mutation.target.parentElement){
+          showIfSuccess(mutation.target.parentElement);
+        }
+        if(mutation.type==='attributes' && mutation.target){
+          showIfSuccess(mutation.target);
+        }
+      });
+    });
+
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
   }
 
   function safeLogout(){
@@ -263,6 +374,7 @@
     setLogos();
     installSafeCss();
     patchPackageField();
+    watchSuccessMessages();
 
     const button=document.getElementById('btnLogin');
     if(button){
