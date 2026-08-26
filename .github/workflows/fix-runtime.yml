@@ -33,11 +33,19 @@ jobs:
 
           p.write_text(s, encoding='utf-8')
 
+          # Tiny mobile-only font fix for Input Laporan > Nama Paket.
+          mp = Path('mobile-only.css')
+          ms = mp.read_text(encoding='utf-8')
+          m = '/* MOBILE INPUT LAPORAN NAMA PAKET FONT ONLY */'
+          if m not in ms:
+              ms += '''\n\n/* MOBILE INPUT LAPORAN NAMA PAKET FONT ONLY */\n@media (max-width:760px){\n  #dashboardView #inputLaporanSection #laporanNamaPaket{\n    font-size:12px !important;\n    line-height:1.25 !important;\n  }\n}\n'''
+              mp.write_text(ms, encoding='utf-8')
+
       - name: Commit fix
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html mobile-only.css
           git diff --cached --quiet && exit 0
           git commit -m "Fix runtime bridge [runtime-fixed]"
           git push
