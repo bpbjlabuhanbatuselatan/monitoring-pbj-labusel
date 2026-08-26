@@ -36,9 +36,11 @@ jobs:
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
           bridge = Path('site/gas-bridge.js').read_text(encoding='utf-8')
+          guard = Path('site/dashboard-stats-guard.js').read_text(encoding='utf-8')
           mobile = '<link rel="stylesheet" href="mobile-only.css?v=20260826-06">'
           fallback = '<script src="login-direct.js?v=20260826-01"></script>'
           inline_bridge = '<script>\n' + bridge + '\n</script>'
+          inline_guard = '<script>\n' + guard + '\n</script>'
           mobile_patch = r'''<style id="finalMobileLaporanPatch">
           @media (max-width:760px){
             #dashboardView #laporanTableSection,
@@ -178,6 +180,8 @@ jobs:
               s = s.replace('</head>', mobile_patch + '\n</head>', 1)
           if 'window.__supabaseBridge' not in s:
               s = s.replace('</head>', inline_bridge + '\n</head>', 1)
+          if 'dashboardStatsGuard' not in s:
+              s = s.replace('</head>', inline_guard + '\n</head>', 1)
           if 'login-direct.js' not in s:
               s = s.replace('</head>', fallback + '\n</head>', 1)
           s = s.replace('<script src="gas-bridge.js?v=20260826-stable"></script>', '')
