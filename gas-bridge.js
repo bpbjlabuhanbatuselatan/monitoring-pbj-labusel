@@ -79,19 +79,21 @@
     return runner;
   }
 
-  window.google=window.google||{};
-  window.google.script=window.google.script||{};
-  window.google.script.run=makeRunner();
-  window.__supabaseBridge=makeRunner;
-
-  /* index.html masih memiliki bridge lama inline dengan endpoint typo.
-     Pasang ulang bridge setelah seluruh script inline selesai agar semua
-     pemanggilan google.script.run memakai endpoint Supabase yang benar. */
-  setTimeout(function(){
+  function installBridge(){
     window.google=window.google||{};
     window.google.script=window.google.script||{};
     window.google.script.run=makeRunner();
-  },0);
+  }
+
+  installBridge();
+  window.__supabaseBridge=makeRunner;
+
+  /* index.html masih memiliki bridge lama inline dengan endpoint typo.
+     Pasang ulang setelah parser selesai DAN sekali lagi tepat sebelum
+     DOMContentLoaded agar restoreSession/dashboard selalu memakai bridge
+     Supabase yang benar. */
+  setTimeout(installBridge,0);
+  document.addEventListener('DOMContentLoaded',installBridge,{once:true});
 
   /* MOBILE ONLY: foto detail tampil langsung penuh, bukan thumbnail/card kecil.
      Desktop tidak disentuh. Login/auth/bridge di atas tidak diubah. */
