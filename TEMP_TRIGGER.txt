@@ -1,1 +1,1 @@
-trigger cleanup now 2026-08-26T15:57:00Z
+trigger cleanup now 2026-08-26T15:58:30Z
