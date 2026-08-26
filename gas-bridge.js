@@ -1,5 +1,6 @@
 (function(){
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
+  const DASH_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/dashboard-fast';
   const local={getLogoData:()=>({lkpp:'./logo-lkpp.png',labusel:'./logo-labusel.png',ukpbj:'./logo-ukpbj.png'})};
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
   const DASH_CACHE_KEY='monitoring_dashboard_cache_v1';
@@ -76,11 +77,12 @@
                 return;
               }
               const fn=aliases[name]||name;
+              const endpoint=name==='getPimpinanDashboardData'?DASH_API:API;
               const controller=new AbortController();
               const timer=setTimeout(()=>controller.abort(),30000);
               let res;
               try{
-                res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
+                res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:String(fn),args}),signal:controller.signal,cache:'no-store'});
               }finally{clearTimeout(timer);}
               const text=await res.text();
               let data;
