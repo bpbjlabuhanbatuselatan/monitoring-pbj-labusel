@@ -3967,6 +3967,23 @@ table td,
   #dashboardView[data-mobile-menu="laporan"] #laporanTableSection{display:block!important}
 }
 </style>
+
+<style id="laporanMobileVisibilityFinal">
+/* MOBILE LAPORAN VISIBILITY FINAL */
+@media (max-width:760px){
+  /* On mobile, Laporan Mingguan is a menu-only screen.
+     Never let older !important card CSS resurrect it elsewhere. */
+  #dashboardView[data-mobile-menu]:not([data-mobile-menu="laporan"]) #laporanTableSection{
+    display:none!important;
+  }
+
+  /* When the Laporan Mingguan menu is selected, keep the existing
+     card/table styling exactly as-is. Only visibility is controlled here. */
+  #dashboardView[data-mobile-menu="laporan"] #laporanTableSection{
+    display:block!important;
+  }
+}
+</style>
 </head>
 
 
