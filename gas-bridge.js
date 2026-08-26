@@ -5,15 +5,23 @@
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
   const DASH_CACHE_KEY='monitoring_dashboard_cache_v1';
   const DASH_IDS=['pimpinanTotalProyek','pimpinanTotalNilai','pimpinanBerjalan','pimpinanSelesai','pimpinanRataRata'];
+  const GENERAL_IDS=['statProyek','statLaporan'];
   let activeRunner=null;
   let dashboardDataReady=false;
+
+  function cacheIsUseful(data){
+    if(!data||data.success===false) return false;
+    const n=Number(data.totalProyek);
+    const list=Array.isArray(data.daftar)?data.daftar:[];
+    return Number.isFinite(n) && (n>0 || list.length>0 || Number(data.totalNilai)>0 || Number(data.totalLaporan)>0);
+  }
 
   function getDashboardCache(){
     try{
       const raw=localStorage.getItem(DASH_CACHE_KEY);
       if(!raw) return null;
       const parsed=JSON.parse(raw);
-      if(!parsed||!parsed.data||parsed.data.success===false) return null;
+      if(!parsed||!cacheIsUseful(parsed.data)) return null;
       return parsed.data;
     }catch(e){return null;}
   }
@@ -24,53 +32,55 @@
     }catch(e){}
   }
 
+  function setText(id,value){
+    const el=document.getElementById(id);
+    if(el) el.textContent=value;
+  }
+
   function paintCachedDashboard(){
     const data=getDashboardCache();
     if(!data) return;
     dashboardDataReady=true;
-    const set=function(id,value){const el=document.getElementById(id);if(el)el.textContent=value;};
-    set('pimpinanTotalProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
-    set('pimpinanTotalNilai',data.totalNilaiDisplay||'—');
-    set('pimpinanBerjalan',Number.isFinite(Number(data.proyekBerjalan))?Number(data.proyekBerjalan):'—');
-    set('pimpinanSelesai',Number.isFinite(Number(data.proyekSelesai))?Number(data.proyekSelesai):'—');
-    set('pimpinanRataRata',Number.isFinite(Number(data.rataRataProgres))?Number(data.rataRataProgres)+'%':'—');
+    setText('statProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
+    setText('statLaporan',Number.isFinite(Number(data.totalLaporan))?Number(data.totalLaporan):'—');
+    setText('pimpinanTotalProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
+    setText('pimpinanTotalNilai',data.totalNilaiDisplay||'—');
+    setText('pimpinanBerjalan',Number.isFinite(Number(data.proyekBerjalan))?Number(data.proyekBerjalan):'—');
+    setText('pimpinanSelesai',Number.isFinite(Number(data.proyekSelesai))?Number(data.proyekSelesai):'—');
+    setText('pimpinanRataRata',Number.isFinite(Number(data.rataRataProgres))?Number(data.rataRataProgres)+'%':'—');
   }
 
   function isZeroPlaceholder(value){
     return /^(0|Rp 0|0%)$/.test(String(value||'').trim());
   }
 
-  function maskDashboardZeros(root){
-    if(dashboardDataReady||!root) return;
-    DASH_IDS.forEach(function(id){
-      const el=document.getElementById(id);
-      if(el&&root.contains(el)&&isZeroPlaceholder(el.textContent)) el.textContent='—';
-    });
-    root.querySelectorAll('.stat-value').forEach(function(el){
-      if(isZeroPlaceholder(el.textContent)) el.textContent='—';
-    });
-  }
-
   function preventZeroFlash(){
+    const allIds=DASH_IDS.concat(GENERAL_IDS);
+    const fix=function(){
+      if(dashboardDataReady) return;
+      allIds.forEach(function(id){
+        const el=document.getElementById(id);
+        if(el && isZeroPlaceholder(el.textContent)) el.textContent='—';
+      });
+    };
     const start=function(){
-      const root=document.getElementById('dashboardView')||document.body;
-      maskDashboardZeros(root);
+      fix();
       const observer=new MutationObserver(function(mutations){
         if(dashboardDataReady){observer.disconnect();return;}
-        maskDashboardZeros(root);
         mutations.forEach(function(m){
           if(m.type!=='characterData'&&m.type!=='childList') return;
           const target=m.target&&m.target.nodeType===3?m.target.parentElement:m.target;
           if(!target) return;
-          const el=target.closest?target.closest('.stat-value,#pimpinanTotalProyek,#pimpinanTotalNilai,#pimpinanBerjalan,#pimpinanSelesai,#pimpinanRataRata'):null;
+          const el=target.closest?target.closest('#statProyek,#statLaporan,#pimpinanTotalProyek,#pimpinanTotalNilai,#pimpinanBerjalan,#pimpinanSelesai,#pimpinanRataRata'):null;
           if(el&&isZeroPlaceholder(el.textContent)) el.textContent='—';
         });
       });
-      observer.observe(root,{subtree:true,childList:true,characterData:true});
+      observer.observe(document.body,{subtree:true,childList:true,characterData:true});
     };
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
     else start();
   }
+
   paintCachedDashboard();
   preventZeroFlash();
 
@@ -117,6 +127,8 @@
               if(name==='getPimpinanDashboardData'){
                 saveDashboardCache(data);
                 dashboardDataReady=true;
+                setText('statProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
+                setText('statLaporan',Number.isFinite(Number(data.totalLaporan))?Number(data.totalLaporan):'—');
               }
               if(success) success(data);
               resolve(data);
