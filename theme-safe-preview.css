@@ -1,0 +1,38 @@
+/* BPBJ LABUSEL — SAFE VISUAL THEME PREVIEW
+   Visual-only: colors, surfaces, borders, shadows and accents.
+   Do not alter dimensions, typography sizes, layout or functionality.
+*/
+:root{
+  --bp-blue-deep:#0b3048;
+  --bp-blue:#174f70;
+  --bp-blue-soft:#eaf4f9;
+  --bp-surface:#ffffff;
+  --bp-surface-soft:#f6fafc;
+  --bp-line:#d7e3ea;
+  --bp-text:#17384d;
+  --bp-muted:#647a89;
+  --bp-gold:#b58a3b;
+}
+html,body{color:var(--bp-text)!important;background:linear-gradient(135deg,#eef5f9 0%,#e4eef4 52%,#f3f7f9 100%)!important;}
+body{background-image:radial-gradient(circle at 8% 5%,rgba(255,255,255,.96),transparent 28%),radial-gradient(circle at 92% 8%,rgba(181,138,59,.10),transparent 23%),linear-gradient(135deg,#eef5f9,#e4eef4 52%,#f3f7f9)!important;}
+.topbar,.stat-card,.report-card,.table-card,.admin-list,.admin-stat,.pimpinan-list{background:rgba(255,255,255,.94)!important;border:1px solid rgba(23,79,112,.10)!important;box-shadow:0 12px 32px rgba(11,48,72,.07)!important;}
+.topbar{border-top:3px solid var(--bp-gold)!important;}
+.brand-title,.welcome h1,.report-title,.table-title,.admin-list-title,.pimpinan-list-title,.stat-value,.admin-stat-value,.pimpinan-stat-value{color:var(--bp-blue-deep)!important;}
+.brand-role,.welcome p,.stat-label,.admin-stat-label,.pimpinan-stat-label,.field label{color:var(--bp-muted)!important;}
+.field input,.field select,.field textarea{background:rgba(255,255,255,.96)!important;border-color:var(--bp-line)!important;color:var(--bp-text)!important;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(23,79,112,.48)!important;box-shadow:0 0 0 3px rgba(23,79,112,.09)!important;}
+.btn-primary,.btn-logout,.save-btn,.btn-accept,.pimpinan-action-btn,.admin-action-btn{background:linear-gradient(135deg,#0b3048,#174f70)!important;}
+.btn-secondary,.btn-return,.admin-refresh,.pimpinan-refresh,.progress-detail-close{background:#f1f6f9!important;color:#35566a!important;border-color:#d5e2e9!important;}
+.admin-hero,.pimpinan-hero{background:radial-gradient(circle at 92% 8%,rgba(181,138,59,.23),transparent 27%),linear-gradient(135deg,#0a2940,#174f70)!important;}
+.admin-kicker,.pimpinan-kicker{color:#ead9b3!important;}
+.week-info,.photo-box,.verify-card,.week-block,.no-photo{background:var(--bp-surface-soft)!important;border-color:var(--bp-line)!important;}
+table th,.admin-table th,.pimpinan-table th{background:#edf5f9!important;color:#35566a!important;border-bottom-color:#d1e0e8!important;}
+table td,.admin-table td,.pimpinan-table td{color:#526b7b!important;border-bottom-color:#e0e9ee!important;}
+.status-DIAJUKAN{background:#fff8e9!important;color:#956d27!important;}
+.status-DITERIMA{background:#edf8f2!important;color:#19744b!important;}
+.status-DIKEMBALIKAN{background:#fff1ef!important;color:#b2473d!important;}
+.logo-box,.brand-logo{background:rgba(255,255,255,.90)!important;border-color:rgba(181,138,59,.22)!important;box-shadow:0 12px 30px rgba(11,48,72,.08)!important;}
+.modal-card,.progress-detail-card{background:rgba(255,255,255,.97)!important;border:1px solid rgba(23,79,112,.10)!important;box-shadow:0 25px 70px rgba(11,48,72,.20)!important;}
+.rup-suggestions,.pimpinan-suggestions{background:#fff!important;border-color:#cbdbe4!important;box-shadow:0 18px 38px rgba(11,48,72,.13)!important;}
+.rup-option:hover,.pimpinan-suggestion:hover{background:#e8f3f8!important;}
+.verification-header{border-left-color:var(--bp-gold)!important;}
