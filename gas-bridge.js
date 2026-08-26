@@ -40,27 +40,33 @@
     return /^(0|Rp 0|0%)$/.test(String(value||'').trim());
   }
 
+  function maskDashboardZeros(root){
+    if(dashboardDataReady||!root) return;
+    DASH_IDS.forEach(function(id){
+      const el=document.getElementById(id);
+      if(el&&root.contains(el)&&isZeroPlaceholder(el.textContent)) el.textContent='—';
+    });
+    root.querySelectorAll('.stat-value').forEach(function(el){
+      if(isZeroPlaceholder(el.textContent)) el.textContent='—';
+    });
+  }
+
   function preventZeroFlash(){
-    const fix=function(){
-      if(dashboardDataReady) return;
-      DASH_IDS.forEach(function(id){
-        const el=document.getElementById(id);
-        if(el && isZeroPlaceholder(el.textContent)) el.textContent='—';
-      });
-    };
     const start=function(){
-      fix();
+      const root=document.getElementById('dashboardView')||document.body;
+      maskDashboardZeros(root);
       const observer=new MutationObserver(function(mutations){
         if(dashboardDataReady){observer.disconnect();return;}
+        maskDashboardZeros(root);
         mutations.forEach(function(m){
           if(m.type!=='characterData'&&m.type!=='childList') return;
           const target=m.target&&m.target.nodeType===3?m.target.parentElement:m.target;
           if(!target) return;
-          const el=target.closest?target.closest('#pimpinanTotalProyek,#pimpinanTotalNilai,#pimpinanBerjalan,#pimpinanSelesai,#pimpinanRataRata'):null;
+          const el=target.closest?target.closest('.stat-value,#pimpinanTotalProyek,#pimpinanTotalNilai,#pimpinanBerjalan,#pimpinanSelesai,#pimpinanRataRata'):null;
           if(el&&isZeroPlaceholder(el.textContent)) el.textContent='—';
         });
       });
-      observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+      observer.observe(root,{subtree:true,childList:true,characterData:true});
     };
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
     else start();
