@@ -140,4 +140,16 @@
       });
     };
   },{once:true});
+
+  /* SAFE VISUAL THEME: preview branch only. */
+  function loadSafeTheme(){
+    if(document.getElementById('safeVisualTheme')) return;
+    const link=document.createElement('link');
+    link.id='safeVisualTheme';
+    link.rel='stylesheet';
+    link.href='./theme-safe-preview.css?v=20260826-02';
+    document.head.appendChild(link);
+  }
+  loadSafeTheme();
+  document.addEventListener('DOMContentLoaded',loadSafeTheme,{once:true});
 })();
