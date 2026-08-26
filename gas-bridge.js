@@ -72,16 +72,34 @@
   document.addEventListener('DOMContentLoaded',installBridge,{once:true});
 
   /* MOBILE ONLY: load the existing mobile card stylesheet at runtime.
-     Desktop is untouched. This fixes the previous issue where the CSS file
-     existed in GitHub but index.html did not load it. */
+     Hide only the Monitoring Proyek table while the stylesheet is loading,
+     so the unstyled desktop table/loading text never flashes on screen. */
   function loadMobileCardCss(){
     if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
     if(document.getElementById('mobileCardCss')) return;
+
+    const preload=document.createElement('style');
+    preload.id='mobileCardCssPreload';
+    preload.textContent='#dashboardView .pimpinan-table-wrap{visibility:hidden!important;}';
+    document.head.appendChild(preload);
+
     const link=document.createElement('link');
     link.id='mobileCardCss';
     link.rel='stylesheet';
-    link.href='./mobile-only.css?v=20260826-01';
+    link.href='./mobile-only.css?v=20260826-02';
+    link.onload=function(){
+      const s=document.getElementById('mobileCardCssPreload');
+      if(s) s.remove();
+    };
+    link.onerror=function(){
+      const s=document.getElementById('mobileCardCssPreload');
+      if(s) s.remove();
+    };
     document.head.appendChild(link);
+    setTimeout(function(){
+      const s=document.getElementById('mobileCardCssPreload');
+      if(s) s.remove();
+    },5000);
   }
   loadMobileCardCss();
   document.addEventListener('DOMContentLoaded',loadMobileCardCss,{once:true});
