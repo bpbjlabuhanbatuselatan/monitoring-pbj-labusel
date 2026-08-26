@@ -50,14 +50,6 @@ jobs:
               s = s.replace('</head>', fallback + '\n</head>', 1)
           s = s.replace('<script src="gas-bridge.js?v=20260826-stable"></script>', '')
           p.write_text(s, encoding='utf-8')
-
-          # Mobile-only: make the Input Laporan Nama Paket text smaller.
-          mp = Path('site/mobile-only.css')
-          ms = mp.read_text(encoding='utf-8')
-          marker = '/* MOBILE INPUT LAPORAN NAMA PAKET FONT ONLY */'
-          if marker not in ms:
-              ms += '''\n\n/* MOBILE INPUT LAPORAN NAMA PAKET FONT ONLY */\n@media (max-width:760px){\n  #dashboardView #inputLaporanSection #laporanNamaPaket{\n    font-size:12px !important;\n    line-height:1.25 !important;\n  }\n}\n'''
-              mp.write_text(ms, encoding='utf-8')
           PY
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
