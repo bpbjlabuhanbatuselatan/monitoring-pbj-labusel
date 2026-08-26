@@ -54,7 +54,7 @@
   #dashboardView #inputLaporanSection .field label{margin:0 0 4px!important;font-size:9px!important;line-height:1.15!important;color:#718493!important;font-weight:900!important;letter-spacing:.2px!important}
   #dashboardView #inputLaporanSection .field input,#dashboardView #inputLaporanSection .field select,#dashboardView #inputLaporanSection .field textarea{min-width:0!important;width:100%!important;max-width:100%!important;padding:8px 9px!important;border-radius:7px!important;border:1px solid #d7e1e7!important;background:#fff!important;font-size:12px!important;line-height:1.25!important}
   #dashboardView #inputLaporanSection .field textarea{min-height:64px!important}
-  #dashboardView #inputLaporanSection #laporanNamaPaket{min-height:96px!important;height:96px!important;line-height:1.25!important;white-space:pre-wrap!important;overflow:hidden!important;resize:none!important}
+  #dashboardView #inputLaporanSection #laporanNamaPaket{min-height:120px!important;height:120px!important;line-height:1.25!important;white-space:pre-wrap!important;overflow:hidden!important;resize:none!important}
   #dashboardView #inputLaporanSection .week-info{margin-top:5px!important;padding:6px 8px!important;border-radius:7px!important;font-size:9px!important;line-height:1.2!important}
   #dashboardView #inputLaporanSection .week-number{font-size:14px!important}
   #dashboardView #inputLaporanSection .adendum-box{margin:0!important;padding:8px!important;border-radius:9px!important}
