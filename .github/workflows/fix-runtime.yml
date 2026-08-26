@@ -14,34 +14,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Inject Supabase bridge, mobile input fix and laporan cards
+      - name: Apply final mobile laporan card override
         shell: python
         run: |
           from pathlib import Path
-
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-
-          marker = '<!-- SUPABASE_BRIDGE -->'
-          inject = '''<!-- SUPABASE_BRIDGE -->
-          <script src="./gas-bridge.js?v=20260826-03"></script>
-          <script src="./login-direct.js?v=20260826-03"></script>'''
-
-          if './gas-bridge.js?v=20260826-03' not in s:
-              if marker not in s:
-                  raise SystemExit('Marker SUPABASE_BRIDGE tidak ditemukan')
-              s = s.replace(marker, inject, 1)
-
           mp = Path('mobile-only.css')
           if mp.exists():
               ms = mp.read_text(encoding='utf-8')
               ms = ms.replace('min-height:96px!important;height:96px!important', 'min-height:120px!important;height:120px!important')
               mp.write_text(ms, encoding='utf-8')
-
-          card_marker = '/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */'
+          marker = '/* MOBILE LAPORAN MINGGUAN CARDS FINAL 2026-08-26 */'
           card_css = '''
-/* MOBILE LAPORAN MINGGUAN CARDS 2026-08-26 */
+/* MOBILE LAPORAN MINGGUAN CARDS FINAL 2026-08-26 */
 @media (max-width:760px){
   #dashboardView #laporanTableSection{width:100%!important;max-width:100%!important;min-width:0!important;margin:0 0 12px!important;padding:12px!important;border-radius:14px!important;border:1px solid #dce6ec!important;background:#fff!important;box-shadow:0 4px 14px rgba(15,23,42,.06)!important;overflow:hidden!important}
   #dashboardView #laporanTableSection .table-title{margin:0 0 10px!important;font-size:18px!important;line-height:1.2!important;color:#12304a!important;font-weight:900!important}
@@ -50,7 +36,7 @@ jobs:
   #dashboardView #laporanTableSection thead{display:none!important}
   #dashboardView #laporanTableSection tbody{display:grid!important;gap:10px!important;width:100%!important;margin:0!important;padding:0!important}
   #dashboardView #laporanTableSection tbody tr{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:0!important;width:100%!important;min-width:0!important;margin:0!important;padding:10px!important;background:#f8fbfd!important;border:1px solid #d8e3e9!important;border-radius:12px!important;box-shadow:0 2px 8px rgba(15,23,42,.05)!important;overflow:hidden!important}
-  #dashboardView #laporanTableSection tbody td{display:block!important;width:auto!important;min-width:0!important;max-width:100%!important;margin:0!important;padding:5px 5px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
+  #dashboardView #laporanTableSection tbody td{display:block!important;width:auto!important;min-width:0!important;max-width:100%!important;margin:0!important;padding:5px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
   #dashboardView #laporanTableSection tbody td::before{display:block!important;margin:0 0 3px!important;color:#8193a0!important;font-size:8px!important;line-height:1.1!important;font-weight:900!important;letter-spacing:.3px!important;text-transform:uppercase!important}
   #dashboardView #laporanTableSection tbody td:nth-child(1)::before{content:'ID'}
   #dashboardView #laporanTableSection tbody td:nth-child(2)::before{content:'Tanggal'}
@@ -87,12 +73,11 @@ jobs:
   #dashboardView #laporanTableSection tbody td:nth-child(4){font-size:13px!important}
 }
 '''
-
-          if card_marker not in s:
+          if marker not in s:
+              if '</style>' not in s:
+                  raise SystemExit('Penutup style tidak ditemukan')
               s = s.replace('</style>', card_css + '\n</style>', 1)
-
           p.write_text(s, encoding='utf-8')
-
       - name: Commit fix
         run: |
           git config user.name "github-actions[bot]"
