@@ -2,6 +2,7 @@
   const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
   const local={getLogoData:()=>({lkpp:'./logo-lkpp.png',labusel:'./logo-labusel.png',ukpbj:'./logo-ukpbj.png'})};
   const aliases={authenticate:'login',registerAccount:'daftarUser'};
+  let activeRunner=null;
 
   function makeRunner(){
     let ok=null,bad=null;
@@ -25,8 +26,7 @@
 
               const fn=aliases[name]||name;
               const controller=new AbortController();
-              const timer=setTimeout(()=>controller.abort(),45000);
-
+              const timer=setTimeout(()=>controller.abort(),30000);
               let res;
               try{
                 res=await fetch(API,{
@@ -82,21 +82,38 @@
   function installBridge(){
     window.google=window.google||{};
     window.google.script=window.google.script||{};
-    window.google.script.run=makeRunner();
+    activeRunner=makeRunner();
+
+    /*
+      index.html masih memiliki bridge inline lama dengan endpoint typo.
+      Kunci properti `run` supaya assignment bridge lama tidak dapat
+      menggantikan runner Supabase yang benar.
+    */
+    const scriptObj=window.google.script;
+    const desc=Object.getOwnPropertyDescriptor(scriptObj,'run');
+    if(!desc || desc.configurable){
+      Object.defineProperty(scriptObj,'run',{
+        configurable:true,
+        enumerable:true,
+        get:function(){return activeRunner;},
+        set:function(){activeRunner=makeRunner();}
+      });
+    }
   }
 
   installBridge();
   window.__supabaseBridge=makeRunner;
+  window.__installSupabaseBridge=installBridge;
 
-  /* index.html masih memiliki bridge lama inline dengan endpoint typo.
-     Pasang ulang setelah parser selesai DAN sekali lagi tepat sebelum
-     DOMContentLoaded agar restoreSession/dashboard selalu memakai bridge
-     Supabase yang benar. */
+  /* Jalankan ulang setelah script inline selesai, lalu pastikan tetap aktif
+     saat DOM siap. Ini membuat dashboard/menu langsung menarik data tanpa
+     tombol REFRESH dan tidak mengganggu login. */
   setTimeout(installBridge,0);
+  setTimeout(installBridge,100);
+  setTimeout(installBridge,500);
   document.addEventListener('DOMContentLoaded',installBridge,{once:true});
 
-  /* MOBILE ONLY: foto detail tampil langsung penuh, bukan thumbnail/card kecil.
-     Desktop tidak disentuh. Login/auth/bridge di atas tidak diubah. */
+  /* MOBILE ONLY: foto detail tampil langsung penuh, bukan thumbnail/card kecil. */
   document.addEventListener('DOMContentLoaded',function(){
     if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
     if(typeof window.renderProgressDetail!=='function') return;
