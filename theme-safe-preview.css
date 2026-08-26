@@ -39,18 +39,38 @@ table td,.admin-table td,.pimpinan-table td{color:#526b7b!important;border-botto
 
 /* LOG AKTIVITAS — mobile only. One complete row/card = one full background color. */
 @media (max-width:760px){
-  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(odd){
+  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(odd),
+  #logAktivitasSection.admin-log-list .admin-table tbody tr:nth-child(odd),
+  .admin-log-list .admin-table tbody tr:nth-child(odd){
     background:#eaf4fb!important;
+    background-color:#eaf4fb!important;
     border-radius:12px!important;
     overflow:hidden!important;
   }
-  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(even){
+  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(even),
+  #logAktivitasSection.admin-log-list .admin-table tbody tr:nth-child(even),
+  .admin-log-list .admin-table tbody tr:nth-child(even){
     background:#fff!important;
+    background-color:#fff!important;
     border-radius:12px!important;
     overflow:hidden!important;
   }
-  #dashboardView #logAktivitasSection .admin-table tbody tr > td,
-  #dashboardView #logAktivitasSection .admin-table tbody tr > td > *{
+  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(odd)>td,
+  #logAktivitasSection.admin-log-list .admin-table tbody tr:nth-child(odd)>td,
+  .admin-log-list .admin-table tbody tr:nth-child(odd)>td{
+    background:#eaf4fb!important;
+    background-color:#eaf4fb!important;
+  }
+  #dashboardView #logAktivitasSection .admin-table tbody tr:nth-child(even)>td,
+  #logAktivitasSection.admin-log-list .admin-table tbody tr:nth-child(even)>td,
+  .admin-log-list .admin-table tbody tr:nth-child(even)>td{
+    background:#fff!important;
+    background-color:#fff!important;
+  }
+  #dashboardView #logAktivitasSection .admin-table tbody tr>td>* ,
+  #logAktivitasSection.admin-log-list .admin-table tbody tr>td>* ,
+  .admin-log-list .admin-table tbody tr>td>*{
     background:transparent!important;
+    background-color:transparent!important;
   }
 }
