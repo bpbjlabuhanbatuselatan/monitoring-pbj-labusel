@@ -36,11 +36,14 @@ jobs:
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
           bridge = Path('site/gas-bridge.js').read_text(encoding='utf-8')
-          mobile = '<link rel="stylesheet" href="mobile-only.css?v=20260826-02">'
+          mobile = '<link rel="stylesheet" href="mobile-only.css?v=20260826-04">'
           fallback = '<script src="login-direct.js?v=20260826-01"></script>'
           inline_bridge = '<script>\n' + bridge + '\n</script>'
           if 'mobile-only.css' not in s:
               s = s.replace('</head>', mobile + '\n</head>', 1)
+          else:
+              import re
+              s = re.sub(r'<link rel="stylesheet" href="mobile-only\.css\?v=[^"]*">', mobile, s, count=1)
           if 'window.__supabaseBridge' not in s:
               s = s.replace('</head>', inline_bridge + '\n</head>', 1)
           if 'login-direct.js' not in s:
