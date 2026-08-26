@@ -21,6 +21,33 @@
     }catch(e){}
   }
 
+  function paintCachedDashboard(){
+    const data=getDashboardCache();
+    if(!data) return;
+    const set=function(id,value){const el=document.getElementById(id);if(el)el.textContent=value;};
+    set('pimpinanTotalProyek',Number.isFinite(Number(data.totalProyek))?Number(data.totalProyek):'—');
+    set('pimpinanTotalNilai',data.totalNilaiDisplay||'—');
+    set('pimpinanBerjalan',Number.isFinite(Number(data.proyekBerjalan))?Number(data.proyekBerjalan):'—');
+    set('pimpinanSelesai',Number.isFinite(Number(data.proyekSelesai))?Number(data.proyekSelesai):'—');
+    set('pimpinanRataRata',Number.isFinite(Number(data.rataRataProgres))?Number(data.rataRataProgres)+'%':'—');
+  }
+
+  function preventZeroFlash(){
+    const ids=['pimpinanTotalProyek','pimpinanTotalNilai','pimpinanBerjalan','pimpinanSelesai','pimpinanRataRata'];
+    const fix=function(){
+      const cached=getDashboardCache();
+      if(cached){paintCachedDashboard();return;}
+      ids.forEach(function(id){
+        const el=document.getElementById(id);
+        if(el && /^(0|Rp 0|0%)$/.test(String(el.textContent||'').trim())) el.textContent='—';
+      });
+    };
+    fix();
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fix,{once:true});
+    else setTimeout(fix,0);
+  }
+  preventZeroFlash();
+
   function makeRunner(){
     let ok=null,bad=null;
     const target={};
@@ -31,9 +58,6 @@
         const success=ok, failure=bad;
         ok=null; bad=null;
 
-        /* DASHBOARD INSTANT MODE:
-           show the last successful numbers immediately, then refresh silently
-           from Supabase and replace them with the newest values. */
         if(name==='getPimpinanDashboardData'&&success){
           const cached=getDashboardCache();
           if(cached){
@@ -74,8 +98,6 @@
             }
           }
           const message=lastError&&lastError.name==='AbortError'?'Koneksi ke server timeout. Silakan coba lagi.':(lastError&&lastError.message?lastError.message:String(lastError));
-          /* If cached dashboard was already shown, do not overwrite it with an
-             error. The next refresh can update it when the server is reachable. */
           if(failure) failure({message}); else console.error(message);
           resolve({success:false,message});
         });
@@ -100,42 +122,27 @@
   setTimeout(installBridge,0);
   setTimeout(installBridge,100);
   setTimeout(installBridge,500);
-  document.addEventListener('DOMContentLoaded',installBridge,{once:true});
+  document.addEventListener('DOMContentLoaded',function(){installBridge();paintCachedDashboard();},{once:true});
 
-  /* MOBILE ONLY: load the existing mobile card stylesheet at runtime.
-     Hide only the Monitoring Proyek table while the stylesheet is loading,
-     so the unstyled desktop table/loading text never flashes on screen. */
   function loadMobileCardCss(){
     if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
     if(document.getElementById('mobileCardCss')) return;
-
     const preload=document.createElement('style');
     preload.id='mobileCardCssPreload';
     preload.textContent='#dashboardView .pimpinan-table-wrap{visibility:hidden!important;}';
     document.head.appendChild(preload);
-
     const link=document.createElement('link');
     link.id='mobileCardCss';
     link.rel='stylesheet';
     link.href='./mobile-only.css?v=20260826-02';
-    link.onload=function(){
-      const s=document.getElementById('mobileCardCssPreload');
-      if(s) s.remove();
-    };
-    link.onerror=function(){
-      const s=document.getElementById('mobileCardCssPreload');
-      if(s) s.remove();
-    };
+    link.onload=function(){const s=document.getElementById('mobileCardCssPreload');if(s)s.remove();};
+    link.onerror=function(){const s=document.getElementById('mobileCardCssPreload');if(s)s.remove();};
     document.head.appendChild(link);
-    setTimeout(function(){
-      const s=document.getElementById('mobileCardCssPreload');
-      if(s) s.remove();
-    },5000);
+    setTimeout(function(){const s=document.getElementById('mobileCardCssPreload');if(s)s.remove();},5000);
   }
   loadMobileCardCss();
   document.addEventListener('DOMContentLoaded',loadMobileCardCss,{once:true});
 
-  /* MOBILE ONLY: foto detail tampil langsung penuh. */
   document.addEventListener('DOMContentLoaded',function(){
     if(!window.matchMedia || !window.matchMedia('(max-width:760px)').matches) return;
     if(typeof window.renderProgressDetail!=='function') return;
@@ -172,7 +179,6 @@
     };
   },{once:true});
 
-  /* SAFE VISUAL THEME: preview branch only. */
   function loadSafeTheme(){
     if(document.getElementById('safeVisualTheme')) return;
     const link=document.createElement('link');
