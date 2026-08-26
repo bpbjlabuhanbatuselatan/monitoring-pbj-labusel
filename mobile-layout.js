@@ -1,4 +1,4 @@
-/* MOBILE ONLY — compact tables + safe RUP search fallback. Desktop is untouched. */
+/* MOBILE ONLY — compact tables. Desktop is untouched. */
 (function(){
   function isMobile(){ return window.matchMedia('(max-width:760px)').matches; }
 
@@ -73,36 +73,17 @@
     document.head.appendChild(style);
   }
 
-  function ensureMasterProyekForRup(){
-    if(typeof window.cariRUP !== 'function') return;
-    var loading=false;
-    var loaded=false;
-    var originalCariRUP=window.cariRUP;
-    window.cariRUP=function(){
-      var data=(typeof masterProyek !== 'undefined' && Array.isArray(masterProyek)) ? masterProyek : null;
-      if(data && data.length){ loaded=true; return originalCariRUP.apply(this,arguments); }
-      if(loaded){ return originalCariRUP.apply(this,arguments); }
-      if(loading){ return; }
-      loading=true;
-      var box=document.getElementById('rupSuggestions');
-      if(box){ box.innerHTML='<div class="rup-empty">Memuat daftar Kode RUP...</div>'; box.classList.add('show'); }
-      if(typeof google==='undefined' || !google.script || !google.script.run){ loading=false; return originalCariRUP.apply(this,arguments); }
-      google.script.run
-        .withSuccessHandler(function(list){
-          loading=false; loaded=true;
-          if(typeof masterProyek !== 'undefined'){ masterProyek=Array.isArray(list)?list:[]; }
-          originalCariRUP.call(window);
-        })
-        .withFailureHandler(function(err){
-          loading=false;
-          if(box){ box.innerHTML='<div class="rup-empty">Gagal memuat Kode RUP. Silakan coba lagi.</div>'; box.classList.add('show'); }
-          console.error('Mobile RUP search gagal:',err);
-        })
-        .getMasterProyek();
-    };
+  function run(){
+    injectMobileFixes();
+    if(isMobile()) compactTables();
   }
 
-  function run(){ injectMobileFixes(); if(isMobile()) compactTables(); }
-  document.addEventListener('DOMContentLoaded',function(){ run(); ensureMasterProyekForRup(); setTimeout(run,300); setTimeout(run,1000); setTimeout(run,2500); });
+  document.addEventListener('DOMContentLoaded',function(){
+    run();
+    setTimeout(run,300);
+    setTimeout(run,1000);
+    setTimeout(run,2500);
+  });
+
   window.addEventListener('resize',run);
 })();
