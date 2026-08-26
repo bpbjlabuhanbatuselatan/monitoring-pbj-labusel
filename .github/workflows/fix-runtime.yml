@@ -1,88 +1,58 @@
 name: Fix runtime bridge
-
 on:
   push:
     branches: [main]
-
 permissions:
   contents: write
-
 jobs:
   fix:
     if: ${{ !contains(github.event.head_commit.message, '[runtime-fixed]') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Apply final mobile laporan card override
-        shell: python
+      - uses: actions/checkout@v4
+      - name: Restore mobile Laporan Mingguan cards
+        shell: bash
         run: |
-          from pathlib import Path
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-          mp = Path('mobile-only.css')
-          if mp.exists():
-              ms = mp.read_text(encoding='utf-8')
-              ms = ms.replace('min-height:96px!important;height:96px!important', 'min-height:120px!important;height:120px!important')
-              mp.write_text(ms, encoding='utf-8')
-          marker = '/* MOBILE LAPORAN MINGGUAN CARDS FINAL 2026-08-26 */'
-          card_css = '''
-/* MOBILE LAPORAN MINGGUAN CARDS FINAL 2026-08-26 */
+          cat >> mobile-only.css <<'CSS'
+
+/* MOBILE LAPORAN MINGGUAN — FINAL CARD FIX */
 @media (max-width:760px){
-  #dashboardView #laporanTableSection{width:100%!important;max-width:100%!important;min-width:0!important;margin:0 0 12px!important;padding:12px!important;border-radius:14px!important;border:1px solid #dce6ec!important;background:#fff!important;box-shadow:0 4px 14px rgba(15,23,42,.06)!important;overflow:hidden!important}
-  #dashboardView #laporanTableSection .table-title{margin:0 0 10px!important;font-size:18px!important;line-height:1.2!important;color:#12304a!important;font-weight:900!important}
-  #dashboardView #laporanTableSection .table-wrap{width:100%!important;max-width:100%!important;overflow:visible!important}
-  #dashboardView #laporanTableSection table{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;table-layout:auto!important;border:0!important;border-collapse:separate!important;border-spacing:0!important}
-  #dashboardView #laporanTableSection thead{display:none!important}
-  #dashboardView #laporanTableSection tbody{display:grid!important;gap:10px!important;width:100%!important;margin:0!important;padding:0!important}
-  #dashboardView #laporanTableSection tbody tr{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:0!important;width:100%!important;min-width:0!important;margin:0!important;padding:10px!important;background:#f8fbfd!important;border:1px solid #d8e3e9!important;border-radius:12px!important;box-shadow:0 2px 8px rgba(15,23,42,.05)!important;overflow:hidden!important}
-  #dashboardView #laporanTableSection tbody td{display:block!important;width:auto!important;min-width:0!important;max-width:100%!important;margin:0!important;padding:5px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important}
-  #dashboardView #laporanTableSection tbody td::before{display:block!important;margin:0 0 3px!important;color:#8193a0!important;font-size:8px!important;line-height:1.1!important;font-weight:900!important;letter-spacing:.3px!important;text-transform:uppercase!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(1)::before{content:'ID'}
-  #dashboardView #laporanTableSection tbody td:nth-child(2)::before{content:'Tanggal'}
-  #dashboardView #laporanTableSection tbody td:nth-child(3)::before{content:'Kode RUP'}
-  #dashboardView #laporanTableSection tbody td:nth-child(4)::before{content:'Nama Paket'}
-  #dashboardView #laporanTableSection tbody td:nth-child(5)::before{content:'Nama Penyedia'}
-  #dashboardView #laporanTableSection tbody td:nth-child(6)::before{content:'Lokasi'}
-  #dashboardView #laporanTableSection tbody td:nth-child(7)::before{content:'Minggu'}
-  #dashboardView #laporanTableSection tbody td:nth-child(8)::before{content:'Progress'}
-  #dashboardView #laporanTableSection tbody td:nth-child(9)::before{content:'Dibuat Oleh'}
-  #dashboardView #laporanTableSection tbody td:nth-child(10)::before{content:'Status'}
-  #dashboardView #laporanTableSection tbody td:nth-child(11)::before{content:'Keterangan'}
-  #dashboardView #laporanTableSection tbody td:nth-child(1){grid-column:1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(2){grid-column:2!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(3){grid-column:1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(4){grid-column:1 / -1!important;padding-top:6px!important;padding-bottom:7px!important;color:#17384d!important;font-size:14px!important;font-weight:900!important;line-height:1.32!important;overflow-wrap:break-word!important;word-break:normal!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(5){grid-column:2!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(6){grid-column:1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(7){grid-column:2!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(8){grid-column:1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(9){grid-column:2!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(10){grid-column:1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(11){grid-column:2!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(8) *{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:38px!important;padding:3px 7px!important;border-radius:7px!important;background:#d7ecff!important;color:#111827!important;font-size:10px!important;font-weight:900!important;line-height:1.1!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(10) *{display:inline-flex!important;align-items:center!important;width:auto!important;max-width:100%!important;padding:3px 7px!important;border-radius:7px!important;font-size:9px!important;font-weight:900!important;line-height:1.15!important;white-space:normal!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(11){color:#667789!important}
+#dashboardView #laporanTableSection{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;padding:12px!important;margin:0 0 12px!important;border-radius:14px!important;overflow:hidden!important}
+#dashboardView #laporanTableSection table{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;border-collapse:separate!important;border-spacing:0!important}
+#dashboardView #laporanTableSection thead{display:none!important}
+#dashboardView #laporanTableSection tbody{display:grid!important;width:100%!important;gap:10px!important;margin:0!important;padding:0!important}
+#dashboardView #laporanTableSection tbody tr{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;width:100%!important;min-width:0!important;margin:0!important;padding:10px!important;background:#fff!important;border:1px solid #d8e3e9!important;border-radius:12px!important;box-shadow:0 2px 8px rgba(15,23,42,.05)!important;overflow:hidden!important}
+#dashboardView #laporanTableSection tbody td{display:block!important;width:auto!important;min-width:0!important;max-width:100%!important;height:auto!important;margin:0!important;padding:5px!important;border:0!important;background:transparent!important;color:#526575!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;font-weight:700!important;line-height:1.28!important;white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;word-break:normal!important}
+#dashboardView #laporanTableSection tbody td::before{display:block!important;margin:0 0 3px!important;color:#8193a0!important;font-size:8px!important;line-height:1.1!important;font-weight:900!important;letter-spacing:.3px!important;text-transform:uppercase!important}
+#dashboardView #laporanTableSection tbody td:nth-child(1){grid-column:1!important;grid-row:1!important}
+#dashboardView #laporanTableSection tbody td:nth-child(2){grid-column:2!important;grid-row:1!important}
+#dashboardView #laporanTableSection tbody td:nth-child(3){grid-column:1!important;grid-row:2!important}
+#dashboardView #laporanTableSection tbody td:nth-child(4){grid-column:1 / -1!important;grid-row:3!important;padding-top:6px!important;padding-bottom:8px!important;color:#17384d!important;font-size:14px!important;font-weight:900!important;line-height:1.32!important;overflow-wrap:break-word!important;word-break:normal!important}
+#dashboardView #laporanTableSection tbody td:nth-child(5){grid-column:1!important;grid-row:4!important}
+#dashboardView #laporanTableSection tbody td:nth-child(6){grid-column:2!important;grid-row:4!important}
+#dashboardView #laporanTableSection tbody td:nth-child(7){grid-column:1!important;grid-row:5!important}
+#dashboardView #laporanTableSection tbody td:nth-child(8){grid-column:2!important;grid-row:5!important}
+#dashboardView #laporanTableSection tbody td:nth-child(9){grid-column:1!important;grid-row:6!important}
+#dashboardView #laporanTableSection tbody td:nth-child(10){grid-column:2!important;grid-row:6!important}
+#dashboardView #laporanTableSection tbody td:nth-child(11){grid-column:1 / -1!important;grid-row:7!important;color:#667789!important}
+#dashboardView #laporanTableSection tbody td:nth-child(1)::before{content:'ID Laporan'}
+#dashboardView #laporanTableSection tbody td:nth-child(2)::before{content:'Tanggal'}
+#dashboardView #laporanTableSection tbody td:nth-child(3)::before{content:'Kode RUP'}
+#dashboardView #laporanTableSection tbody td:nth-child(4)::before{content:'Nama Paket'}
+#dashboardView #laporanTableSection tbody td:nth-child(5)::before{content:'Nama Penyedia'}
+#dashboardView #laporanTableSection tbody td:nth-child(6)::before{content:'Lokasi'}
+#dashboardView #laporanTableSection tbody td:nth-child(7)::before{content:'Minggu'}
+#dashboardView #laporanTableSection tbody td:nth-child(8)::before{content:'Progress'}
+#dashboardView #laporanTableSection tbody td:nth-child(9)::before{content:'Dibuat Oleh'}
+#dashboardView #laporanTableSection tbody td:nth-child(10)::before{content:'Status'}
+#dashboardView #laporanTableSection tbody td:nth-child(11)::before{content:'Keterangan'}
+#dashboardView #laporanTableSection tbody td:nth-child(8) *{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:38px!important;padding:3px 7px!important;border-radius:7px!important;background:#d7ecff!important;font-size:10px!important;font-weight:900!important;line-height:1.1!important}
+#dashboardView #laporanTableSection tbody td:nth-child(10) *{display:inline-flex!important;align-items:center!important;justify-content:center!important;max-width:100%!important;padding:3px 7px!important;border-radius:7px!important;font-size:9px!important;font-weight:900!important;line-height:1.15!important;white-space:normal!important}
 }
-@media (max-width:380px){
-  #dashboardView #laporanTableSection{padding:10px!important;border-radius:12px!important}
-  #dashboardView #laporanTableSection .table-title{font-size:17px!important;margin-bottom:8px!important}
-  #dashboardView #laporanTableSection tbody{gap:8px!important}
-  #dashboardView #laporanTableSection tbody tr{padding:8px!important;border-radius:11px!important}
-  #dashboardView #laporanTableSection tbody td{font-size:10px!important;padding:4px!important}
-  #dashboardView #laporanTableSection tbody td:nth-child(4){font-size:13px!important}
-}
-'''
-          if marker not in s:
-              if '</style>' not in s:
-                  raise SystemExit('Penutup style tidak ditemukan')
-              s = s.replace('</style>', card_css + '\n</style>', 1)
-          p.write_text(s, encoding='utf-8')
-      - name: Commit fix
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html mobile-only.css
-          git diff --cached --quiet && exit 0
-          git commit -m "Restore mobile laporan cards [runtime-fixed]"
+CSS
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .github/workflows/force-laporan-cards2.yml .github/workflows/force-laporan-cards.yml .github/workflows/one-time-laporan-mobile-fix.yml .trigger-laporan
+          git add mobile-only.css .github/workflows/ .trigger-laporan
+          git commit -m 'Restore mobile Laporan Mingguan cards [runtime-fixed]'
           git push
