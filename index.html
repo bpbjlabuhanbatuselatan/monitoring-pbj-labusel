@@ -3958,6 +3958,15 @@ table td,
   }
 }
 </style>
+
+<style id="mobile-menu-section-guard">
+@media (max-width:760px){
+  #dashboardView #inputLaporanSection,
+  #dashboardView #laporanTableSection{display:none!important}
+  #dashboardView[data-mobile-menu="input"] #inputLaporanSection{display:block!important}
+  #dashboardView[data-mobile-menu="laporan"] #laporanTableSection{display:block!important}
+}
+</style>
 </head>
 
 
@@ -5618,6 +5627,11 @@ table td,
         String(
           currentUser.role || ''
         ).toUpperCase();
+
+      const mobileMenuHost = document.getElementById('dashboardView');
+      if (mobileMenuHost) {
+        mobileMenuHost.setAttribute('data-mobile-menu', key);
+      }
 
       document.querySelectorAll(
         '.role-nav-item'
