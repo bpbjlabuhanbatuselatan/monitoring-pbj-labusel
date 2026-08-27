@@ -987,6 +987,26 @@
   .chat-hint{font-size:8.5px}
 }
 
+
+/* ===== CHAT PACKAGE / RUP SUGGESTIONS ===== */
+#chatNewModal .suggestions{
+  left:0;right:0;top:100%;max-height:230px;
+}
+#chatNewModal .suggestion{
+  padding:10px 12px;
+}
+#chatNewModal .suggestion b{
+  display:block;font-size:11px;font-weight:900;color:var(--text);line-height:1.35;
+}
+#chatNewModal .suggestion small{
+  display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:750;
+}
+#chatNewModal .suggestion:hover{
+  background:var(--lightblue);
+}
+[data-theme="dark"] #chatNewModal .suggestion b{color:#e7edf3}
+[data-theme="dark"] #chatNewModal .suggestion small{color:#9babb9}
+
 </style>
 </head>
 <body>
@@ -1245,6 +1265,8 @@ function openNewChat(){
   chatState.selectedRecipients=[];
   $('chatSubject').value='';
   $('chatContextRup').value='';
+  $('chatRupSuggestions').innerHTML='';
+  $('chatRupSuggestions').classList.add('hidden');
   $('chatFirstMessage').value='';
   setChatPriority(false);
   modal.classList.add('show');
@@ -1276,6 +1298,29 @@ function setChatPriority(v){
   chatState.priority=!!v;
   $('chatPriorityYes')?.classList.toggle('active',chatState.priority);
   $('chatPriorityNo')?.classList.toggle('active',!chatState.priority);
+}
+
+
+function searchChatPackages(){
+  const input=$('chatContextRup');
+  const wrap=$('chatRupSuggestions');
+  if(!input||!wrap)return;
+  const q=(input.value||'').toLowerCase().trim();
+  const list=(state.projects||[]).filter(p=>
+    String(p.kodeRup||'').toLowerCase().includes(q) ||
+    String(p.namaPaket||'').toLowerCase().includes(q)
+  ).slice(0,12);
+  wrap.classList.remove('hidden');
+  wrap.innerHTML=list.length
+    ? list.map(p=>'<button type="button" class="suggestion" onclick="selectChatPackage('+JSON.stringify(String(p.kodeRup||'')).replace(/"/g,'&quot;')+')"><b>'+esc(p.kodeRup||'-')+'</b><small>'+esc(p.namaPaket||'-')+'</small></button>').join('')
+    : '<div class="empty">Paket tidak ditemukan.</div>';
+}
+
+function selectChatPackage(rup){
+  const p=(state.projects||[]).find(x=>String(x.kodeRup||'')===String(rup));
+  if(!p)return;
+  $('chatContextRup').value=String(p.kodeRup||'');
+  $('chatRupSuggestions').classList.add('hidden');
 }
 
 async function startChat(e){
@@ -1397,7 +1442,12 @@ function openReport(){ $('reportModal').classList.add('show');$('packageSearch')
 function closeModal(id){$(id).classList.remove('show')}
 function searchPackages(){const q=($('packageSearch').value||'').toLowerCase().trim();const list=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));$('suggestions').classList.remove('hidden');$('suggestions').innerHTML=list.length?list.map(p=>'<button type="button" class="suggestion" onclick="selectPackage('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')"><b>'+esc(p.kodeRup)+' — '+esc(p.namaPaket)+'</b><small>'+esc(p.namaPenyedia||'-')+' · '+money(p.totalNilai)+'</small></button>').join(''):'<div class="empty">Paket tidak ditemukan.</div>'}
 async function selectPackage(rup){const p=state.projects.find(x=>x.kodeRup===rup);if(!p)return;$('rRup').value=p.kodeRup;$('packageSearch').value=p.kodeRup+' — '+p.namaPaket;$('rPaket').value=p.namaPaket;$('rPenyedia').value=p.namaPenyedia||'';$('rLokasi').value=p.lokasi||'';$('suggestions').classList.add('hidden');try{const d=await call('getMingguBerikutnya',[rup]);$('rMinggu').value=d.mingguBerikutnya||1;if((d.mingguBerikutnya||1)>1)$('rPenyedia').value=d.namaPenyediaTerakhir||p.namaPenyedia||''}catch(e){$('rMinggu').value=1}}
-document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete'))$('suggestions')?.classList.add('hidden')});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.autocomplete')){
+    $('suggestions')?.classList.add('hidden');
+    $('chatRupSuggestions')?.classList.add('hidden');
+  }
+});
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
 function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
@@ -1482,8 +1532,14 @@ setTimeout(updateChatBadge,500);
         <input id="chatSubject" placeholder="Contoh: Tindak lanjut pekerjaan jalan...">
       </div>
       <div class="field">
-        <label>Kode RUP (opsional)</label>
-        <input id="chatContextRup" placeholder="Hubungkan pesan dengan paket tertentu">
+        <label>Paket / Kode RUP (opsional)</label>
+        <div class="autocomplete">
+          <input id="chatContextRup" autocomplete="off"
+                 placeholder="Ketik nomor RUP atau nama paket..."
+                 oninput="searchChatPackages()"
+                 onfocus="searchChatPackages()">
+          <div id="chatRupSuggestions" class="suggestions hidden"></div>
+        </div>
       </div>
       <div class="field">
         <label>Pesan</label>
