@@ -783,11 +783,13 @@
 .chat-new-box{width:min(560px,100%);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 22px 60px rgba(0,0,0,.25)}
 .chat-new-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .chat-new-head h3{margin:0;font-size:15px;font-weight:950}
-.chat-recipient-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chat-recipient{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px;text-align:left}
-.chat-recipient.active{background:var(--lightblue);border-color:#6fa9d5}
-.chat-recipient b{display:block;font-size:10px;font-weight:900}
-.chat-recipient small{display:block;margin-top:2px;color:var(--muted);font-size:8px;font-weight:700}
+.chat-recipient-select{
+  width:100%;min-height:46px;padding:11px 13px;border:1px solid var(--line);
+  border-radius:11px;background:var(--card);color:var(--text);
+  font-size:12px;font-weight:850;outline:0;
+}
+.chat-recipient-select:focus{border-color:#6fa9d5;box-shadow:0 0 0 3px rgba(23,105,170,.10)}
+.chat-recipient-select option{font-size:12px;font-weight:800;padding:10px}
 .chat-priority-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--lightblue)}
 .chat-priority-row label{font-size:9px;font-weight:900}
 .chat-priority-switch{display:inline-flex;gap:5px}
@@ -941,6 +943,48 @@
   #analitik .analytics-event-main b{font-size:10px}
   #analitik .analytics-event-main small{font-size:8px}
   #analitik .analytics-event-progress{font-size:9px}
+}
+
+
+/* ===== CHAT TYPOGRAPHY & CLEAN FORM ===== */
+.chat-new-box{font-size:12px}
+.chat-new-head h3{font-size:17px;font-weight:950}
+.chat-new-box .field{margin:12px 0}
+.chat-new-box .field label{font-size:11px;font-weight:900;margin-bottom:6px}
+.chat-new-box input,.chat-new-box textarea,.chat-new-box select{
+  font-size:12px;font-weight:800;line-height:1.45;
+}
+.chat-new-box input,.chat-new-box textarea{padding:12px 13px}
+.chat-priority-row{min-height:48px;padding:10px 12px}
+.chat-priority-row label{font-size:10px;font-weight:900}
+.chat-priority-switch button{font-size:10px;font-weight:900;padding:8px 11px}
+.chat-hint{font-size:9px;font-weight:750;line-height:1.5}
+.chat-thread-head b{font-size:14px;font-weight:950}
+.chat-thread-head small{font-size:9px;font-weight:750}
+.chat-item-main b{font-size:11px;font-weight:950}
+.chat-item-main small{font-size:9px;font-weight:750}
+.chat-item-time{font-size:9px;font-weight:800}
+.chat-bubble{font-size:11px;font-weight:800;line-height:1.5}
+.chat-bubble .chat-author{font-size:9px;font-weight:950}
+.chat-bubble .chat-time{font-size:8px;font-weight:750}
+
+
+[data-theme="dark"] .chat-recipient-select{
+  background:#0e1a25;color:#e7edf3;border-color:#294254;
+}
+[data-theme="dark"] .chat-recipient-select option{
+  background:#111e29;color:#e7edf3;
+}
+
+
+@media(max-width:520px){
+  .chat-new-head h3{font-size:16px}
+  .chat-new-box .field label{font-size:10.5px}
+  .chat-new-box input,.chat-new-box textarea,.chat-new-box select{font-size:11px}
+  .chat-recipient-select{min-height:44px;font-size:11px;padding:10px 11px}
+  .chat-priority-row{align-items:center}
+  .chat-priority-row label{font-size:9px}
+  .chat-hint{font-size:8.5px}
 }
 
 </style>
@@ -1196,7 +1240,9 @@ function openNewChat(){
   if(!idUserCanStartChat())return;
   const modal=$('chatNewModal');
   if(!modal)return;
-  $('chatRecipientArea').innerHTML='<div class="loading-dot">Memuat penerima...</div>';
+  $('chatRecipientSelect').innerHTML='<option value="">Memuat penerima...</option>';
+  $('chatRecipientSelect').value='';
+  chatState.selectedRecipients=[];
   $('chatSubject').value='';
   $('chatContextRup').value='';
   $('chatFirstMessage').value='';
@@ -1212,16 +1258,18 @@ async function loadChatRecipients(){
     const d=await call('getPenerimaPesanPimpinan',[]);
     const list=Array.isArray(d?.users)?d.users:(Array.isArray(d)?d:[]);
     const filtered=list.filter(u=>['PPK','PPBJ','KABAG BPBJ','KABAG'].includes(String(u.role||'').toUpperCase()));
-    $('chatRecipientArea').innerHTML=filtered.map((u,i)=>'<button type="button" class="chat-recipient" data-user="'+esc(u.username||'')+'" onclick="selectChatRecipient(this)"><b>'+esc(u.nama||u.username||'-')+'</b><small>'+esc(u.role||'-')+'</small></button>').join('')||'<div class="empty">Belum ada PPK, PPBJ, atau Kabag yang tersedia.</div>';
+    const sel=$('chatRecipientSelect');
+    if(!sel)return;
+    sel.innerHTML='<option value="">Pilih PPK, PPBJ, atau Kabag...</option>'+
+      filtered.map(u=>'<option value="'+esc(u.username||'')+'">'+esc(u.nama||u.username||'-')+' — '+esc(u.role||'-')+'</option>').join('');
   }catch(e){
-    $('chatRecipientArea').innerHTML='<div class="msg err">'+esc(chatApiErrorMessage(e))+'</div>';
+    const sel=$('chatRecipientSelect');
+    if(sel)sel.innerHTML='<option value="">Gagal memuat penerima</option>';
   }
 }
 
-function selectChatRecipient(btn){
-  document.querySelectorAll('.chat-recipient').forEach(x=>x.classList.remove('active'));
-  btn.classList.add('active');
-  chatState.selectedRecipients=[btn.getAttribute('data-user')||''];
+function selectChatRecipient(value){
+  chatState.selectedRecipients=value?[value]:[];
 }
 
 function setChatPriority(v){
@@ -1425,7 +1473,9 @@ setTimeout(updateChatBadge,500);
     <form onsubmit="startChat(event)">
       <div class="field">
         <label>Penerima</label>
-        <div id="chatRecipientArea" class="chat-recipient-grid"></div>
+        <select id="chatRecipientSelect" class="chat-recipient-select" onchange="selectChatRecipient(this.value)">
+          <option value="">Pilih PPK, PPBJ, atau Kabag...</option>
+        </select>
       </div>
       <div class="field">
         <label>Judul Pesan</label>
