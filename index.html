@@ -685,6 +685,65 @@
   }
 }
 
+
+/* ===== DASHBOARD ANALITIK ===== */
+.analytics-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
+.analytics-card{min-width:0}
+.analytics-chart-card{grid-row:span 2}
+.analytics-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.analytics-card-head h3{margin:0;font-size:14px;font-weight:950}
+.analytics-card-head span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.4}
+.analytics-chip{display:inline-flex!important;margin:0!important;padding:5px 8px;border-radius:99px;background:var(--lightblue);color:var(--muted)!important;border:1px solid var(--line);white-space:nowrap}
+.progress-chart-wrap{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+.progress-donut{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#1769aa 0deg,#1769aa 0deg,#e8eef4 0deg 360deg);position:relative}
+.progress-donut:after{content:'';position:absolute;inset:23px;border-radius:50%;background:var(--card)}
+.progress-donut>div{position:relative;z-index:1;text-align:center}
+.progress-donut b{display:block;font-size:27px;font-weight:950}
+.progress-donut span{font-size:9px;color:var(--muted);font-weight:800}
+.progress-legend{display:grid;gap:7px}
+.progress-legend-item{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:850}
+.progress-legend-dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.progress-legend-item small{margin-left:auto;color:var(--muted);font-size:9px;font-weight:800}
+.bar-chart{display:grid;gap:8px;margin-top:14px}
+.analytics-bar-row{display:grid;grid-template-columns:80px 1fr 38px;gap:8px;align-items:center;font-size:9px}
+.analytics-bar-track{height:10px;background:#edf2f6;border-radius:99px;overflow:hidden}
+.analytics-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4b9bd0,#69bff0)}
+.analytics-bar-row b{text-align:right;font-size:9px}
+.analytics-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.analytics-mini{padding:11px;border-radius:11px;border:1px solid var(--line);background:linear-gradient(135deg,var(--lightblue),var(--card))}
+.analytics-mini span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900}
+.analytics-mini b{display:block;margin-top:4px;font-size:22px;font-weight:950}
+.analytics-note{margin-top:10px;padding:10px 11px;border-radius:10px;background:var(--lightblue);color:var(--muted);font-size:9px;line-height:1.45;font-weight:800}
+.district-map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;min-height:175px;padding-top:8px}
+.district-item{position:relative;min-width:0;padding:12px 8px 10px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--card),var(--lightblue));box-shadow:0 4px 12px rgba(16,42,67,.05);transition:transform .18s ease,box-shadow .18s ease}
+.district-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(16,42,67,.09)}
+.district-rank{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:6px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:950}
+.district-name{font-size:10px;font-weight:950;padding-right:22px;line-height:1.2}
+.district-count{margin-top:11px;font-size:22px;font-weight:950;color:var(--blue)}
+.district-count small{font-size:8px;color:var(--muted);font-weight:800}
+.district-value{margin-top:6px;font-size:9px;font-weight:900;color:var(--text)}
+.district-progress{margin-top:8px;height:6px;background:#e8eef4;border-radius:99px;overflow:hidden}
+.district-progress i{display:block;height:100%;border-radius:99px;background:#5aa9e6}
+.district-meta{display:flex;justify-content:space-between;gap:6px;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
+.analytics-timeline{display:grid;gap:8px}
+.analytics-event{display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,var(--card),var(--lightblue))}
+.analytics-event-icon{width:30px;height:30px;border-radius:9px;background:#e2f1fb;color:var(--blue);display:grid;place-items:center;font-size:13px;font-weight:950}
+.analytics-event-main b{display:block;font-size:10px;line-height:1.3;font-weight:950}
+.analytics-event-main small{display:block;margin-top:4px;color:var(--muted);font-size:8px;line-height:1.4;font-weight:750}
+.analytics-event-progress{padding:5px 7px;border-radius:8px;background:var(--lightblue);color:var(--blue);font-size:9px;font-weight:950}
+.analytics-empty{padding:24px;text-align:center;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:10px;font-weight:800}
+@media(max-width:900px){.analytics-grid{grid-template-columns:1fr}.analytics-chart-card{grid-row:auto}.district-map{grid-template-columns:repeat(3,1fr);min-height:0}.progress-chart-wrap{grid-template-columns:150px 1fr}.progress-donut{width:145px;height:145px}}
+@media(max-width:520px){.analytics-grid{gap:8px}.analytics-card-head h3{font-size:12px}.analytics-card-head span{font-size:8px}.progress-chart-wrap{grid-template-columns:1fr;justify-items:center}.progress-donut{width:135px;height:135px}.progress-donut:after{inset:20px}.progress-legend{width:100%}.analytics-bar-row{grid-template-columns:72px 1fr 32px}.district-map{grid-template-columns:1fr 1fr;gap:7px}.district-count{font-size:19px}.analytics-mini b{font-size:19px}.analytics-event{grid-template-columns:28px 1fr;}.analytics-event-progress{grid-column:2;justify-self:start}}
+[data-theme="dark"] .progress-donut{background:conic-gradient(#5aa9e6 0deg,#5aa9e6 0deg,#243949 0deg 360deg)}
+[data-theme="dark"] .analytics-bar-track{background:#223544}
+[data-theme="dark"] .analytics-bar-fill{background:linear-gradient(90deg,#4b9bd0,#6dbff0)}
+[data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#182b39,#111e29)}
+[data-theme="dark"] .district-item{background:linear-gradient(180deg,#15232f,#12212d);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+[data-theme="dark"] .district-progress{background:#253949}
+[data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#14232f,#111e29)}
+[data-theme="dark"] .analytics-event-icon{background:#17364c;color:#7ec8f5}
+[data-theme="dark"] .analytics-chip{background:#1a2d3d}
+
 </style>
 </head>
 <body>
@@ -700,6 +759,68 @@
 <div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>SIMON-PBJ<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div style="display:flex;align-items:center;gap:8px"><button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button><div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div></div></header>
 <section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan</span><b id="sl">0</b></div><div class="stat"><span>Sudah Berlapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
+<section id="analitik" class="page">
+  <div class="heading">
+    <div>
+      <h2>Dashboard Analitik</h2>
+      <p>Gambaran visual kondisi progres, pelaporan, pemerataan kecamatan, dan aktivitas terbaru.</p>
+    </div>
+  </div>
+
+  <div class="analytics-grid">
+    <div class="card analytics-card analytics-chart-card">
+      <div class="analytics-card-head">
+        <div>
+          <h3>📈 Distribusi Progres Pekerjaan Fisik</h3>
+          <span>Jumlah paket berdasarkan capaian progres terakhir.</span>
+        </div>
+      </div>
+      <div class="progress-chart-wrap">
+        <div class="progress-donut" id="analyticsDonut"><div><b id="analyticsDonutTotal">0</b><span>Paket</span></div></div>
+        <div class="progress-legend" id="analyticsProgressLegend"></div>
+      </div>
+      <div class="bar-chart" id="analyticsProgressBars"></div>
+    </div>
+
+    <div class="card analytics-card">
+      <div class="analytics-card-head">
+        <div>
+          <h3>📝 Statistik Laporan Mingguan</h3>
+          <span>Indikator aktivitas pelaporan terbaru.</span>
+        </div>
+      </div>
+      <div class="analytics-mini-grid">
+        <div class="analytics-mini"><span>Total Laporan</span><b id="anTotalReports">0</b></div>
+        <div class="analytics-mini"><span>Laporan Terbaru</span><b id="anRecentReports">0</b></div>
+        <div class="analytics-mini"><span>Paket Sudah Update</span><b id="anUpdatedPackages">0</b></div>
+        <div class="analytics-mini"><span>Belum Update</span><b id="anMissingPackages">0</b></div>
+      </div>
+      <div class="analytics-note" id="analyticsReportNote">-</div>
+    </div>
+
+    <div class="card analytics-card analytics-map-card">
+      <div class="analytics-card-head">
+        <div>
+          <h3>🗺️ Pemerataan Pembangunan per Kecamatan</h3>
+          <span>Distribusi jumlah paket, nilai, dan progres rata-rata.</span>
+        </div>
+        <span class="analytics-chip">Visual distribusi • bukan peta skala</span>
+      </div>
+      <div class="district-map" id="analyticsDistrictMap"></div>
+    </div>
+
+    <div class="card analytics-card">
+      <div class="analytics-card-head">
+        <div>
+          <h3>🕒 Timeline Pekerjaan Terbaru</h3>
+          <span>Aktivitas laporan paling baru yang tersedia.</span>
+        </div>
+      </div>
+      <div class="analytics-timeline" id="analyticsTimeline"></div>
+    </div>
+  </div>
+</section>
+
 <section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Nilai</th><th>Progres Terakhir</th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
@@ -734,10 +855,10 @@ function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').class
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
-function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);$('nav').innerHTML=items.map(([id,t])=>'<button data-page="'+id+'" onclick="showPage(\''+id+'\')">'+({dashboard:'▣',monitoring:'◉',laporan:'◷',verifikasi:'✓',manajemen:'▤',admin:'♙'}[id])+' &nbsp; '+t+'</button>').join('')}
+function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);$('nav').innerHTML=items.map(([id,t])=>'<button data-page="'+id+'" onclick="showPage(\''+id+'\')">'+({dashboard:'▣',monitoring:'◉',laporan:'◷',verifikasi:'✓',manajemen:'▤',admin:'♙'}[id])+' &nbsp; '+t+'</button>').join('')}
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();await loadData();showPage('dashboard')}
-async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement()}
+async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement()}
 function toggleSide(){$('side').classList.toggle('open')}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
@@ -745,6 +866,69 @@ function renderMonitoring(){const q=($('ms')?.value||'').toLowerCase();const lat
 function reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
 function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(r.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
+
+function renderAnalytics(){
+  if(!$('analitik'))return;
+  const projects=state.projects||[], reports=state.reports||[];
+  const latest=latestByRup();
+  const total=projects.length;
+  const groups=[
+    {label:'0%',min:0,max:0},
+    {label:'1–25%',min:1,max:25},
+    {label:'26–50%',min:26,max:50},
+    {label:'51–75%',min:51,max:75},
+    {label:'76–100%',min:76,max:100}
+  ];
+  const counts=groups.map(g=>projects.filter(p=>{
+    const pr=pct(latest[p.kodeRup]?.progres||0);
+    return pr>=g.min&&pr<=g.max;
+  }).length);
+  const donutColors=['#8b98a6','#e0ad5b','#5da7d9','#4f91ba','#3f7f67'];
+  let acc=0;
+  const stops=[];
+  counts.forEach((c,i)=>{
+    const deg=total?(c/total*360):0;
+    stops.push(donutColors[i]+' '+acc+'deg '+(acc+deg)+'deg');
+    acc+=deg;
+  });
+  if(total===0)stops.push('#dfe6ec 0deg 360deg');
+  const donut=$('analyticsDonut');
+  donut.style.background='conic-gradient('+stops.join(',')+')';
+  $('analyticsDonutTotal').textContent=total;
+  $('analyticsProgressLegend').innerHTML=groups.map((g,i)=>'<div class="progress-legend-item"><i class="progress-legend-dot" style="background:'+donutColors[i]+'"></i><span>'+g.label+'</span><small>'+counts[i]+' paket</small></div>').join('');
+  $('analyticsProgressBars').innerHTML=groups.map((g,i)=>{
+    const maxCount=Math.max(...counts,1),w=counts[i]/maxCount*100;
+    return '<div class="analytics-bar-row"><span>'+g.label+'</span><div class="analytics-bar-track"><div class="analytics-bar-fill" style="width:'+w+'%"></div></div><b>'+counts[i]+'</b></div>';
+  }).join('');
+
+  const updatedRups=new Set(reports.map(r=>r.kodeRup).filter(Boolean));
+  const latestFive=reports.slice(0,5);
+  const missing=Math.max(projects.length-updatedRups.size,0);
+  $('anTotalReports').textContent=reports.length;
+  $('anRecentReports').textContent=latestFive.length;
+  $('anUpdatedPackages').textContent=updatedRups.size;
+  $('anMissingPackages').textContent=missing;
+  $('analyticsReportNote').textContent=reports.length
+    ? 'Data menampilkan laporan yang sudah tersimpan di sistem. "Belum Update" berarti paket master yang belum memiliki laporan.'
+    : 'Belum ada laporan tersimpan di sistem.';
+
+  const districts=['Kotapinang','Torgamba','Sungai Kanan','Silangkitang','Kampung Rakyat'];
+  const drows=districts.map(name=>{
+    const ps=projects.filter(p=>String(p.lokasi||'').toLowerCase()===name.toLowerCase());
+    const vals=ps.map(p=>latest[p.kodeRup]?.progres||0);
+    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+    const value=ps.reduce((a,p)=>a+num(p.totalNilai),0);
+    return {name,count:ps.length,avg,value};
+  }).sort((a,b)=>b.count-a.count);
+  $('analyticsDistrictMap').innerHTML=drows.map((d,i)=>'<div class="district-item"><span class="district-rank">'+(i+1)+'</span><div class="district-name">'+esc(d.name)+'</div><div class="district-count">'+d.count+' <small>paket</small></div><div class="district-value">'+money(d.value)+'</div><div class="district-progress"><i style="width:'+Math.min(100,Math.max(0,d.avg))+'%"></i></div><div class="district-meta"><span>Progress rata-rata</span><b>'+d.avg.toFixed(1)+'%</b></div></div>').join('');
+
+  const events=reports.slice(0,8);
+  $('analyticsTimeline').innerHTML=events.length?events.map(r=>{
+    const pr=pct(r.progres);
+    return '<div class="analytics-event"><div class="analytics-event-icon">✓</div><div class="analytics-event-main"><b>'+esc(r.namaPaket||'Paket')+'</b><small>'+esc(r.tanggal||'-')+' · Minggu ke-'+esc(r.mingguKe||'-')+' · '+esc(r.dibuatOleh||'-')+'</small></div><div class="analytics-event-progress">'+pr.toFixed(1)+'%</div></div>';
+  }).join(''):'<div class="analytics-empty">Belum ada aktivitas laporan terbaru.</div>';
+}
+
 function openReport(){ $('reportModal').classList.add('show');$('packageSearch').value='';$('rRup').value='';$('rPaket').value='';$('rPenyedia').value='';$('rMinggu').value='';$('rTanggal').value=new Date().toISOString().slice(0,10);$('rLokasi').value='';$('rProgres').value='';$('rKet').value='';setAdendum('TIDAK');setTerus('TIDAK');$('rPpbj').innerHTML='<option value="">Memuat...</option>';call('getDaftarPPBJ').then(a=>{$('rPpbj').innerHTML='<option value="">Pilih PPBJ...</option>'+((a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join(''))}).catch(e=>{$('rPpbj').innerHTML='<option value="">Gagal memuat</option>'});}
 function closeModal(id){$(id).classList.remove('show')}
 function searchPackages(){const q=($('packageSearch').value||'').toLowerCase().trim();const list=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));$('suggestions').classList.remove('hidden');$('suggestions').innerHTML=list.length?list.map(p=>'<button type="button" class="suggestion" onclick="selectPackage('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')"><b>'+esc(p.kodeRup)+' — '+esc(p.namaPaket)+'</b><small>'+esc(p.namaPenyedia||'-')+' · '+money(p.totalNilai)+'</small></button>').join(''):'<div class="empty">Paket tidak ditemukan.</div>'}
