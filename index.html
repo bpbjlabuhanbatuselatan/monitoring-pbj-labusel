@@ -1058,6 +1058,65 @@
 }
 [data-theme="dark"] #aktivitas .table td{color:#dce5ec}
 
+
+/* ===== MANAJEMEN AKUN: MOBILE + DARK POLISH ===== */
+@media(max-width:520px){
+  #admin .tablewrap{overflow:visible}
+  #admin .table{
+    display:table!important;width:100%!important;min-width:0!important;table-layout:fixed;
+    border-collapse:separate;border-spacing:0 4px;
+  }
+  #admin .table thead{display:table-header-group!important}
+  #admin .table tbody{display:table-row-group!important}
+  #admin .table tbody tr{
+    display:table-row!important;border:0!important;border-radius:0!important;
+    box-shadow:none!important;margin:0!important;background:transparent!important;
+  }
+  #admin .table tbody tr:nth-child(odd) td{background:#f3f8fc}
+  #admin .table tbody tr:nth-child(even) td{background:#dfeef9}
+  #admin .table tbody tr:nth-child(odd) td:first-child{border-radius:8px 0 0 8px}
+  #admin .table tbody tr:nth-child(odd) td:last-child{border-radius:0 8px 8px 0}
+  #admin .table tbody tr:nth-child(even) td:first-child{border-radius:8px 0 0 8px}
+  #admin .table tbody tr:nth-child(even) td:last-child{border-radius:0 8px 8px 0}
+  #admin .table th,#admin .table td{
+    display:table-cell!important;padding:8px 5px!important;border:0!important;
+    border-bottom:1px solid #cbdce9!important;vertical-align:middle;
+    overflow:hidden;word-break:break-word;line-height:1.25;
+  }
+  #admin .table th{font-size:9px!important;font-weight:950!important;white-space:nowrap}
+  #admin .table td{font-size:10px!important;font-weight:850!important;color:#183247}
+  #admin .table td:before{display:none!important;content:none!important}
+  #admin .table th:nth-child(1),#admin .table td:nth-child(1){width:25%}
+  #admin .table th:nth-child(2),#admin .table td:nth-child(2){width:22%}
+  #admin .table th:nth-child(3),#admin .table td:nth-child(3){width:17%}
+  #admin .table th:nth-child(4),#admin .table td:nth-child(4){width:14%}
+  #admin .table th:nth-child(5),#admin .table td:nth-child(5){width:22%;text-align:right}
+  #admin .table td .badge{font-size:8px!important;font-weight:950!important;padding:4px 6px!important}
+  #admin .account-actions{white-space:normal}
+  #admin .account-actions .btn{display:inline-block!important;margin:2px 0;padding:7px 7px!important;font-size:8.5px!important;font-weight:950!important;border-radius:8px}
+  #admin .btn-account-toggle{background:var(--nav);color:#fff;border-color:var(--nav)}
+  #admin .btn-account-delete{background:#fff0ef;color:#b42318;border-color:#efc1bc}
+  #admin .heading h2{font-size:20px;font-weight:950}
+  #admin .heading p{font-size:10px;font-weight:800}
+}
+[data-theme="dark"] #admin .table tbody tr:nth-child(odd) td{background:#132332}
+[data-theme="dark"] #admin .table tbody tr:nth-child(even) td{background:#1a3448}
+[data-theme="dark"] #admin .table th{
+  background:#1a3042;color:#cbdbe6;border-color:#2b4658;
+}
+[data-theme="dark"] #admin .table td{
+  color:#eef5f9;border-color:#284255;
+}
+[data-theme="dark"] #admin .table tbody tr:hover td{background:#21455d}
+[data-theme="dark"] #admin .btn-account-toggle{
+  background:#183f57;color:#e7f4fb;border-color:#3c6882;
+}
+[data-theme="dark"] #admin .btn-account-delete{
+  background:#38211f;color:#ffaaa3;border-color:#65403a;
+}
+[data-theme="dark"] #admin .badge.ok{background:#173b2c;color:#79e0aa}
+[data-theme="dark"] #admin .badge.warn{background:#3a301c;color:#f4c86d}
+
 </style>
 </head>
 <body>
@@ -1712,7 +1771,33 @@ async function openDetail(rup){
 }
 async function loadVerifications(){try{const d=await call('getVerifikasiMasuk',[state.user.username]);state.verifications=d||[];$('vb').innerHTML=state.verifications.map(v=>'<tr><td>'+esc(v.tanggal)+'</td><td><b>'+esc(v.laporan?.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(v.laporan?.kodeRup||'')+'</small></td><td>'+esc(v.laporan?.mingguKe||'-')+'</td><td>'+pct(v.laporan?.progres).toFixed(1)+'%</td><td>'+esc(v.dari)+'</td><td><button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DITERIMA\')">Terima</button> <button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DIKEMBALIKAN\')">Kembalikan</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Tidak ada laporan yang menunggu verifikasi.</td></tr>'}catch(e){console.error(e)}}
 async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:state.user.username,statusBaru:status,catatan:cat}]);alert(d.message);await loadVerifications();await loadData()}catch(e){alert(e.message)}}
-async function loadAdmin(){try{const [d,p]=await Promise.all([call('getAdminDashboardData',[state.user.username]),call('getPendaftaranMenunggu',[state.user.username])]);$('ub').innerHTML=(d.daftar||[]).map(u=>'<tr><td>'+esc(u.nama)+'</td><td>'+esc(u.username)+'</td><td>'+esc(u.role)+'</td><td><span class="badge '+(String(u.status).toUpperCase()==='AKTIF'?'ok':'warn')+'">'+esc(u.status)+'</span></td><td><button class="btn" onclick="setStatus(\''+esc(u.username)+'\',\'AKTIF\')">Aktifkan</button></td></tr>').join('');$('pending').innerHTML=(p.daftar||[]).map(u=>'<div class="listitem"><b>'+esc(u.nama)+' — '+esc(u.role)+'</b><small>'+esc(u.username)+'</small><div style="margin-top:7px"><button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'SETUJUI\')">Setujui</button> <button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'TOLAK\')">Tolak</button></div></div>').join('')||'<div class="empty">Tidak ada pendaftaran menunggu.</div>'}catch(e){console.error(e)}}
+async function loadAdmin(){try{const [d,p]=await Promise.all([call('getAdminDashboardData',[state.user.username]),call('getPendaftaranMenunggu',[state.user.username])]);$('ub').innerHTML=(d.daftar||[]).map(u=>{const st=String(u.status||'').toUpperCase();const statusBtn=st==='AKTIF'?'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'NONAKTIF\')">Nonaktifkan</button>':'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'AKTIF\')">Aktifkan</button>';return '<tr><td>'+esc(u.nama)+'</td><td>'+esc(u.username)+'</td><td>'+esc(u.role)+'</td><td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status)+'</span></td><td class="account-actions">'+statusBtn+' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username)+'\',\''+esc(u.nama)+'\')">Hapus</button></td></tr>'}).join('');$('pending').innerHTML=(p.daftar||[]).map(u=>'<div class="listitem"><b>'+esc(u.nama)+' — '+esc(u.role)+'</b><small>'+esc(u.username)+'</small><div style="margin-top:7px"><button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'SETUJUI\')">Setujui</button> <button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'TOLAK\')">Tolak</button></div></div>').join('')||'<div class="empty">Tidak ada pendaftaran menunggu.</div>'}catch(e){console.error(e)}}
+
+const ACCOUNT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/account-api';
+const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun']);
+const originalCall=call;
+call=async function(fn,args=[]){
+  if(ACCOUNT_API_FUNCTIONS.has(fn)){
+    const r=await fetch(ACCOUNT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:fn,args})});
+    let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}
+    if(!r.ok||d?.success===false)throw Error(d?.message||'Permintaan akun gagal.');
+    return d;
+  }
+  return originalCall(fn,args);
+};
+
+async function hapusAkunAdmin(username,nama){
+  const self=String(state.user.username||'').toLowerCase();
+  if(String(username||'').toLowerCase()===self){alert('Admin tidak dapat menghapus akun sendiri.');return}
+  const yakin=confirm('Hapus akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nAkun akan dihapus permanen dari daftar pengguna.');
+  if(!yakin)return;
+  try{
+    const d=await call('adminHapusAkun',[state.user.username,username]);
+    alert(d.message||'Akun berhasil dihapus.');
+    await loadAdmin();
+  }catch(e){alert(e.message||'Gagal menghapus akun.')}
+}
+
 async function processReg(u,d){try{const x=await call('adminVerifikasiPendaftaran',[state.user.username,u,d]);alert(x.message);loadAdmin()}catch(e){alert(e.message)}}
 async function setStatus(u,s){try{const x=await call('adminSetStatus',[state.user.username,u,s]);alert(x.message);loadAdmin()}catch(e){alert(e.message)}}
 function logout(){state.user=null;localStorage.removeItem('simon_user');$('app').classList.add('hidden');$('login').classList.remove('hidden');$('lf').reset();authTab('login')}
