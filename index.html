@@ -1504,10 +1504,10 @@ async function hapusLaporanManajemen(laporan){
       tanggal:laporan.tanggal||null,
       usernamePimpinan:state.user?.username||null
     };
-    if(!payload.idLaporan && !payload.kodeRup){
-      throw Error('ID laporan tidak tersedia pada data laporan. Backend perlu menerima identitas laporan yang unik.');
+    if(!payload.idLaporan){
+      throw Error('ID laporan tidak tersedia. Laporan tidak dapat dihapus.');
     }
-    const d=await call('hapusLaporan',[payload]);
+    const d=await call('adminHapusLaporan',[state.user.username,payload.idLaporan]);
     if(!d?.success)throw Error(d?.message||'Gagal menghapus laporan.');
     alert(d.message||'Laporan berhasil dihapus.');
     await loadData();
