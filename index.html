@@ -960,7 +960,15 @@ const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>
 const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').replace('%',''))||0));
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
-async function call(fn,args=[]){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:fn,args})});let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}if(!r.ok||d?.success===false&&d?.message&&fn!=='login')throw Error(d?.message||'Permintaan gagal.');return d}
+const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
+const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca']);
+async function call(fn,args=[]){
+  const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
+  const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:fn,args})});
+  let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}
+  if(!r.ok||d?.success===false&&d?.message)throw Error(d?.message||'Permintaan gagal.');
+  return d;
+}
 function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').classList.toggle('active',x==='reg');$('lf').classList.toggle('hidden',x!=='login');$('rf').classList.toggle('hidden',x!=='reg');$('am').innerHTML=''}
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
@@ -1101,7 +1109,7 @@ async function startChat(e){
   };
   if(!payload.pesan){alert('Isi pesan wajib diisi.');return}
   try{
-    const d=await call('mulaiPesanPimpinan',[payload]);
+    const d=await call('mulaiPesanPimpinan',[state.user.username,payload]);
     closeNewChat();
     await loadChats();
     const id=d?.percakapanId||d?.id||d?.threadId;
@@ -1115,7 +1123,7 @@ async function sendChatReply(e){
   const text=$('chatReply').value.trim();
   if(!text||!chatState.activeId)return;
   try{
-    await call('kirimPesanPimpinan',[{percakapanId:chatState.activeId,pengirimUsername:state.user.username,pesan:text}]);
+    await call('kirimPesanPimpinan',[state.user.username,{percakapanId:chatState.activeId,pengirimUsername:state.user.username,pesan:text}]);
     $('chatReply').value='';
     await openChatThread(chatState.activeId);
   }catch(e){alert(chatApiErrorMessage(e))}
