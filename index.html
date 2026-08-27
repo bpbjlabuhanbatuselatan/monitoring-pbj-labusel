@@ -1007,6 +1007,79 @@
 [data-theme="dark"] #chatNewModal .suggestion b{color:#e7edf3}
 [data-theme="dark"] #chatNewModal .suggestion small{color:#9babb9}
 
+
+/* ===== PESAN PIMPINAN: DIALOG PROPORSIONAL ===== */
+#pesan .heading h2{font-size:26px;font-weight:950}
+#pesan .heading p{font-size:12px;font-weight:800}
+#pesan .chat-shell{grid-template-columns:360px minmax(0,1fr);gap:14px;min-height:610px}
+#pesan .chat-inbox{min-height:610px}
+#pesan .chat-thread{min-height:610px}
+#pesan .chat-inbox-head h3{font-size:16px;font-weight:950}
+#pesan .chat-inbox-head span{font-size:10px;font-weight:750}
+#pesan .chat-inbox-head .btn{font-size:11px;padding:9px 11px}
+#pesan .chat-list{gap:8px;max-height:545px}
+#pesan .chat-item{
+  grid-template-columns:40px minmax(0,1fr) auto;
+  gap:10px;padding:12px;border-radius:12px;
+}
+#pesan .chat-avatar{width:40px;height:40px;border-radius:11px;font-size:12px}
+#pesan .chat-item-main b{font-size:12px;font-weight:950}
+#pesan .chat-item-main small{font-size:10px;font-weight:800;line-height:1.4}
+#pesan .chat-item-time{font-size:9px;font-weight:850}
+#pesan .chat-unread{min-width:20px;height:20px;font-size:9px}
+#pesan .chat-empty{min-height:540px;gap:8px}
+#pesan .chat-empty-icon{width:62px;height:62px;border-radius:17px;font-size:27px}
+#pesan .chat-empty b{font-size:15px;font-weight:950}
+#pesan .chat-empty span{font-size:10px;font-weight:750}
+#pesan .chat-thread-head{padding:13px 2px}
+#pesan .chat-thread-head b{font-size:16px;font-weight:950}
+#pesan .chat-thread-head small{font-size:10px;font-weight:800}
+#pesan .chat-priority{font-size:9px;padding:6px 9px;font-weight:950}
+#pesan .chat-messages{
+  min-height:470px;max-height:470px;padding:16px 10px;gap:12px;
+  align-content:start;
+}
+#pesan .chat-bubble{
+  max-width:62%;padding:12px 14px;border-radius:15px;
+  font-size:12px;font-weight:800;line-height:1.55;
+}
+#pesan .chat-bubble .chat-author{font-size:10px;font-weight:950;margin-bottom:4px}
+#pesan .chat-bubble .chat-time{font-size:8px;font-weight:750;margin-top:6px}
+#pesan .chat-compose{grid-template-columns:minmax(0,1fr) 92px;gap:10px;padding-top:12px}
+#pesan .chat-compose textarea{min-height:56px;font-size:12px;font-weight:800;padding:12px 13px}
+#pesan .chat-compose .btn{min-width:92px;font-size:12px;font-weight:950}
+#chatNewModal .chat-new-box{width:min(650px,100%);padding:20px;border-radius:17px}
+#chatNewModal .chat-new-head h3{font-size:18px;font-weight:950}
+#chatNewModal .field label{font-size:11px;font-weight:900}
+#chatNewModal input,#chatNewModal textarea,#chatNewModal select{font-size:12px;font-weight:800}
+#chatNewModal .chat-recipient-select{min-height:48px;font-size:12px;font-weight:850}
+#chatNewModal .chat-priority-row label{font-size:10px;font-weight:900}
+#chatNewModal .chat-priority-switch button{font-size:10px;font-weight:900;padding:8px 11px}
+#chatNewModal .chat-hint{font-size:9px;font-weight:800}
+@media(max-width:900px){
+  #pesan .chat-shell{grid-template-columns:1fr;min-height:0}
+  #pesan .chat-inbox,#pesan .chat-thread{min-height:0}
+  #pesan .chat-list{max-height:260px}
+  #pesan .chat-messages{min-height:360px;max-height:360px}
+  #pesan .chat-bubble{max-width:76%}
+}
+@media(max-width:520px){
+  #pesan .heading h2{font-size:21px}
+  #pesan .heading p{font-size:10px}
+  #pesan .chat-shell{gap:8px}
+  #pesan .chat-item{grid-template-columns:36px minmax(0,1fr) auto;padding:10px;gap:8px}
+  #pesan .chat-avatar{width:36px;height:36px;font-size:11px}
+  #pesan .chat-item-main b{font-size:11px}
+  #pesan .chat-item-main small{font-size:9px}
+  #pesan .chat-empty{min-height:260px}
+  #pesan .chat-thread-head b{font-size:14px}
+  #pesan .chat-messages{min-height:300px;max-height:300px;padding:11px 4px;gap:9px}
+  #pesan .chat-bubble{max-width:86%;padding:10px 12px;font-size:10.5px}
+  #pesan .chat-bubble .chat-author{font-size:9px}
+  #pesan .chat-compose{grid-template-columns:1fr;gap:7px}
+  #pesan .chat-compose .btn{width:100%;min-width:0}
+}
+
 </style>
 </head>
 <body>
