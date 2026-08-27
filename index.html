@@ -1048,6 +1048,16 @@
   .btn-delete-report{font-size:9px;padding:7px 9px}
 }
 
+
+/* ===== LOG AKTIVITAS ===== */
+#aktivitas .table td:nth-child(1){white-space:nowrap}
+#aktivitas .table td:nth-child(3){font-weight:800}
+@media(max-width:520px){
+  #aktivitas .table td{font-size:10px}
+  #aktivitas .table td:nth-child(1){white-space:normal}
+}
+[data-theme="dark"] #aktivitas .table td{color:#dce5ec}
+
 </style>
 </head>
 <body>
@@ -1174,6 +1184,29 @@
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
 <section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
+<section id="aktivitas" class="page">
+  <div class="heading">
+    <div>
+      <h2>🕘 Log Aktivitas</h2>
+      <p>Riwayat aktivitas penting yang tercatat di sistem.</p>
+    </div>
+    <button class="btn primary" onclick="loadAktivitas()">↻ Muat Ulang</button>
+  </div>
+  <div class="card">
+    <div class="toolbar">
+      <input id="logSearch" class="search" placeholder="Cari username atau aktivitas..." oninput="renderAktivitas()">
+    </div>
+    <div class="tablewrap">
+      <table class="table">
+        <thead>
+          <tr><th>Waktu</th><th>Username</th><th>Aktivitas</th></tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
 <div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
@@ -1213,7 +1246,7 @@ function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').class
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
-function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['pesan','Pesan Pimpinan']);if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',admin:'♙'};$('nav').innerHTML=items.map(([id,t])=>'<button class="'+(id==='pesan'?'nav-chat-wrap':'')+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(id==='pesan'?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>').join('');if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');else $('newChatBtn').classList.add('hidden');updateChatBadge()}
+function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['pesan','Pesan Pimpinan']);if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['aktivitas','Log Aktivitas']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',aktivitas:'🕘',admin:'♙'};$('nav').innerHTML=items.map(([id,t])=>'<button class="'+(id==='pesan'?'nav-chat-wrap':'')+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(id==='pesan'?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>').join('');if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');else $('newChatBtn').classList.add('hidden');updateChatBadge()}
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();await loadData();showPage('dashboard')}
 async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
 
@@ -1409,7 +1442,40 @@ async function updateChatBadge(){
   }catch{}
 }
 
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();updateChatBadge()}
+
+let logAktivitasData=[];
+
+async function loadAktivitas(){
+  if(!$('logBody'))return;
+  $('logBody').innerHTML='<tr><td colspan="3" class="empty">Memuat log aktivitas...</td></tr>';
+  try{
+    const d=await call('getLogAktivitas',[state.user.username]);
+    logAktivitasData=Array.isArray(d?.daftar)?d.daftar:[];
+    renderAktivitas();
+  }catch(e){
+    $('logBody').innerHTML='<tr><td colspan="3" class="empty">Gagal memuat log: '+esc(e.message||e)+'</td></tr>';
+  }
+}
+
+function renderAktivitas(){
+  const q=($('logSearch')?.value||'').toLowerCase().trim();
+  const rows=logAktivitasData.filter(x=>
+    [x.tanggal,x.username,x.aktivitas].join(' ').toLowerCase().includes(q)
+  );
+  if(!rows.length){
+    $('logBody').innerHTML='<tr><td colspan="3" class="empty">Belum ada aktivitas yang sesuai.</td></tr>';
+    return;
+  }
+  $('logBody').innerHTML=rows.map(x=>`
+    <tr>
+      <td><b>${esc(x.tanggal||'-')}</b></td>
+      <td>${esc(x.username||'-')}</td>
+      <td>${esc(x.aktivitas||'-')}</td>
+    </tr>
+  `).join('');
+}
+
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
 function toggleSide(){$('side').classList.toggle('open')}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
