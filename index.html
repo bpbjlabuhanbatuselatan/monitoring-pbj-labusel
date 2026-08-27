@@ -686,60 +686,97 @@
 }
 
 
-/* ===== DASHBOARD ANALITIK ===== */
-.analytics-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
-.analytics-card{min-width:0}
-.analytics-chart-card{grid-row:span 2}
+/* ===== DASHBOARD ANALITIK — EXECUTIVE LAYOUT ===== */
+.analytics-page-heading{margin-bottom:12px}
+.analytics-live{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--muted);font-size:9px;font-weight:850;white-space:nowrap}
+.analytics-live span{width:7px;height:7px;border-radius:50%;background:#35a66f;box-shadow:0 0 0 4px rgba(53,166,111,.10)}
+.analytics-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:12px;align-items:stretch}
+.analytics-card{min-width:0;display:flex;flex-direction:column}
 .analytics-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
-.analytics-card-head h3{margin:0;font-size:14px;font-weight:950}
-.analytics-card-head span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.4}
-.analytics-chip{display:inline-flex!important;margin:0!important;padding:5px 8px;border-radius:99px;background:var(--lightblue);color:var(--muted)!important;border:1px solid var(--line);white-space:nowrap}
-.progress-chart-wrap{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
-.progress-donut{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#1769aa 0deg,#1769aa 0deg,#e8eef4 0deg 360deg);position:relative}
-.progress-donut:after{content:'';position:absolute;inset:23px;border-radius:50%;background:var(--card)}
+.analytics-card-head h3{margin:0;font-size:14px;font-weight:950;line-height:1.25}
+.analytics-card-head span{display:block;margin-top:4px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.45}
+.analytics-chip{display:inline-flex!important;margin:0!important;padding:5px 8px;border-radius:99px;background:var(--lightblue);color:var(--muted)!important;border:1px solid var(--line);white-space:nowrap;font-weight:850!important}
+.progress-chart-wrap{display:grid;grid-template-columns:165px 1fr;gap:18px;align-items:center;min-height:150px}
+.progress-donut{width:158px;height:158px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#8b98a6 0deg,#8b98a6 0deg,#e8eef4 0deg 360deg);position:relative}
+.progress-donut:after{content:'';position:absolute;inset:22px;border-radius:50%;background:var(--card)}
 .progress-donut>div{position:relative;z-index:1;text-align:center}
-.progress-donut b{display:block;font-size:27px;font-weight:950}
+.progress-donut b{display:block;font-size:25px;font-weight:950;letter-spacing:-.5px}
 .progress-donut span{font-size:9px;color:var(--muted);font-weight:800}
 .progress-legend{display:grid;gap:7px}
-.progress-legend-item{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:850}
-.progress-legend-dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
-.progress-legend-item small{margin-left:auto;color:var(--muted);font-size:9px;font-weight:800}
-.bar-chart{display:grid;gap:8px;margin-top:14px}
-.analytics-bar-row{display:grid;grid-template-columns:80px 1fr 38px;gap:8px;align-items:center;font-size:9px}
-.analytics-bar-track{height:10px;background:#edf2f6;border-radius:99px;overflow:hidden}
-.analytics-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4b9bd0,#69bff0)}
+.progress-legend-item{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:8px;font-size:9.5px;font-weight:850}
+.progress-legend-dot{width:10px;height:10px;border-radius:50%;display:block}
+.progress-legend-item small{color:var(--muted);font-size:8.5px;font-weight:850}
+.bar-chart{display:grid;gap:7px;margin-top:12px}
+.analytics-bar-row{display:grid;grid-template-columns:58px 1fr 34px;gap:8px;align-items:center;font-size:8.5px;font-weight:850}
+.analytics-bar-track{height:8px;background:#edf2f6;border-radius:99px;overflow:hidden}
+.analytics-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4d9ed1,#70c1ed)}
 .analytics-bar-row b{text-align:right;font-size:9px}
 .analytics-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.analytics-mini{padding:11px;border-radius:11px;border:1px solid var(--line);background:linear-gradient(135deg,var(--lightblue),var(--card))}
-.analytics-mini span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900}
-.analytics-mini b{display:block;margin-top:4px;font-size:22px;font-weight:950}
-.analytics-note{margin-top:10px;padding:10px 11px;border-radius:10px;background:var(--lightblue);color:var(--muted);font-size:9px;line-height:1.45;font-weight:800}
-.district-map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;min-height:175px;padding-top:8px}
-.district-item{position:relative;min-width:0;padding:12px 8px 10px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--card),var(--lightblue));box-shadow:0 4px 12px rgba(16,42,67,.05);transition:transform .18s ease,box-shadow .18s ease}
-.district-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(16,42,67,.09)}
-.district-rank{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:6px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:950}
-.district-name{font-size:10px;font-weight:950;padding-right:22px;line-height:1.2}
-.district-count{margin-top:11px;font-size:22px;font-weight:950;color:var(--blue)}
+.analytics-mini{min-width:0;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:linear-gradient(135deg,var(--lightblue),var(--card))}
+.analytics-mini span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900;letter-spacing:.2px}
+.analytics-mini b{display:block;margin-top:4px;font-size:23px;line-height:1;font-weight:950}
+.analytics-mini small{display:block;margin-top:5px;color:var(--muted);font-size:8px;line-height:1.25;font-weight:750}
+.analytics-note{margin-top:9px;padding:9px 10px;border-radius:10px;background:var(--lightblue);color:var(--muted);font-size:8.5px;line-height:1.45;font-weight:800}
+.district-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
+.district-item{position:relative;min-width:0;padding:11px 9px 10px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--card),var(--lightblue));box-shadow:0 4px 12px rgba(16,42,67,.045)}
+.district-rank{position:absolute;top:8px;right:8px;width:19px;height:19px;border-radius:6px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:950}
+.district-name{font-size:9px;font-weight:950;line-height:1.25;padding-right:22px;min-height:23px}
+.district-count{margin-top:9px;font-size:21px;line-height:1;font-weight:950;color:var(--blue)}
 .district-count small{font-size:8px;color:var(--muted);font-weight:800}
-.district-value{margin-top:6px;font-size:9px;font-weight:900;color:var(--text)}
-.district-progress{margin-top:8px;height:6px;background:#e8eef4;border-radius:99px;overflow:hidden}
-.district-progress i{display:block;height:100%;border-radius:99px;background:#5aa9e6}
-.district-meta{display:flex;justify-content:space-between;gap:6px;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
-.analytics-timeline{display:grid;gap:8px}
-.analytics-event{display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,var(--card),var(--lightblue))}
-.analytics-event-icon{width:30px;height:30px;border-radius:9px;background:#e2f1fb;color:var(--blue);display:grid;place-items:center;font-size:13px;font-weight:950}
-.analytics-event-main b{display:block;font-size:10px;line-height:1.3;font-weight:950}
-.analytics-event-main small{display:block;margin-top:4px;color:var(--muted);font-size:8px;line-height:1.4;font-weight:750}
-.analytics-event-progress{padding:5px 7px;border-radius:8px;background:var(--lightblue);color:var(--blue);font-size:9px;font-weight:950}
-.analytics-empty{padding:24px;text-align:center;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:10px;font-weight:800}
-@media(max-width:900px){.analytics-grid{grid-template-columns:1fr}.analytics-chart-card{grid-row:auto}.district-map{grid-template-columns:repeat(3,1fr);min-height:0}.progress-chart-wrap{grid-template-columns:150px 1fr}.progress-donut{width:145px;height:145px}}
-@media(max-width:520px){.analytics-grid{gap:8px}.analytics-card-head h3{font-size:12px}.analytics-card-head span{font-size:8px}.progress-chart-wrap{grid-template-columns:1fr;justify-items:center}.progress-donut{width:135px;height:135px}.progress-donut:after{inset:20px}.progress-legend{width:100%}.analytics-bar-row{grid-template-columns:72px 1fr 32px}.district-map{grid-template-columns:1fr 1fr;gap:7px}.district-count{font-size:19px}.analytics-mini b{font-size:19px}.analytics-event{grid-template-columns:28px 1fr;}.analytics-event-progress{grid-column:2;justify-self:start}}
-[data-theme="dark"] .progress-donut{background:conic-gradient(#5aa9e6 0deg,#5aa9e6 0deg,#243949 0deg 360deg)}
-[data-theme="dark"] .analytics-bar-track{background:#223544}
-[data-theme="dark"] .analytics-bar-fill{background:linear-gradient(90deg,#4b9bd0,#6dbff0)}
+.district-value{margin-top:6px;font-size:8.5px;font-weight:900;line-height:1.25;word-break:break-word}
+.district-progress{margin-top:8px;height:5px;background:#e8eef4;border-radius:99px;overflow:hidden}
+.district-progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#4d9ed1,#67b9e8)}
+.district-meta{display:flex;justify-content:space-between;gap:4px;margin-top:5px;color:var(--muted);font-size:7.5px;font-weight:800}
+.district-meta b{color:var(--text);font-size:8px}
+.analytics-timeline{display:grid;gap:7px}
+.analytics-event{display:grid;grid-template-columns:31px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,var(--card),var(--lightblue))}
+.analytics-event-icon{width:31px;height:31px;border-radius:9px;background:#e2f1fb;color:var(--blue);display:grid;place-items:center;font-size:13px;font-weight:950}
+.analytics-event-main{min-width:0}
+.analytics-event-main b{display:block;font-size:9.5px;line-height:1.3;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.analytics-event-main small{display:block;margin-top:3px;color:var(--muted);font-size:7.8px;line-height:1.35;font-weight:750}
+.analytics-event-progress{padding:5px 7px;border-radius:8px;background:var(--lightblue);color:var(--blue);font-size:8.5px;font-weight:950;white-space:nowrap}
+.analytics-empty{padding:22px 12px;text-align:center;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:9px;font-weight:800}
+@media(max-width:1050px){
+  .analytics-grid{grid-template-columns:1fr}
+  .district-map{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .analytics-page-heading{flex-direction:column}
+  .analytics-live{align-self:flex-start}
+  .progress-chart-wrap{grid-template-columns:145px 1fr;gap:14px}
+  .progress-donut{width:142px;height:142px}
+  .district-map{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:520px){
+  .analytics-grid{gap:8px}
+  .analytics-card{padding:10px}
+  .analytics-card-head{margin-bottom:9px}
+  .analytics-card-head h3{font-size:12px}
+  .analytics-card-head span{font-size:8px}
+  .analytics-live{font-size:8px;padding:6px 9px}
+  .progress-chart-wrap{grid-template-columns:1fr;justify-items:center;gap:11px}
+  .progress-donut{width:132px;height:132px}
+  .progress-donut:after{inset:19px}
+  .progress-legend{width:100%}
+  .analytics-bar-row{grid-template-columns:58px 1fr 30px}
+  .analytics-mini-grid{gap:7px}
+  .analytics-mini{padding:9px}
+  .analytics-mini b{font-size:19px}
+  .district-map{grid-template-columns:1fr 1fr;gap:7px}
+  .district-item{padding:10px 8px}
+  .district-count{font-size:19px}
+  .analytics-event{grid-template-columns:29px minmax(0,1fr);padding:8px}
+  .analytics-event-progress{grid-column:2;justify-self:start}
+}
+[data-theme="dark"] .analytics-live{background:#111e29;border-color:#2a4355;color:#9db0be}
+[data-theme="dark"] .analytics-live span{background:#63d29b}
+[data-theme="dark"] .progress-donut{background:conic-gradient(#7f90a2 0deg,#7f90a2 0deg,#273a4b 0deg 360deg)}
+[data-theme="dark"] .analytics-bar-track{background:#243949}
+[data-theme="dark"] .analytics-bar-fill{background:linear-gradient(90deg,#4d9ed1,#69bdea)}
 [data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#182b39,#111e29)}
-[data-theme="dark"] .district-item{background:linear-gradient(180deg,#15232f,#12212d);box-shadow:0 4px 12px rgba(0,0,0,.16)}
-[data-theme="dark"] .district-progress{background:#253949}
+[data-theme="dark"] .analytics-note{background:#172a3a}
+[data-theme="dark"] .district-item{background:linear-gradient(180deg,#162632,#12212d);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+[data-theme="dark"] .district-progress{background:#263b4b}
 [data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#14232f,#111e29)}
 [data-theme="dark"] .analytics-event-icon{background:#17364c;color:#7ec8f5}
 [data-theme="dark"] .analytics-chip{background:#1a2d3d}
@@ -760,60 +797,63 @@
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div style="display:flex;align-items:center;gap:8px"><button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button><div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div></div></header>
 <section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan</span><b id="sl">0</b></div><div class="stat"><span>Sudah Berlapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
 <section id="analitik" class="page">
-  <div class="heading">
+  <div class="heading analytics-page-heading">
     <div>
       <h2>Dashboard Analitik</h2>
-      <p>Gambaran visual kondisi progres, pelaporan, pemerataan kecamatan, dan aktivitas terbaru.</p>
+      <p>Ringkasan visual progres fisik, pelaporan, pemerataan kecamatan, dan aktivitas terbaru.</p>
     </div>
+    <div class="analytics-live"><span></span> Data terkini dari sistem</div>
   </div>
 
   <div class="analytics-grid">
-    <div class="card analytics-card analytics-chart-card">
+    <div class="card analytics-card analytics-progress-card">
       <div class="analytics-card-head">
         <div>
           <h3>📈 Distribusi Progres Pekerjaan Fisik</h3>
-          <span>Jumlah paket berdasarkan capaian progres terakhir.</span>
+          <span>Posisi progres terakhir setiap paket yang sudah termonitor.</span>
         </div>
       </div>
       <div class="progress-chart-wrap">
-        <div class="progress-donut" id="analyticsDonut"><div><b id="analyticsDonutTotal">0</b><span>Paket</span></div></div>
+        <div class="progress-donut" id="analyticsDonut">
+          <div><b id="analyticsDonutTotal">0</b><span>Paket</span></div>
+        </div>
         <div class="progress-legend" id="analyticsProgressLegend"></div>
       </div>
       <div class="bar-chart" id="analyticsProgressBars"></div>
     </div>
 
-    <div class="card analytics-card">
+    <div class="card analytics-card analytics-report-card">
       <div class="analytics-card-head">
         <div>
           <h3>📝 Statistik Laporan Mingguan</h3>
-          <span>Indikator aktivitas pelaporan terbaru.</span>
+          <span>Gambaran kepatuhan update laporan seluruh paket.</span>
         </div>
       </div>
       <div class="analytics-mini-grid">
-        <div class="analytics-mini"><span>Total Laporan</span><b id="anTotalReports">0</b></div>
-        <div class="analytics-mini"><span>Laporan Terbaru</span><b id="anRecentReports">0</b></div>
-        <div class="analytics-mini"><span>Paket Sudah Update</span><b id="anUpdatedPackages">0</b></div>
-        <div class="analytics-mini"><span>Belum Update</span><b id="anMissingPackages">0</b></div>
+        <div class="analytics-mini"><span>Total Laporan</span><b id="anTotalReports">0</b><small>Semua laporan tersimpan</small></div>
+        <div class="analytics-mini"><span>Laporan Terbaru</span><b id="anRecentReports">0</b><small>Aktivitas terbaru</small></div>
+        <div class="analytics-mini"><span>Paket Sudah Update</span><b id="anUpdatedPackages">0</b><small>Memiliki laporan</small></div>
+        <div class="analytics-mini"><span>Belum Update</span><b id="anMissingPackages">0</b><small>Belum punya laporan</small></div>
       </div>
       <div class="analytics-note" id="analyticsReportNote">-</div>
     </div>
 
-    <div class="card analytics-card analytics-map-card">
+    <div class="card analytics-card analytics-district-card">
       <div class="analytics-card-head">
         <div>
           <h3>🗺️ Pemerataan Pembangunan per Kecamatan</h3>
-          <span>Distribusi jumlah paket, nilai, dan progres rata-rata.</span>
+          <span>Perbandingan jumlah paket, nilai, dan progres rata-rata antar kecamatan.</span>
         </div>
-        <span class="analytics-chip">Visual distribusi • bukan peta skala</span>
+        <span class="analytics-chip">Distribusi kecamatan</span>
       </div>
       <div class="district-map" id="analyticsDistrictMap"></div>
     </div>
 
-    <div class="card analytics-card">
+    <div class="card analytics-card analytics-timeline-card">
       <div class="analytics-card-head">
         <div>
           <h3>🕒 Timeline Pekerjaan Terbaru</h3>
-          <span>Aktivitas laporan paling baru yang tersedia.</span>
+          <span>Aktivitas laporan terakhir yang masuk ke sistem.</span>
         </div>
       </div>
       <div class="analytics-timeline" id="analyticsTimeline"></div>
@@ -855,7 +895,7 @@ function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').class
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
-function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);$('nav').innerHTML=items.map(([id,t])=>'<button data-page="'+id+'" onclick="showPage(\''+id+'\')">'+({dashboard:'▣',monitoring:'◉',laporan:'◷',verifikasi:'✓',manajemen:'▤',admin:'♙'}[id])+' &nbsp; '+t+'</button>').join('')}
+function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);$('nav').innerHTML=items.map(([id,t])=>'<button data-page="'+id+'" onclick="showPage(\''+id+'\')">'+({dashboard:'▣',monitoring:'◉',laporan:'◷',analitik:'◈',verifikasi:'✓',manajemen:'▤',admin:'♙'}[id])+' &nbsp; '+t+'</button>').join('')}
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();await loadData();showPage('dashboard')}
 async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement()}
