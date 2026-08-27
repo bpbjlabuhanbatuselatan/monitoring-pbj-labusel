@@ -686,6 +686,28 @@
 }
 
 
+
+/* ===== MONITORING SORTING ===== */
+.monitor-sort-select{
+  flex:0 0 210px;max-width:210px;border:1px solid var(--line);border-radius:9px;
+  padding:10px 11px;background:var(--card);color:var(--text);font-size:11px;font-weight:850;
+}
+.sort-btn{
+  border:0;background:transparent;color:inherit;padding:0;margin:0;
+  font:inherit;font-size:9px;font-weight:950;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:5px;cursor:pointer;
+}
+.sort-btn span{font-size:12px;opacity:.75}
+.sort-btn.active{color:var(--blue)}
+.monitor-last-update{
+  display:block;margin-top:4px;color:var(--muted);font-size:8px;font-weight:800;line-height:1.25;
+}
+.monitor-last-update b{color:var(--text);font-weight:900}
+@media(max-width:520px){
+  .monitor-sort-select{flex:1 1 100%;max-width:none;font-size:10px;padding:9px 10px}
+  .monitor-last-update{font-size:8px}
+}
+
 /* ===== DASHBOARD ANALITIK ===== */
 .analytics-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
 .analytics-card{min-width:0}
@@ -1007,79 +1029,6 @@
 [data-theme="dark"] #chatNewModal .suggestion b{color:#e7edf3}
 [data-theme="dark"] #chatNewModal .suggestion small{color:#9babb9}
 
-
-/* ===== PESAN PIMPINAN: DIALOG PROPORSIONAL ===== */
-#pesan .heading h2{font-size:26px;font-weight:950}
-#pesan .heading p{font-size:12px;font-weight:800}
-#pesan .chat-shell{grid-template-columns:360px minmax(0,1fr);gap:14px;min-height:610px}
-#pesan .chat-inbox{min-height:610px}
-#pesan .chat-thread{min-height:610px}
-#pesan .chat-inbox-head h3{font-size:16px;font-weight:950}
-#pesan .chat-inbox-head span{font-size:10px;font-weight:750}
-#pesan .chat-inbox-head .btn{font-size:11px;padding:9px 11px}
-#pesan .chat-list{gap:8px;max-height:545px}
-#pesan .chat-item{
-  grid-template-columns:40px minmax(0,1fr) auto;
-  gap:10px;padding:12px;border-radius:12px;
-}
-#pesan .chat-avatar{width:40px;height:40px;border-radius:11px;font-size:12px}
-#pesan .chat-item-main b{font-size:12px;font-weight:950}
-#pesan .chat-item-main small{font-size:10px;font-weight:800;line-height:1.4}
-#pesan .chat-item-time{font-size:9px;font-weight:850}
-#pesan .chat-unread{min-width:20px;height:20px;font-size:9px}
-#pesan .chat-empty{min-height:540px;gap:8px}
-#pesan .chat-empty-icon{width:62px;height:62px;border-radius:17px;font-size:27px}
-#pesan .chat-empty b{font-size:15px;font-weight:950}
-#pesan .chat-empty span{font-size:10px;font-weight:750}
-#pesan .chat-thread-head{padding:13px 2px}
-#pesan .chat-thread-head b{font-size:16px;font-weight:950}
-#pesan .chat-thread-head small{font-size:10px;font-weight:800}
-#pesan .chat-priority{font-size:9px;padding:6px 9px;font-weight:950}
-#pesan .chat-messages{
-  min-height:470px;max-height:470px;padding:16px 10px;gap:12px;
-  align-content:start;
-}
-#pesan .chat-bubble{
-  max-width:62%;padding:12px 14px;border-radius:15px;
-  font-size:12px;font-weight:800;line-height:1.55;
-}
-#pesan .chat-bubble .chat-author{font-size:10px;font-weight:950;margin-bottom:4px}
-#pesan .chat-bubble .chat-time{font-size:8px;font-weight:750;margin-top:6px}
-#pesan .chat-compose{grid-template-columns:minmax(0,1fr) 92px;gap:10px;padding-top:12px}
-#pesan .chat-compose textarea{min-height:56px;font-size:12px;font-weight:800;padding:12px 13px}
-#pesan .chat-compose .btn{min-width:92px;font-size:12px;font-weight:950}
-#chatNewModal .chat-new-box{width:min(650px,100%);padding:20px;border-radius:17px}
-#chatNewModal .chat-new-head h3{font-size:18px;font-weight:950}
-#chatNewModal .field label{font-size:11px;font-weight:900}
-#chatNewModal input,#chatNewModal textarea,#chatNewModal select{font-size:12px;font-weight:800}
-#chatNewModal .chat-recipient-select{min-height:48px;font-size:12px;font-weight:850}
-#chatNewModal .chat-priority-row label{font-size:10px;font-weight:900}
-#chatNewModal .chat-priority-switch button{font-size:10px;font-weight:900;padding:8px 11px}
-#chatNewModal .chat-hint{font-size:9px;font-weight:800}
-@media(max-width:900px){
-  #pesan .chat-shell{grid-template-columns:1fr;min-height:0}
-  #pesan .chat-inbox,#pesan .chat-thread{min-height:0}
-  #pesan .chat-list{max-height:260px}
-  #pesan .chat-messages{min-height:360px;max-height:360px}
-  #pesan .chat-bubble{max-width:76%}
-}
-@media(max-width:520px){
-  #pesan .heading h2{font-size:21px}
-  #pesan .heading p{font-size:10px}
-  #pesan .chat-shell{gap:8px}
-  #pesan .chat-item{grid-template-columns:36px minmax(0,1fr) auto;padding:10px;gap:8px}
-  #pesan .chat-avatar{width:36px;height:36px;font-size:11px}
-  #pesan .chat-item-main b{font-size:11px}
-  #pesan .chat-item-main small{font-size:9px}
-  #pesan .chat-empty{min-height:260px}
-  #pesan .chat-thread-head b{font-size:14px}
-  #pesan .chat-messages{min-height:300px;max-height:300px;padding:11px 4px;gap:9px}
-  #pesan .chat-bubble{max-width:86%;padding:10px 12px;font-size:10.5px}
-  #pesan .chat-bubble .chat-author{font-size:9px}
-  #pesan .chat-compose{grid-template-columns:1fr;gap:7px}
-  #pesan .chat-compose .btn{width:100%;min-width:0}
-}
-
 </style>
 </head>
 <body>
@@ -1202,7 +1151,7 @@
     </div>
   </div>
 </section>
-<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Nilai</th><th>Progres Terakhir</th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
+<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring"><option value="updated-desc">Terbaru diupdate</option><option value="value-desc">Nilai terbesar</option><option value="value-asc">Nilai terkecil</option><option value="progress-desc">Progres terbesar</option><option value="progress-asc">Progres terkecil</option><option value="reports-desc">Laporan terbanyak</option><option value="reports-asc">Laporan tersedikit</option></select></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th><button class="sort-btn" data-sort="reports" onclick="toggleMonitoringSort('reports')">Laporan <span>↕</span></button></th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
 <section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
@@ -1213,6 +1162,7 @@
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
 const state={user:null,projects:[],reports:[],verifications:[],users:[],adendum:'TIDAK',terus:'TIDAK',selected:null};
+const monitorSort={key:'updatedAt',dir:'desc'};
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme',theme);
   localStorage.setItem('simon_theme',theme);
@@ -1444,8 +1394,80 @@ function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.
 function toggleSide(){$('side').classList.toggle('open')}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
-function renderMonitoring(){const q=($('ms')?.value||'').toLowerCase();const latest=latestByRup();const rows=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));$('mb').innerHTML=rows.map(p=>{const l=latest[p.kodeRup],pr=l?.progres||0,count=state.reports.filter(r=>r.kodeRup===p.kodeRup).length;const st=!count?'BELUM ADA LAPORAN':pr>=100?'SELESAI':'BERJALAN';return '<tr><td><b>'+esc(p.kodeRup)+'</b></td><td>'+esc(p.namaPaket)+'</td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+count+' laporan</td><td><span class="badge '+(st==='SELESAI'?'ok':st==='BERJALAN'?'warn':'')+'">'+st+'</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Paket tidak ditemukan.</td></tr>'}
-function reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
+function parseMonitorDate(v){
+  if(!v)return 0;
+  const s=String(v).trim();
+  let d;
+  if(/^\d{4}-\d{2}-\d{2}/.test(s)) d=new Date(s);
+  else if(/^\d{1,2}[\/-]\d{1,2}[\/-]\d{4}/.test(s)){
+    const m=s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
+    d=new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));
+  }else d=new Date(s);
+  return Number.isNaN(d?.getTime?.())?0:d.getTime();
+}
+function monitorLatest(p){
+  const rs=state.reports.filter(r=>String(r.kodeRup||'')===String(p.kodeRup||''));
+  if(!rs.length)return null;
+  return rs.reduce((best,r)=>{
+    const bd=best?parseMonitorDate(best.tanggal||best.createdAt||best.created_at):0;
+    const rd=parseMonitorDate(r.tanggal||r.createdAt||r.created_at);
+    if(rd>bd)return r;
+    if(rd===bd && Number(r.mingguKe||0)>Number(best?.mingguKe||0))return r;
+    return best;
+  },null);
+}
+function monitorSortRows(rows){
+  return rows.sort((a,b)=>{
+    if(monitorSort.key==='value')return (num(a.p.totalNilai)-num(b.p.totalNilai))*monitorSort.dir;
+    if(monitorSort.key==='progress')return (a.progress-b.progress)*monitorSort.dir;
+    if(monitorSort.key==='reports')return (a.reports-b.reports)*monitorSort.dir;
+    return (a.updatedAt-b.updatedAt)*monitorSort.dir;
+  });
+}
+function updateMonitorSortUI(){
+  const sel=$('monitorSortSelect');
+  if(sel)sel.value=monitorSort.key+'-'+(monitorSort.dir<0?'desc':'asc');
+  document.querySelectorAll('.monitor-table .sort-btn').forEach(btn=>{
+    const key=btn.dataset.sort;
+    const active=monitorSort.key===key;
+    btn.classList.toggle('active',active);
+    btn.querySelector('span').textContent=active?(monitorSort.dir<0?'↓':'↑'):'↕';
+  });
+}
+function toggleMonitoringSort(key){
+  if(monitorSort.key===key)monitorSort.dir*=-1;
+  else{monitorSort.key=key;monitorSort.dir=-1}
+  updateMonitorSortUI();
+  renderMonitoring();
+}
+function changeMonitoringSort(value){
+  const [key,dir]=String(value||'updated-desc').split('-');
+  monitorSort.key=key==='updated'?'updatedAt':key;
+  monitorSort.dir=dir==='asc'?1:-1;
+  updateMonitorSortUI();
+  renderMonitoring();
+}
+function renderMonitoring(){
+  const q=($('ms')?.value||'').toLowerCase().trim();
+  const rows=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q)).map(p=>{
+    const latest=monitorLatest(p);
+    const progress=latest?pct(latest.progres):0;
+    const reports=state.reports.filter(r=>String(r.kodeRup||'')===String(p.kodeRup||'')).length;
+    const updatedAt=latest?parseMonitorDate(latest.tanggal||latest.createdAt||latest.created_at):0;
+    const status=!reports?'BELUM ADA LAPORAN':progress>=100?'SELESAI':'BERJALAN';
+    return {p,latest,progress,reports,updatedAt,status};
+  });
+  monitorSortRows(rows);
+  $('mb').innerHTML=rows.map(x=>{
+    const p=x.p,l=x.latest,pr=x.progress;
+    const lastText=l
+      ? 'Update: '+esc(l.tanggal||'-')+' · '+esc(l.dibuatOleh||l.pengirim||'Pengguna')
+      : 'Belum pernah update';
+    return '<tr><td><b>'+esc(p.kodeRup)+'</b></td><td>'+esc(p.namaPaket)+'</td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div><span class="monitor-last-update">'+lastText+'</span></td><td>'+x.reports+' laporan</td><td><span class="badge '+(x.status==='SELESAI'?'ok':x.status==='BERJALAN'?'warn':'')+'">'+x.status+'</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>';
+  }).join('')||'<tr><td colspan="7" class="empty">Paket tidak ditemukan.</td></tr>';
+  updateMonitorSortUI();
+}
+function reportStatusfunction reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
 function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(r.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
 
