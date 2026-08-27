@@ -1283,6 +1283,38 @@
   .notify-open{padding:7px 8px;font-size:8.5px}
 }
 
+
+/* ===== MOBILE SIDEBAR UX ===== */
+.sidebar-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(4,16,28,.42);
+  z-index:29;
+  opacity:0;
+  transition:opacity .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+@media(max-width:900px){
+  .sidebar{
+    width:80vw;
+    max-width:330px;
+    transform:translateX(-105%);
+    transition:transform .2s ease;
+    box-shadow:10px 0 30px rgba(0,0,0,.18);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{
+    display:block;
+    pointer-events:none;
+  }
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+  [data-theme="dark"] .sidebar-overlay{background:rgba(0,0,0,.50)}
+}
+
 </style>
 </head>
 <body>
@@ -1295,7 +1327,8 @@
 <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">Backend Supabase. Tidak memakai Google Apps Script.</div>
 </div></div>
-<div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>SIMON-PBJ<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
+<div id="app" class="app hidden"><div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+<aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>SIMON-PBJ<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div class="top-actions">
   <div class="notify-wrap">
     <button id="notifyBtn" class="notify-btn" onclick="toggleNotifications()" title="Notifikasi" aria-label="Notifikasi">
@@ -1806,8 +1839,8 @@ function startNotificationPolling(){
   notifyState.timer=setInterval(refreshNotifications,20000);
 }
 
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
-function toggleSide(){$('side').classList.toggle('open')}
+function closeSidebar(){const s=$('side'),o=$('sidebarOverlay');if(s)s.classList.remove('open');if(o)o.classList.remove('show')}function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';closeSidebar();if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
+function toggleSide(){const s=$('side'),o=$('sidebarOverlay');if(!s)return;const open=!s.classList.contains('open');s.classList.toggle('open',open);o?.classList.toggle('show',open)}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
 function parseMonitorDate(v){
@@ -2122,5 +2155,9 @@ setTimeout(updateChatBadge,500);
     </form>
   </div>
 </div>
+
+
+document.getElementById('sidebarOverlay')?.addEventListener('click',closeSidebar);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
 
 </body></html>
