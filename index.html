@@ -1,305 +1,75 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SIMON-PBJ Labuhanbatu Selatan</title>
 <style>
-:root{--ink:#10233f;--muted:#667085;--line:#e6eaf0;--bg:#f3f6fa;--card:#fff;--primary:#0f2f57;--accent:#1d63b8;--ok:#087443;--warn:#b54708;--danger:#b42318;--shadow:0 12px 35px rgba(16,35,63,.08)}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#eef3f8,#f8fafc);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}.screen{min-height:100vh}.login{display:grid;place-items:center;padding:24px}.login-card{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:0 25px 70px rgba(16,35,63,.12)}.logos{display:flex;justify-content:center;gap:12px;margin-bottom:22px}.logo{width:72px;height:72px;object-fit:contain;background:#fff;border-radius:16px;padding:5px;border:1px solid #edf0f4}.brand{text-align:center}.brand h1{font-size:25px;margin:0;font-weight:950;letter-spacing:-.6px}.brand p{margin:7px 0 22px;color:var(--muted);font-size:13px;font-weight:700}.tabs{display:flex;background:#f2f4f7;border-radius:12px;padding:4px;margin-bottom:18px}.tabs button{flex:1;padding:10px;border-radius:9px;background:transparent;color:var(--muted);font-weight:850}.tabs button.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px #0000000d}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:850;margin-bottom:6px;color:#344054}.field input,.field select,.field textarea{width:100%;border:1px solid #d8dee8;border-radius:11px;padding:12px 13px;outline:none;background:#fff;color:var(--ink)}.field input:focus,.field select:focus,.field textarea:focus{border-color:#76a8df;box-shadow:0 0 0 3px #1d63b814}.primary{width:100%;padding:13px 16px;border-radius:11px;background:var(--primary);color:#fff;font-weight:900}.secondary{padding:10px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:850}.msg{margin-top:10px;padding:10px;border-radius:10px;font-size:12px;font-weight:800}.msg.err{background:#fef3f2;color:var(--danger)}.msg.ok{background:#ecfdf3;color:var(--ok)}.hint{text-align:center;color:#98a2b3;font-size:11px;margin-top:18px;font-weight:700}
-.app{min-height:100vh;display:flex}.side{width:245px;background:var(--primary);color:#fff;position:fixed;left:0;top:0;bottom:0;padding:18px 14px;z-index:20}.side-brand{display:flex;align-items:center;gap:10px;padding:8px 8px 20px;border-bottom:1px solid #ffffff1a}.side-brand img{width:42px;height:42px;background:#fff;border-radius:11px;padding:3px}.side-brand strong{font-size:13px;line-height:1.2}.nav{margin-top:18px;display:grid;gap:6px}.nav button{padding:12px 13px;border-radius:10px;text-align:left;background:transparent;color:#dce8f7;font-weight:800}.nav button:hover,.nav button.active{background:#ffffff17;color:#fff}.side-bottom{position:absolute;left:14px;right:14px;bottom:16px}.logout{width:100%;padding:11px;border-radius:10px;background:#fff;color:var(--primary);font-weight:900}.main{margin-left:245px;width:calc(100% - 245px);padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px 16px;box-shadow:var(--shadow);margin-bottom:17px}.user{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:12px;background:#e9f2ff;display:grid;place-items:center;color:var(--accent);font-weight:950}.user small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.page{display:none}.page.active{display:block}.title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:8px 0 17px}.title-row h2{margin:0;font-size:25px;letter-spacing:-.5px}.title-row p{margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:650}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow)}.stat span{font-size:11px;color:var(--muted);font-weight:850;text-transform:uppercase}.stat b{display:block;font-size:27px;margin-top:6px}.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px;margin-top:14px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow)}.card h3{margin:0 0 13px;font-size:16px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{padding:11px 9px;border-bottom:1px solid #edf0f4;text-align:left;font-size:12px;vertical-align:top}.table th{font-size:10px;text-transform:uppercase;color:#667085;background:#fafbfc}.badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900;background:#eef2f6;color:#475467}.badge.ok{background:#ecfdf3;color:#027a48}.badge.warn{background:#fffaeb;color:#b54708}.badge.danger{background:#fef3f2;color:#b42318}.progress{height:8px;background:#edf1f5;border-radius:99px;overflow:hidden;min-width:90px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#1d63b8,#4d91df);border-radius:99px}.search{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}.toolbar>*{flex:1;min-width:150px}.toolbar button{flex:0 0 auto}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:15px;z-index:100}.modal.show{display:flex}.modal-box{width:min(720px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:19px;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.modal-head h3{margin:0}.close{background:#f2f4f7;border-radius:9px;padding:8px 11px}.empty{text-align:center;padding:28px;color:#98a2b3;font-size:13px;font-weight:700}.mobile-menu{display:none}
-@media(max-width:900px){.side{transform:translateX(-100%);transition:.2s}.side.open{transform:none}.main{margin-left:0;width:100%;padding:11px}.mobile-menu{display:block;background:var(--primary);color:#fff;padding:9px 11px;border-radius:9px;font-weight:900}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.top{padding:10px 11px}.form-grid{grid-template-columns:1fr}.login-card{padding:23px}.logos .logo{width:62px;height:62px}}
-@media(max-width:520px){.stats{grid-template-columns:1fr 1fr;gap:8px}.stat{padding:13px}.stat b{font-size:22px}.title-row h2{font-size:21px}.top-actions{display:none}.brand h1{font-size:22px}}
-</style>
-
-<style id="mobile-menu-section-guard">
-@media (max-width:760px){
-  #dashboardView #inputLaporanSection,
-  #dashboardView #laporanTableSection{display:none!important}
-  #dashboardView[data-mobile-menu="input"] #inputLaporanSection{display:block!important}
-  #dashboardView[data-mobile-menu="laporan"] #laporanTableSection{display:block!important}
-}
-</style>
-<style id="monitoringMobileCardFinal">
-@media (max-width:760px){
-  /* ==========================================================
-     MONITORING SELURUH PROYEK — MOBILE CARD FINAL
-     Desktop tidak disentuh.
-     ========================================================== */
-  #dashboardView #monitoringProyekPanel{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    box-sizing:border-box!important;
-    overflow:hidden!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table-wrap{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    overflow:visible!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table{
-    display:block!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    table-layout:auto!important;
-    border:0!important;
-    border-collapse:separate!important;
-    border-spacing:0!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table thead{
-    display:none!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody{
-    display:grid!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    gap:10px!important;
-    margin:0!important;
-    padding:0!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody tr{
-    display:grid!important;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-    grid-auto-rows:auto!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    margin:0!important;
-    padding:11px!important;
-    box-sizing:border-box!important;
-    background:#fff!important;
-    border:1px solid #dce6ec!important;
-    border-radius:13px!important;
-    box-shadow:0 3px 11px rgba(15,23,42,.055)!important;
-    overflow:hidden!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td{
-    display:block!important;
-    position:static!important;
-    width:auto!important;
-    max-width:100%!important;
-    min-width:0!important;
-    height:auto!important;
-    min-height:0!important;
-    margin:0!important;
-    padding:5px!important;
-    box-sizing:border-box!important;
-    border:0!important;
-    background:transparent!important;
-    color:#526575!important;
-    font-family:Arial,Helvetica,sans-serif!important;
-    font-size:11px!important;
-    font-weight:700!important;
-    line-height:1.32!important;
-    white-space:normal!important;
-    overflow:visible!important;
-    overflow-wrap:anywhere!important;
-    word-break:normal!important;
-    vertical-align:top!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td::before{
-    display:block!important;
-    width:100%!important;
-    margin:0 0 3px!important;
-    color:#8193a0!important;
-    font-size:8px!important;
-    line-height:1.15!important;
-    font-weight:900!important;
-    letter-spacing:.35px!important;
-    text-transform:uppercase!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(1)::before{content:'Kode RUP';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(2)::before{content:'Nama Paket';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(3)::before{content:'Total Nilai';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(4)::before{content:'Progress';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(5)::before{content:'Minggu';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(6)::before{content:'Status';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(7)::before{content:'Laporan Terakhir';}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(8)::before{content:none!important;display:none!important;}
-
-  /* Top: Kode RUP + Aksi */
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(1){
-    grid-column:1!important;grid-row:1!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(8){
-    grid-column:2!important;grid-row:1!important;
-    text-align:right!important;
-    width:auto!important;
-    padding:0 0 2px 8px!important;
-    align-self:start!important;
-  }
-
-  /* Package name gets the full card width. */
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(2){
-    grid-column:1 / -1!important;
-    grid-row:2!important;
-    width:100%!important;
-    max-width:none!important;
-    min-width:0!important;
-    padding:5px 5px 8px!important;
-    color:#17384d!important;
-    font-size:14px!important;
-    font-weight:900!important;
-    line-height:1.32!important;
-    white-space:normal!important;
-    overflow:visible!important;
-    overflow-wrap:break-word!important;
-    word-break:normal!important;
-  }
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(2) *{
-    width:auto!important;
-    max-width:100%!important;
-    min-width:0!important;
-    white-space:normal!important;
-    overflow:visible!important;
-    overflow-wrap:break-word!important;
-    word-break:normal!important;
-  }
-
-  /* Middle details: 2 columns. */
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(3){grid-column:1!important;grid-row:3!important;}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(4){grid-column:2!important;grid-row:3!important;}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(5){grid-column:1!important;grid-row:4!important;}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(6){grid-column:2!important;grid-row:4!important;}
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(7){grid-column:1 / -1!important;grid-row:5!important;}
-
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(1)>*,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(3)>*,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(5)>*,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(6)>*,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(7)>*{
-    display:block!important;
-    width:auto!important;
-    max-width:100%!important;
-    min-width:0!important;
-    font-size:inherit!important;
-    line-height:inherit!important;
-    white-space:normal!important;
-    overflow-wrap:anywhere!important;
-    word-break:normal!important;
-  }
-
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(4) .progress-pill,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(4) .progress-badge{
-    display:inline-flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    width:auto!important;
-    min-width:40px!important;
-    min-height:23px!important;
-    padding:4px 8px!important;
-    border-radius:8px!important;
-    background:#d7ecff!important;
-    color:#111827!important;
-    font-weight:900!important;
-  }
-
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(8) .pimpinan-action-btn,
-  #dashboardView #monitoringProyekPanel .pimpinan-table tbody td:nth-child(8) button{
-    display:inline-flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    width:auto!important;
-    min-width:72px!important;
-    max-width:110px!important;
-    min-height:30px!important;
-    margin:0!important;
-    padding:6px 8px!important;
-    border-radius:8px!important;
-    background:#0f3852!important;
-    background-image:none!important;
-    color:#fff!important;
-    border:1px solid #0b2f45!important;
-    box-shadow:none!important;
-    font-size:10px!important;
-    font-weight:900!important;
-    line-height:1.1!important;
-    white-space:normal!important;
-    overflow:visible!important;
-    text-align:center!important;
-  }
-}
+:root{--nav:#0b2b4d;--nav2:#123f6d;--blue:#1769aa;--bg:#f4f7fb;--card:#fff;--text:#102a43;--muted:#66788a;--line:#e3eaf1;--ok:#087443;--warn:#b54708;--danger:#b42318;--shadow:0 8px 25px rgba(16,42,67,.08)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#eaf2f9,#f8fafc)}.loginbox{width:min(450px,100%);background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 22px 60px #0b2b4d18}.logos{display:flex;justify-content:center;gap:10px;margin-bottom:17px}.logo{width:66px;height:66px;object-fit:contain;border:1px solid #edf1f5;border-radius:14px;padding:4px;background:#fff}.brand{text-align:center}.brand h1{font-size:25px;margin:0;font-weight:950}.brand p{font-size:12px;line-height:1.5;color:var(--muted);font-weight:700;margin:6px 0 18px}.tabs{display:flex;gap:4px;background:#f1f4f7;padding:4px;border-radius:11px;margin-bottom:15px}.tabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:10px;font-weight:850;color:var(--muted)}.tabs button.active{background:#fff;color:var(--text);box-shadow:0 2px 7px #0001}.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:850;margin-bottom:5px;color:#344054}.field input,.field select,.field textarea{width:100%;border:1px solid #d5dee8;border-radius:10px;padding:11px 12px;outline:0;background:#fff;color:var(--text)}.field textarea{min-height:90px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#65a3db;box-shadow:0 0 0 3px #1769aa14}.primary{width:100%;border:0;border-radius:10px;padding:12px;background:var(--nav);color:#fff;font-weight:900}.msg{margin-top:10px;padding:10px;border-radius:9px;font-size:11px;font-weight:800}.msg.err{background:#fff1f0;color:var(--danger)}.msg.ok{background:#ecfdf3;color:var(--ok)}.note{text-align:center;font-size:10px;color:#98a2b3;margin-top:14px;font-weight:700}
+.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:var(--nav);color:#fff;padding:15px 13px;z-index:30}.sidebrand{display:flex;gap:9px;align-items:center;padding:7px 8px 18px;border-bottom:1px solid #ffffff18}.sidebrand img{width:42px;height:42px;background:#fff;border-radius:11px;padding:3px}.sidebrand b{font-size:13px;line-height:1.15}.nav{display:grid;gap:5px;margin-top:16px}.nav button{border:0;background:transparent;color:#d9e7f5;text-align:left;padding:11px 12px;border-radius:9px;font-weight:800;font-size:12px}.nav button:hover,.nav button.active{background:#ffffff15;color:#fff}.sidefoot{position:absolute;left:13px;right:13px;bottom:14px}.logout{width:100%;border:0;border-radius:9px;padding:10px;background:#fff;color:var(--nav);font-weight:900}.main{margin-left:245px;padding:14px;min-height:100vh}.top{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow);margin-bottom:15px}.hamb{display:none;border:0;background:var(--nav);color:#fff;border-radius:8px;padding:8px 10px;font-weight:900}.topuser{display:flex;align-items:center;gap:9px}.avatar{width:36px;height:36px;border-radius:10px;background:#e7f1fb;color:var(--blue);display:grid;place-items:center;font-weight:950}.topuser small{display:block;font-size:10px;color:var(--muted);margin-top:2px}.page{display:none}.page.active{display:block}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:7px 2px 14px}.heading h2{margin:0;font-size:24px}.heading p{margin:4px 0 0;color:var(--muted);font-size:11px;font-weight:650}.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:9px;padding:9px 12px;font-size:11px;font-weight:850}.btn.primary{background:var(--nav);border-color:var(--nav);color:#fff;width:auto}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow)}.stat span{font-size:9px;text-transform:uppercase;color:var(--muted);font-weight:900}.stat b{display:block;font-size:25px;margin-top:4px}.grid2{display:grid;grid-template-columns:1.35fr .65fr;gap:12px;margin-top:12px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow)}.card h3{font-size:14px;margin:0 0 11px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.search{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;padding:10px 11px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:9px 8px;border-bottom:1px solid #edf1f5;text-align:left;font-size:11px;vertical-align:top}.table th{font-size:9px;color:#6b7b8c;text-transform:uppercase;background:#fafbfd}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:99px;background:#eef2f6;color:#475467;font-size:9px;font-weight:900}.badge.ok{background:#ecfdf3;color:#087443}.badge.warn{background:#fffaeb;color:#b54708}.badge.bad{background:#fff1f0;color:#b42318}.bar{height:7px;background:#edf1f5;border-radius:99px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;background:#1769aa;border-radius:99px}.listitem{padding:9px 0;border-bottom:1px solid #edf1f5}.listitem b{font-size:11px}.listitem small{display:block;color:#98a2b3;font-size:9px;margin-top:3px}.empty{text-align:center;padding:25px;color:#98a2b3;font-size:11px;font-weight:700}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}.modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:14px;z-index:100}.modal.show{display:flex}.modalbox{width:min(720px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:16px;padding:17px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}.modalhead h3{margin:0;font-size:16px}.x{border:0;background:#f1f3f5;border-radius:8px;padding:7px 10px}.photo-preview{display:flex;gap:7px;flex-wrap:wrap}.photo-preview img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:none}.main{margin-left:0;padding:10px}.hamb{display:block}.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.heading h2{font-size:21px}.top{padding:9px 10px}.table{min-width:680px}}
+@media(max-width:520px){.loginbox{padding:22px}.logo{width:58px;height:58px}.stats{gap:7px}.stat{padding:12px}.stat b{font-size:21px}.stat span{font-size:8px}.topuser div:last-child{max-width:110px}.topuser b{font-size:11px}.heading{align-items:center}.btn.primary{padding:9px}.card{padding:12px}}
 </style>
 </head>
 <body>
-<div id="loginScreen" class="screen login">
-  <div class="login-card">
-    <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
-    <div class="brand"><h1>SIMON-PBJ</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
-    <div class="tabs"><button id="tabLogin" class="active" onclick="switchAuth('login')">Masuk</button><button id="tabReg" onclick="switchAuth('reg')">Daftar Akun</button></div>
-    <form id="loginForm" onsubmit="login(event)">
-      <div class="field"><label>Username</label><input id="loginUser" autocomplete="username" required></div>
-      <div class="field"><label>Password</label><input id="loginPass" type="password" autocomplete="current-password" required></div>
-      <button class="primary" type="submit">Masuk ke Sistem</button>
-    </form>
-    <form id="regForm" class="hidden" onsubmit="register(event)">
-      <div class="field"><label>Nama Lengkap</label><input id="regNama" required></div>
-      <div class="field"><label>Username</label><input id="regUser" required></div>
-      <div class="field"><label>Password</label><input id="regPass" type="password" minlength="4" required></div>
-      <div class="field"><label>Peran</label><select id="regRole"><option>PPK</option><option>PPBJ</option></select></div>
-      <button class="primary" type="submit">Ajukan Akun</button>
-    </form>
-    <div id="authMsg"></div><div class="hint">Data tersimpan langsung di Supabase. Tidak menggunakan Google Apps Script.</div>
-  </div>
+<div id="login" class="login">
+ <div class="loginbox">
+  <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
+  <div class="brand"><h1>SIMON-PBJ</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
+  <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
+  <form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field"><label>Password</label><input id="lp" type="password" required autocomplete="current-password"></div><button class="primary">Masuk ke Sistem</button></form>
+  <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
+  <div id="am"></div><div class="note">Backend langsung ke Supabase. Tidak memakai Google Apps Script.</div>
+ </div>
 </div>
 <div id="app" class="app hidden">
-  <aside id="side" class="side">
-    <div class="side-brand"><img src="logo-labusel.png"><strong>SIMON-PBJ<br>LABUSEL</strong></div>
-    <nav class="nav">
-      <button data-page="dashboard" onclick="showPage('dashboard')">▣ &nbsp; Dashboard</button>
-      <button data-page="proyek" onclick="showPage('proyek')">▤ &nbsp; Daftar Proyek</button>
-      <button data-page="laporan" onclick="showPage('laporan')">◷ &nbsp; Laporan Mingguan</button>
-      <button data-page="pengguna" onclick="showPage('pengguna')">♙ &nbsp; Daftar Akun</button>
-    </nav>
-    <div class="side-bottom"><button class="logout" onclick="logout()">Keluar</button></div>
-  </aside>
-  <main class="main">
-    <header class="top"><div style="display:flex;align-items:center;gap:10px"><button class="mobile-menu" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="pageSub" style="display:block;color:#667085;font-size:10px;margin-top:2px">Dashboard</small></div></div><div class="user"><div class="avatar" id="avatar">U</div><div><b id="userName">Pengguna</b><small id="userRole">-</small></div></div></header>
-    <section id="page-dashboard" class="page active"><div class="title-row"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Proyek</span><b id="sProyek">0</b></div><div class="stat"><span>Laporan Mingguan</span><b id="sLaporan">0</b></div><div class="stat"><span>Progres Berjalan</span><b id="sBerjalan">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sAvg">0%</b></div></div><div class="grid"><div class="card"><h3>Proyek Terbaru</h3><div id="recentProjects"></div></div><div class="card"><h3>Aktivitas Terbaru</h3><div id="activities"></div></div></div></section>
-    <section id="page-proyek" class="page"><div class="title-row"><div><h2>Daftar Proyek</h2><p>Master proyek dari Supabase.</p></div></div><div class="card"><div class="toolbar"><input id="projectSearch" class="search" placeholder="Cari nama paket, RUP, penyedia, lokasi..." oninput="renderProjects()"></div><div class="table-wrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Penyedia</th><th>Lokasi</th><th>Nilai</th><th>Adendum</th></tr></thead><tbody id="projectBody"></tbody></table></div></div></section>
-    <section id="page-laporan" class="page"><div class="title-row"><div><h2>Laporan Mingguan</h2><p>Input dan riwayat progres fisik.</p></div><button class="primary" style="width:auto" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="reportSearch" class="search" placeholder="Cari RUP / paket..." oninput="renderReports()"></div><div class="table-wrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dibuat Oleh</th><th>Status</th></tr></thead><tbody id="reportBody"></tbody></table></div></div></section>
-    <section id="page-pengguna" class="page"><div class="title-row"><div><h2>Daftar Akun</h2><p>Pengelolaan pengguna sistem.</p></div></div><div class="card"><div class="table-wrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th></tr></thead><tbody id="userBody"></tbody></table></div></div></section>
-  </main>
+ <aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>SIMON-PBJ<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
+ <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div></header>
+  <section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan progres pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Proyek</span><b id="sp">0</b></div><div class="stat"><span>Laporan</span><b id="sl">0</b></div><div class="stat"><span>Berjalan</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>Proyek Terbaru</h3><div id="recent"></div></div><div class="card"><h3>Informasi</h3><div id="info" class="listitem">Data sedang dimuat...</div></div></div></section>
+  <section id="proyek" class="page"><div class="heading"><div><h2>Daftar Proyek</h2><p>Master proyek tersimpan di Supabase.</p></div></div><div class="card"><div class="toolbar"><input id="ps" class="search" placeholder="Cari RUP, nama paket, penyedia, lokasi..." oninput="renderProjects()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Penyedia</th><th>Lokasi</th><th>Nilai</th><th>Adendum</th></tr></thead><tbody id="pb"></tbody></table></div></div></section>
+  <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Progres fisik dan riwayat laporan.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP atau paket..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
+  <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
+  <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi dan pengelolaan akun.</p></div></div><div class="stats"><div class="stat"><span>Total Akun</span><b id="at">0</b></div><div class="stat"><span>Aktif</span><b id="aa">0</b></div><div class="stat"><span>PPK</span><b id="ap">0</b></div><div class="stat"><span>PPBJ</span><b id="aj">0</b></div></div><div class="card" style="margin-top:12px"><h3>Pendaftaran Menunggu</h3><div id="pending"></div></div><div class="card" style="margin-top:12px"><h3>Daftar Akun</h3><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
+  <section id="pimpinan" class="page"><div class="heading"><div><h2>Monitoring Pimpinan</h2><p>Ringkasan seluruh pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Proyek</span><b id="pt">0</b></div><div class="stat"><span>Nilai</span><b id="pn" style="font-size:16px">Rp 0</b></div><div class="stat"><span>Berjalan</span><b id="pj">0</b></div><div class="stat"><span>Selesai</span><b id="psl">0</b></div></div><div class="card" style="margin-top:12px"><div class="toolbar"><input id="pims" class="search" placeholder="Cari proyek..." oninput="renderPimpinan()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Paket</th><th>Penyedia</th><th>Progres</th><th>Minggu</th><th>Status</th><th>Terakhir</th></tr></thead><tbody id="pib"></tbody></table></div></div></section>
+ </main>
 </div>
-<div id="modal" class="modal"><div class="modal-box"><div class="modal-head"><h3>Input Laporan Mingguan</h3><button class="close" onclick="closeModal()">✕</button></div><form onsubmit="saveReport(event)"><div class="form-grid"><div class="field full"><label>Pilih Proyek / Kode RUP</label><select id="rRup" required onchange="fillProject()"><option value="">Memuat proyek...</option></select></div><div class="field"><label>Nama Paket</label><input id="rPaket" readonly></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" readonly></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" type="number" min="1" required></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field"><label>Diteruskan ke PPBJ?</label><select id="rTerus"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div><div class="field full"><label>Keterangan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan..."></textarea></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="modal" class="modal"><div class="modalbox"><div class="modalhead"><h3 id="mt">Input Laporan Mingguan</h3><button class="x" onclick="closeModal()">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Kode RUP / Paket</label><select id="fr" required onchange="fillForm()"><option value="">Pilih proyek...</option></select></div><div class="field"><label>Nama Paket</label><input id="fp" readonly></div><div class="field"><label>Nama Penyedia</label><input id="fy" placeholder="Wajib pada Minggu 1"></div><div class="field"><label>Lokasi</label><select id="fl" required><option value="">Pilih kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Progres Fisik (%)</label><input id="fg" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Adendum</label><select id="fa"><option>TIDAK</option><option>YA</option></select></div><div class="field"><label>Nomor Adendum</label><input id="fan"></div><div class="field"><label>Tanggal Adendum</label><input id="fat" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="fav"></div><div class="field full"><label>Keterangan Adendum</label><textarea id="fak"></textarea></div><div class="field full"><label>Keterangan Progres</label><textarea id="fk" placeholder="Catatan pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Teruskan ke PPBJ?</label><select id="fd" onchange="loadRecipients()"><option>TIDAK</option><option>YA</option></select></div><div id="recwrap" class="field full hidden"><label>Tujuan</label><select id="fpp"></select></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="photos" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="preview" class="photo-preview" style="margin-top:7px"></div></div></div><button class="primary">Simpan Laporan</button></form></div></div>
 <script>
-/* =========================================================
-   SIMON-PBJ — SINGLE FILE FRONTEND
-   GitHub: index.html + 3 logo files only
-   Backend: Supabase REST API — no Google Apps Script bridge
-   ========================================================= */
-const SB_URL='https://msfkpwwqrpbmgdtlbwdo.supabase.co';
-const SB_KEY='GANTI_DENGAN_PUBLISHABLE_KEY_SUPABASE';
-const state={user:null,projects:[],reports:[],users:[],activities:[]};
-const $=id=>document.getElementById(id);
-function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function msg(t,ok=false){$('authMsg').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
-async function api(table,{method='GET',query='',body=null,prefer='return=representation'}={}){if(SB_KEY.startsWith('GANTI_'))throw new Error('Publishable key Supabase belum diisi di index.html.');const o={method,headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'}};if(body!==null){o.body=JSON.stringify(body);o.headers.Prefer=prefer}const r=await fetch(SB_URL+'/rest/v1/'+table+query,o);const text=await r.text();let data;try{data=text?JSON.parse(text):null}catch{data=text}if(!r.ok)throw new Error(data?.message||data?.hint||data?.error_description||'Supabase error '+r.status);return data}
-function switchAuth(type){$('tabLogin').classList.toggle('active',type==='login');$('tabReg').classList.toggle('active',type==='reg');$('loginForm').classList.toggle('hidden',type!=='login');$('regForm').classList.toggle('hidden',type!=='reg');$('authMsg').innerHTML=''}
-async function login(e){e.preventDefault();msg('Memeriksa akun...',true);try{const u=$('loginUser').value.trim(),p=$('loginPass').value;const rows=await api('users',{query:'?select=nama,username,role,status&username=eq.'+encodeURIComponent(u)+'&password=eq.'+encodeURIComponent(p)+'&limit=1'});if(!rows.length)throw new Error('Username atau password salah.');if(!['aktif','AKTIF'].includes(String(rows[0].status).toLowerCase()))throw new Error('Akun belum aktif. Hubungi Admin.');state.user=rows[0];localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(err){msg(err.message)}}
-async function register(e){e.preventDefault();try{const nama=$('regNama').value.trim(),username=$('regUser').value.trim(),password=$('regPass').value,role=$('regRole').value;const exists=await api('users',{query:'?select=username&username=eq.'+encodeURIComponent(username)+'&limit=1'});if(exists.length)throw new Error('Username sudah digunakan.');await api('users',{method:'POST',body:{nama,username,password,role,status:'Nonaktif'}});$('regForm').reset();switchAuth('login');msg('Pendaftaran berhasil. Tunggu Admin mengaktifkan akun.',true)}catch(err){msg(err.message)}}
-async function boot(){ $('loginScreen').classList.add('hidden');$('app').classList.remove('hidden');$('userName').textContent=state.user.nama;$('userRole').textContent=state.user.role;$('avatar').textContent=(state.user.nama||'U').charAt(0).toUpperCase();applyRole();await loadAll();showPage('dashboard') }
-function applyRole(){const r=String(state.user.role||'').toUpperCase();const admin=r==='ADMIN';$('page-pengguna').classList.toggle('hidden',!admin);document.querySelector('[data-page="pengguna"]').classList.toggle('hidden',!admin)}
-async function loadAll(){try{const [p,l,u,a]=await Promise.all([api('master_proyek',{query:'?select=*&order=no.asc'}),api('laporan_mingguan',{query:'?select=*&order=tanggal_laporan.desc&limit=500'}),api('users',{query:'?select=nama,username,role,status&order=nama.asc'}),api('log_aktivitas',{query:'?select=*&order=tanggal.desc&limit=8'})]);state.projects=p||[];state.reports=l||[];state.users=u||[];state.activities=a||[];renderAll()}catch(e){console.error(e);alert(e.message)}}
-function renderAll(){renderDashboard();renderProjects();renderReports();renderUsers()}
-function pct(v){let n=parseFloat(String(v??'').replace(',','.').replace('%',''));return isNaN(n)?0:Math.max(0,Math.min(100,n))}
-function num(v){const n=String(v??'').replace(/[^0-9,.-]/g,'').replace(/\.(?=\d{3}(?:\D|$))/g,'').replace(',','.');return Number(n)||0}
-function money(v){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(num(v))}
-function renderDashboard(){const total=state.projects.length;const vals=state.reports.map(x=>pct(x.persentase_progres));const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sProyek').textContent=total;$('sLaporan').textContent=state.reports.length;$('sBerjalan').textContent=state.projects.filter(p=>{const x=state.reports.filter(r=>r.kode_rup===p.kode_rup).sort((a,b)=>(b.minggu_ke||0)-(a.minggu_ke||0))[0];return !x||pct(x.persentase_progres)<100}).length;$('sAvg').textContent=avg.toFixed(1)+'%';const rows=state.projects.slice(0,8).map(p=>{const r=state.reports.filter(x=>x.kode_rup===p.kode_rup).sort((a,b)=>(b.minggu_ke||0)-(a.minggu_ke||0))[0],pr=r?pct(r.persentase_progres):0;return '<div style="padding:10px 0;border-bottom:1px solid #edf0f4"><b style="font-size:12px">'+esc(p.nama_paket)+'</b><div style="display:flex;align-items:center;gap:8px;margin-top:7px"><div class="progress" style="flex:1"><i style="width:'+pr+'%"></i></div><span style="font-size:11px;font-weight:900">'+pr.toFixed(1)+'%</span></div></div>'}).join('');$('recentProjects').innerHTML=rows||'<div class="empty">Belum ada proyek.</div>';$('activities').innerHTML=state.activities.map(x=>'<div style="padding:9px 0;border-bottom:1px solid #edf0f4"><b style="font-size:11px">'+esc(x.aktivitas)+'</b><div style="font-size:10px;color:#98a2b3;margin-top:3px">'+esc(x.username||'')+' · '+esc(x.tanggal||'')+'</div></div>').join('')||'<div class="empty">Belum ada aktivitas.</div>'}
-function renderProjects(){const q=($('projectSearch')?.value||'').toLowerCase();const rows=state.projects.filter(p=>[p.nama_paket,p.kode_rup,p.nama_penyedia,p.lokasi].join(' ').toLowerCase().includes(q)).slice(0,500);$('projectBody').innerHTML=rows.map(p=>'<tr><td><b>'+esc(p.kode_rup)+'</b></td><td>'+esc(p.nama_paket)+'</td><td>'+esc(p.nama_penyedia)+'</td><td>'+esc(p.lokasi)+'</td><td>'+money(p.total_nilai)+'</td><td>'+esc(p.adendum||'Tidak')+'</td></tr>').join('')||'<tr><td colspan="6" class="empty">Data tidak ditemukan.</td></tr>'}
-function renderReports(){const q=($('reportSearch')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kode_rup,r.nama_paket,r.nama_penyedia].join(' ').toLowerCase().includes(q));$('reportBody').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal_laporan)+'</td><td><b>'+esc(r.nama_paket||r.kode_rup)+'</b><div style="font-size:10px;color:#98a2b3">'+esc(r.kode_rup)+'</div></td><td>'+esc(r.minggu_ke)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="progress"><i style="width:'+pct(r.persentase_progres)+'%"></i></div><b>'+pct(r.persentase_progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuat_oleh)+'</td><td><span class="badge '+(String(r.status_verifikasi||'').toLowerCase().includes('setuju')?'ok':'warn')+'">'+esc(r.status_verifikasi||'Belum diverifikasi')+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
-function renderUsers(){if(!$('userBody'))return;$('userBody').innerHTML=state.users.map(u=>'<tr><td>'+esc(u.nama)+'</td><td>'+esc(u.username)+'</td><td><span class="badge">'+esc(u.role)+'</span></td><td><span class="badge '+(['aktif','AKTIF'].includes(String(u.status))?'ok':'warn')+'">'+esc(u.status)+'</span></td></tr>').join('')}
-function showPage(name){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$('page-'+name).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===name));$('pageSub').textContent={dashboard:'Dashboard',proyek:'Daftar Proyek',laporan:'Laporan Mingguan',pengguna:'Daftar Akun'}[name]||'';$('side').classList.remove('open');if(name==='laporan')renderReports()}
+const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
+const S={user:null,projects:[],reports:[],users:[],pending:[],pimp:[]};
+const $=x=>document.getElementById(x); const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function call(fn,args=[]){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':'sb_publishable_NDtNffV0sboaqEuuVzXy6g_bj2X3B4H'},body:JSON.stringify({function:fn,args})});let d;try{d=await r.json()}catch{throw Error('Respons server tidak valid.')}if(!r.ok||d.success===false&&['login','daftarUser'].indexOf(fn)<0)throw Error(d.message||'Permintaan gagal.');return d}
+function authTab(t){$('tl').classList.toggle('active',t==='login');$('tr').classList.toggle('active',t==='reg');$('lf').classList.toggle('hidden',t!=='login');$('rf').classList.toggle('hidden',t!=='reg');$('am').innerHTML=''}
+function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
+async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message);S.user=d.user;localStorage.setItem('simonUser',JSON.stringify(S.user));await start()}catch(x){authMsg(x.message)}}
+async function doRegister(e){e.preventDefault();try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message||'Pendaftaran berhasil.',true)}catch(x){authMsg(x.message)}}
+async function start(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=S.user.nama;$('ur').textContent=S.user.role;$('av').textContent=(S.user.nama||'U')[0].toUpperCase();buildNav();await loadData();showPage('dashboard') }
+function role(){return String(S.user?.role||'').toUpperCase()}
+function buildNav(){const r=role(),n=[['dashboard','▣  Dashboard'],['proyek','▤  Daftar Proyek'],['laporan','◷  Laporan Mingguan']];if(['PPK','PPBJ'].includes(r))n.push(['verifikasi','✓  Verifikasi Masuk']);if(r==='ADMIN')n.push(['admin','♙  Manajemen Akun']);if(['PIMPINAN','KABAG BPBJ','KABAG','KABAG UKPBJ','BUPATI'].includes(r))n.push(['pimpinan','▥  Monitoring Pimpinan']);$('nav').innerHTML=n.map(x=>'<button data-p="'+x[0]+'" onclick="showPage(\''+x[0]+'\')">'+x[1]+'</button>').join('')}
+async function loadData(){try{S.projects=await call('getMasterProyek');S.reports=await call('getLaporanMingguan');if(role()==='ADMIN'){const d=await call('getAdminDashboardData',[S.user.username]);S.users=d.daftar||[];S.pending=(await call('getPendaftaranMenunggu',[S.user.username])).daftar||[]}if(['PPK','PPBJ'].includes(role()))S.ver=(await call('getVerifikasiMasuk',[S.user.username]))||[];if(['PIMPINAN','KABAG BPBJ','KABAG','KABAG UKPBJ','BUPATI'].includes(role())){const d=await call('getPimpinanDashboardData');S.pimp=d.daftar||[];S.pimpMeta=d}renderAll()}catch(e){$('info').textContent=e.message;console.error(e)}}
+function latest(p){return S.reports.filter(x=>x.kodeRup===p.kodeRup).sort((a,b)=>(+b.mingguKe||0)-(+a.mingguKe||0))[0]}
+function prog(r){const n=parseFloat(String(r?.progres??0).replace(',','.').replace('%',''));return isNaN(n)?0:Math.max(0,Math.min(100,n))}
+function money(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)?'Rp '+n.toLocaleString('id-ID'):(v||'Rp 0')}
+function renderDashboard(){const vals=S.reports.map(prog),avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=S.projects.length;$('sl').textContent=S.reports.length;$('sb').textContent=S.projects.filter(p=>(prog(latest(p))<100)).length;$('sa').textContent=avg.toFixed(1)+'%';$('recent').innerHTML=S.projects.slice(0,8).map(p=>{const r=latest(p),v=prog(r);return '<div class="listitem"><b>'+esc(p.namaPaket)+'</b><small>'+esc(p.kodeRup)+' · '+v.toFixed(1)+'%</small><div class="bar" style="margin-top:6px"><i style="width:'+v+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada proyek.</div>';$('info').innerHTML='<b>Data utama:</b><br>Supabase<br><br><b>Role:</b> '+esc(role())+'<br><b>Terakhir dimuat:</b> '+new Date().toLocaleString('id-ID')}
+function renderProjects(){const q=($('ps').value||'').toLowerCase();const a=S.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));$('pb').innerHTML=a.map(p=>'<tr><td><b>'+esc(p.kodeRup)+'</b></td><td>'+esc(p.namaPaket)+'</td><td>'+esc(p.namaPenyedia)+'</td><td>'+esc(p.lokasi)+'</td><td>'+money(p.totalNilai)+'</td><td><span class="badge '+(String(p.adendum).toUpperCase()==='YA'?'warn':'')+'">'+esc(p.adendum||'TIDAK')+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Data tidak ditemukan.</td></tr>'}
+function renderReports(){const q=($('ls').value||'').toLowerCase();const a=S.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=a.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+prog(r)+'%"></i></div><b>'+prog(r).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(String(r.verifikasi?.status||'').includes('DITERIMA')?'ok':'warn')+'">'+esc(r.verifikasi?.status||'BELUM DIVERIFIKASI')+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
+function renderVerify(){const a=S.ver||[];$('vb').innerHTML=a.map(v=>{const r=v.laporan||{};return '<tr><td>'+esc(v.tanggal)+'</td><td>'+esc(r.namaPaket)+'</td><td>'+esc(r.mingguKe)+'</td><td>'+prog(r).toFixed(1)+'%</td><td>'+esc(v.dari)+'</td><td><button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DITERIMA\')">Terima</button> <button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DIKEMBALIKAN\')">Kembalikan</button></td></tr>'}).join('')||'<tr><td colspan="6" class="empty">Tidak ada verifikasi masuk.</td></tr>'}
+function renderAdmin(){const d=S.users;const c={a:0,p:0,j:0};d.forEach(x=>{if(String(x.status).toUpperCase()==='AKTIF')c.a++;if(String(x.role).toUpperCase()==='PPK')c.p++;if(String(x.role).toUpperCase()==='PPBJ')c.j++});$('at').textContent=d.length;$('aa').textContent=c.a;$('ap').textContent=c.p;$('aj').textContent=c.j;$('pending').innerHTML=S.pending.map(x=>'<div class="listitem"><b>'+esc(x.nama)+'</b><small>'+esc(x.username)+' · '+esc(x.role)+'</small><div style="margin-top:6px"><button class="btn" onclick="decideReg(\''+esc(x.username)+'\',\'SETUJUI\')">Setujui</button> <button class="btn" onclick="decideReg(\''+esc(x.username)+'\',\'TOLAK\')">Tolak</button></div></div>').join('')||'<div class="empty">Tidak ada pendaftaran menunggu.</div>';$('ub').innerHTML=d.map(x=>'<tr><td>'+esc(x.nama)+'</td><td>'+esc(x.username)+'</td><td>'+esc(x.role)+'</td><td><span class="badge '+(String(x.status).toUpperCase()==='AKTIF'?'ok':'warn')+'">'+esc(x.status)+'</span></td><td><button class="btn" onclick="toggleUser(\''+esc(x.username)+'\',\''+esc(x.status)+'\')">'+(String(x.status).toUpperCase()==='AKTIF'?'Nonaktifkan':'Aktifkan')+'</button></td></tr>').join('')}
+function renderPimpinan(){const q=($('pims').value||'').toLowerCase(),a=S.pimp.filter(x=>[x.kodeRup,x.namaPaket,x.namaPenyedia,x.lokasi].join(' ').toLowerCase().includes(q));$('pt').textContent=S.pimpMeta?.totalProyek||a.length;$('pn').textContent=S.pimpMeta?.totalNilaiDisplay||'Rp 0';$('pj').textContent=S.pimpMeta?.proyekBerjalan||0;$('psl').textContent=S.pimpMeta?.proyekSelesai||0;$('pib').innerHTML=a.map(x=>'<tr><td>'+esc(x.kodeRup)+'</td><td><b>'+esc(x.namaPaket)+'</b></td><td>'+esc(x.namaPenyedia)+'</td><td><div style="display:flex;gap:6px;align-items:center"><div class="bar"><i style="width:'+prog({progres:x.progres})+'%"></i></div>'+prog({progres:x.progres}).toFixed(1)+'%</div></td><td>'+esc(x.mingguKe)+'</td><td><span class="badge '+(x.status==='SELESAI'?'ok':x.status==='BERJALAN'?'warn':'')+'">'+esc(x.status)+'</span></td><td>'+esc(x.tanggal)+'</td></tr>').join('')||'<tr><td colspan="7" class="empty">Tidak ada proyek.</td></tr>'}
+function renderAll(){renderDashboard();renderProjects();renderReports();renderVerify();renderAdmin();renderPimpinan()}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(p).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.p===p));$('subtitle').textContent={dashboard:'Dashboard',proyek:'Daftar Proyek',laporan:'Laporan Mingguan',verifikasi:'Verifikasi Masuk',admin:'Manajemen Akun',pimpinan:'Monitoring Pimpinan'}[p]||'';$('side').classList.remove('open')}
 function toggleSide(){$('side').classList.toggle('open')}
-function openReport(){const s=$('rRup');s.innerHTML='<option value="">Pilih proyek...</option>'+state.projects.map(p=>'<option value="'+esc(p.kode_rup)+'">'+esc(p.kode_rup)+' — '+esc(p.nama_paket)+'</option>').join('');$('rTanggal').value=new Date().toISOString().slice(0,10);$('modal').classList.add('show')}
+function openReport(){const s=$('fr');s.innerHTML='<option value="">Pilih proyek...</option>'+S.projects.map(p=>'<option value="'+esc(p.kodeRup)+'">'+esc(p.kodeRup)+' — '+esc(p.namaPaket)+'</option>').join('');$('modal').classList.add('show');loadRecipients()}
 function closeModal(){$('modal').classList.remove('show')}
-function fillProject(){const p=state.projects.find(x=>x.kode_rup===$('rRup').value);$('rPaket').value=p?.nama_paket||'';$('rPenyedia').value=p?.nama_penyedia||''}
-async function saveReport(e){e.preventDefault();try{const p=state.projects.find(x=>x.kode_rup===$('rRup').value);if(!p)throw new Error('Pilih proyek.');const row={id_laporan:'LAP-'+Date.now(),tanggal_laporan:$('rTanggal').value,kode_rup:p.kode_rup,nama_paket:p.nama_paket,nama_penyedia:p.nama_penyedia,minggu_ke:Number($('rMinggu').value),persentase_progres:String($('rProgres').value),keterangan:$('rKet').value,dibuat_oleh:state.user.username,lokasi:p.lokasi||'',diteruskan_ke_ppbj:$('rTerus').value,ppbj_tujuan:'',status_verifikasi:'Belum diverifikasi',catatan_verifikasi:'',tanggal_verifikasi:''};await api('laporan_mingguan',{method:'POST',body:row});await api('log_aktivitas',{method:'POST',body:{id_log:'LOG-'+Date.now(),tanggal:new Date().toISOString(),username:state.user.username,aktivitas:'Menambahkan laporan minggu ke-'+row.minggu_ke+' untuk '+p.kode_rup}});closeModal();e.target.reset();await loadAll();alert('Laporan berhasil disimpan.')}catch(err){alert(err.message)}}
-async function logout(){state.user=null;localStorage.removeItem('simon_user');$('app').classList.add('hidden');$('loginScreen').classList.remove('hidden');switchAuth('login');$('loginForm').reset()}
-async function restore(){const raw=localStorage.getItem('simon_user');if(!raw)return;try{state.user=JSON.parse(raw);await boot()}catch(e){logout()}}
+async function fillForm(){const p=S.projects.find(x=>x.kodeRup===$('fr').value);$('fp').value=p?.namaPaket||'';$('fy').value=p?.namaPenyedia||'';if(p){try{const d=await call('getMingguBerikutnya',[p.kodeRup]);$('mt').textContent='Input Laporan Minggu ke-'+d.mingguBerikutnya}catch{}}}
+async function loadRecipients(){if($('fd').value!=='YA'){$('recwrap').classList.add('hidden');return}try{const a=await call('getDaftarPPBJ');$('fpp').innerHTML=(a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join('');$('recwrap').classList.remove('hidden')}catch(e){alert(e.message)}}
+async function previewPhotos(){const box=$('preview');box.innerHTML='';for(const f of [...$('photos').files].slice(0,5)){const u=URL.createObjectURL(f);box.innerHTML+='<img src="'+u+'">'}}
+function readPhoto(file){return new Promise((res,rej)=>{const im=new Image(),rd=new FileReader();rd.onload=()=>{im.onload=()=>{const m=1000,sc=Math.min(1,m/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res({name:file.name.replace(/[^a-zA-Z0-9._-]/g,'_'),data:c.toDataURL('image/jpeg',.78)});};im.onerror=rej;im.src=rd.result};rd.onerror=rej;rd.readAsDataURL(file)})}
+async function saveReport(e){e.preventDefault();try{const p=S.projects.find(x=>x.kodeRup===$('fr').value);if(!p)throw Error('Pilih proyek.');const photos=[];for(const f of [...$('photos').files].slice(0,5))photos.push(await readPhoto(f));const d=await call('simpanLaporan',[{kodeRup:p.kodeRup,namaPaket:p.namaPaket,namaPenyedia:$('fy').value,lokasi:$('fl').value,adendum:$('fa').value,nomorAdendum:$('fan').value,tanggalAdendum:$('fat').value,nilaiAdendum:$('fav').value,keteranganAdendum:$('fak').value,progres:$('fg').value,keterangan:$('fk').value,dibuatOleh:S.user.username,diteruskan:$('fd').value,ppbjUsername:$('fpp').value,foto:photos}]);if(!d.success)throw Error(d.message);closeModal();e.target.reset();$('preview').innerHTML='';await loadData();showPage('laporan');alert(d.message)}catch(x){alert(x.message)}}
+async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:S.user.username,statusBaru:status,catatan:cat}]);alert(d.message);await loadData();showPage('verifikasi')}catch(e){alert(e.message)}}
+async function decideReg(u,d){try{const x=await call('adminVerifikasiPendaftaran',[S.user.username,u,d]);alert(x.message);await loadData();showPage('admin')}catch(e){alert(e.message)}}
+async function toggleUser(u,status){try{const x=await call('adminSetStatus',[S.user.username,u,String(status).toUpperCase()==='AKTIF'?'NONAKTIF':'AKTIF']);alert(x.message);await loadData();showPage('admin')}catch(e){alert(e.message)}}
+function logout(){S.user=null;localStorage.removeItem('simonUser');$('app').classList.add('hidden');$('login').classList.remove('hidden');authTab('login');$('lf').reset()}
+async function restore(){const u=localStorage.getItem('simonUser');if(!u)return;try{S.user=JSON.parse(u);await start()}catch{logout()}}
 restore();
 </script>
 </body>
