@@ -686,100 +686,128 @@
 }
 
 
-/* ===== DASHBOARD ANALITIK — EXECUTIVE LAYOUT ===== */
-.analytics-page-heading{margin-bottom:12px}
-.analytics-live{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--muted);font-size:9px;font-weight:850;white-space:nowrap}
-.analytics-live span{width:7px;height:7px;border-radius:50%;background:#35a66f;box-shadow:0 0 0 4px rgba(53,166,111,.10)}
-.analytics-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:12px;align-items:stretch}
-.analytics-card{min-width:0;display:flex;flex-direction:column}
+/* ===== DASHBOARD ANALITIK ===== */
+.analytics-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
+.analytics-card{min-width:0}
+.analytics-chart-card{grid-row:span 2}
 .analytics-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
-.analytics-card-head h3{margin:0;font-size:14px;font-weight:950;line-height:1.25}
-.analytics-card-head span{display:block;margin-top:4px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.45}
-.analytics-chip{display:inline-flex!important;margin:0!important;padding:5px 8px;border-radius:99px;background:var(--lightblue);color:var(--muted)!important;border:1px solid var(--line);white-space:nowrap;font-weight:850!important}
-.progress-chart-wrap{display:grid;grid-template-columns:165px 1fr;gap:18px;align-items:center;min-height:150px}
-.progress-donut{width:158px;height:158px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#8b98a6 0deg,#8b98a6 0deg,#e8eef4 0deg 360deg);position:relative}
-.progress-donut:after{content:'';position:absolute;inset:22px;border-radius:50%;background:var(--card)}
+.analytics-card-head h3{margin:0;font-size:14px;font-weight:950}
+.analytics-card-head span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.4}
+.analytics-chip{display:inline-flex!important;margin:0!important;padding:5px 8px;border-radius:99px;background:var(--lightblue);color:var(--muted)!important;border:1px solid var(--line);white-space:nowrap}
+.progress-chart-wrap{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}
+.progress-donut{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#1769aa 0deg,#1769aa 0deg,#e8eef4 0deg 360deg);position:relative}
+.progress-donut:after{content:'';position:absolute;inset:23px;border-radius:50%;background:var(--card)}
 .progress-donut>div{position:relative;z-index:1;text-align:center}
-.progress-donut b{display:block;font-size:25px;font-weight:950;letter-spacing:-.5px}
+.progress-donut b{display:block;font-size:27px;font-weight:950}
 .progress-donut span{font-size:9px;color:var(--muted);font-weight:800}
 .progress-legend{display:grid;gap:7px}
-.progress-legend-item{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:8px;font-size:9.5px;font-weight:850}
-.progress-legend-dot{width:10px;height:10px;border-radius:50%;display:block}
-.progress-legend-item small{color:var(--muted);font-size:8.5px;font-weight:850}
-.bar-chart{display:grid;gap:7px;margin-top:12px}
-.analytics-bar-row{display:grid;grid-template-columns:58px 1fr 34px;gap:8px;align-items:center;font-size:8.5px;font-weight:850}
-.analytics-bar-track{height:8px;background:#edf2f6;border-radius:99px;overflow:hidden}
-.analytics-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4d9ed1,#70c1ed)}
+.progress-legend-item{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:850}
+.progress-legend-dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.progress-legend-item small{margin-left:auto;color:var(--muted);font-size:9px;font-weight:800}
+.bar-chart{display:grid;gap:8px;margin-top:14px}
+.analytics-bar-row{display:grid;grid-template-columns:80px 1fr 38px;gap:8px;align-items:center;font-size:9px}
+.analytics-bar-track{height:10px;background:#edf2f6;border-radius:99px;overflow:hidden}
+.analytics-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#4b9bd0,#69bff0)}
 .analytics-bar-row b{text-align:right;font-size:9px}
 .analytics-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.analytics-mini{min-width:0;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:linear-gradient(135deg,var(--lightblue),var(--card))}
-.analytics-mini span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900;letter-spacing:.2px}
-.analytics-mini b{display:block;margin-top:4px;font-size:23px;line-height:1;font-weight:950}
-.analytics-mini small{display:block;margin-top:5px;color:var(--muted);font-size:8px;line-height:1.25;font-weight:750}
-.analytics-note{margin-top:9px;padding:9px 10px;border-radius:10px;background:var(--lightblue);color:var(--muted);font-size:8.5px;line-height:1.45;font-weight:800}
-.district-map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
-.district-item{position:relative;min-width:0;padding:11px 9px 10px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--card),var(--lightblue));box-shadow:0 4px 12px rgba(16,42,67,.045)}
-.district-rank{position:absolute;top:8px;right:8px;width:19px;height:19px;border-radius:6px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:950}
-.district-name{font-size:9px;font-weight:950;line-height:1.25;padding-right:22px;min-height:23px}
-.district-count{margin-top:9px;font-size:21px;line-height:1;font-weight:950;color:var(--blue)}
+.analytics-mini{padding:11px;border-radius:11px;border:1px solid var(--line);background:linear-gradient(135deg,var(--lightblue),var(--card))}
+.analytics-mini span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900}
+.analytics-mini b{display:block;margin-top:4px;font-size:22px;font-weight:950}
+.analytics-note{margin-top:10px;padding:10px 11px;border-radius:10px;background:var(--lightblue);color:var(--muted);font-size:9px;line-height:1.45;font-weight:800}
+.district-map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;min-height:175px;padding-top:8px}
+.district-item{position:relative;min-width:0;padding:12px 8px 10px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--card),var(--lightblue));box-shadow:0 4px 12px rgba(16,42,67,.05);transition:transform .18s ease,box-shadow .18s ease}
+.district-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(16,42,67,.09)}
+.district-rank{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:6px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:8px;font-weight:950}
+.district-name{font-size:10px;font-weight:950;padding-right:22px;line-height:1.2}
+.district-count{margin-top:11px;font-size:22px;font-weight:950;color:var(--blue)}
 .district-count small{font-size:8px;color:var(--muted);font-weight:800}
-.district-value{margin-top:6px;font-size:8.5px;font-weight:900;line-height:1.25;word-break:break-word}
-.district-progress{margin-top:8px;height:5px;background:#e8eef4;border-radius:99px;overflow:hidden}
-.district-progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#4d9ed1,#67b9e8)}
-.district-meta{display:flex;justify-content:space-between;gap:4px;margin-top:5px;color:var(--muted);font-size:7.5px;font-weight:800}
-.district-meta b{color:var(--text);font-size:8px}
-.analytics-timeline{display:grid;gap:7px}
-.analytics-event{display:grid;grid-template-columns:31px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,var(--card),var(--lightblue))}
-.analytics-event-icon{width:31px;height:31px;border-radius:9px;background:#e2f1fb;color:var(--blue);display:grid;place-items:center;font-size:13px;font-weight:950}
-.analytics-event-main{min-width:0}
-.analytics-event-main b{display:block;font-size:9.5px;line-height:1.3;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.analytics-event-main small{display:block;margin-top:3px;color:var(--muted);font-size:7.8px;line-height:1.35;font-weight:750}
-.analytics-event-progress{padding:5px 7px;border-radius:8px;background:var(--lightblue);color:var(--blue);font-size:8.5px;font-weight:950;white-space:nowrap}
-.analytics-empty{padding:22px 12px;text-align:center;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:9px;font-weight:800}
-@media(max-width:1050px){
-  .analytics-grid{grid-template-columns:1fr}
-  .district-map{grid-template-columns:repeat(5,minmax(0,1fr))}
-}
-@media(max-width:700px){
-  .analytics-page-heading{flex-direction:column}
-  .analytics-live{align-self:flex-start}
-  .progress-chart-wrap{grid-template-columns:145px 1fr;gap:14px}
-  .progress-donut{width:142px;height:142px}
-  .district-map{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:520px){
-  .analytics-grid{gap:8px}
-  .analytics-card{padding:10px}
-  .analytics-card-head{margin-bottom:9px}
-  .analytics-card-head h3{font-size:12px}
-  .analytics-card-head span{font-size:8px}
-  .analytics-live{font-size:8px;padding:6px 9px}
-  .progress-chart-wrap{grid-template-columns:1fr;justify-items:center;gap:11px}
-  .progress-donut{width:132px;height:132px}
-  .progress-donut:after{inset:19px}
-  .progress-legend{width:100%}
-  .analytics-bar-row{grid-template-columns:58px 1fr 30px}
-  .analytics-mini-grid{gap:7px}
-  .analytics-mini{padding:9px}
-  .analytics-mini b{font-size:19px}
-  .district-map{grid-template-columns:1fr 1fr;gap:7px}
-  .district-item{padding:10px 8px}
-  .district-count{font-size:19px}
-  .analytics-event{grid-template-columns:29px minmax(0,1fr);padding:8px}
-  .analytics-event-progress{grid-column:2;justify-self:start}
-}
-[data-theme="dark"] .analytics-live{background:#111e29;border-color:#2a4355;color:#9db0be}
-[data-theme="dark"] .analytics-live span{background:#63d29b}
-[data-theme="dark"] .progress-donut{background:conic-gradient(#7f90a2 0deg,#7f90a2 0deg,#273a4b 0deg 360deg)}
-[data-theme="dark"] .analytics-bar-track{background:#243949}
-[data-theme="dark"] .analytics-bar-fill{background:linear-gradient(90deg,#4d9ed1,#69bdea)}
+.district-value{margin-top:6px;font-size:9px;font-weight:900;color:var(--text)}
+.district-progress{margin-top:8px;height:6px;background:#e8eef4;border-radius:99px;overflow:hidden}
+.district-progress i{display:block;height:100%;border-radius:99px;background:#5aa9e6}
+.district-meta{display:flex;justify-content:space-between;gap:6px;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
+.analytics-timeline{display:grid;gap:8px}
+.analytics-event{display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:11px;background:linear-gradient(135deg,var(--card),var(--lightblue))}
+.analytics-event-icon{width:30px;height:30px;border-radius:9px;background:#e2f1fb;color:var(--blue);display:grid;place-items:center;font-size:13px;font-weight:950}
+.analytics-event-main b{display:block;font-size:10px;line-height:1.3;font-weight:950}
+.analytics-event-main small{display:block;margin-top:4px;color:var(--muted);font-size:8px;line-height:1.4;font-weight:750}
+.analytics-event-progress{padding:5px 7px;border-radius:8px;background:var(--lightblue);color:var(--blue);font-size:9px;font-weight:950}
+.analytics-empty{padding:24px;text-align:center;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:10px;font-weight:800}
+@media(max-width:900px){.analytics-grid{grid-template-columns:1fr}.analytics-chart-card{grid-row:auto}.district-map{grid-template-columns:repeat(3,1fr);min-height:0}.progress-chart-wrap{grid-template-columns:150px 1fr}.progress-donut{width:145px;height:145px}}
+@media(max-width:520px){.analytics-grid{gap:8px}.analytics-card-head h3{font-size:12px}.analytics-card-head span{font-size:8px}.progress-chart-wrap{grid-template-columns:1fr;justify-items:center}.progress-donut{width:135px;height:135px}.progress-donut:after{inset:20px}.progress-legend{width:100%}.analytics-bar-row{grid-template-columns:72px 1fr 32px}.district-map{grid-template-columns:1fr 1fr;gap:7px}.district-count{font-size:19px}.analytics-mini b{font-size:19px}.analytics-event{grid-template-columns:28px 1fr;}.analytics-event-progress{grid-column:2;justify-self:start}}
+[data-theme="dark"] .progress-donut{background:conic-gradient(#5aa9e6 0deg,#5aa9e6 0deg,#243949 0deg 360deg)}
+[data-theme="dark"] .analytics-bar-track{background:#223544}
+[data-theme="dark"] .analytics-bar-fill{background:linear-gradient(90deg,#4b9bd0,#6dbff0)}
 [data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#182b39,#111e29)}
-[data-theme="dark"] .analytics-note{background:#172a3a}
-[data-theme="dark"] .district-item{background:linear-gradient(180deg,#162632,#12212d);box-shadow:0 4px 12px rgba(0,0,0,.16)}
-[data-theme="dark"] .district-progress{background:#263b4b}
+[data-theme="dark"] .district-item{background:linear-gradient(180deg,#15232f,#12212d);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+[data-theme="dark"] .district-progress{background:#253949}
 [data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#14232f,#111e29)}
 [data-theme="dark"] .analytics-event-icon{background:#17364c;color:#7ec8f5}
 [data-theme="dark"] .analytics-chip{background:#1a2d3d}
+
+
+/* ===== PESAN PIMPINAN ===== */
+.chat-shell{display:grid;grid-template-columns:340px 1fr;gap:12px;min-height:560px}
+.chat-inbox,.chat-thread{min-width:0}
+.chat-inbox-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.chat-inbox-head h3{margin:0;font-size:14px;font-weight:950}
+.chat-inbox-head span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:700}
+.chat-list{display:grid;gap:6px;max-height:490px;overflow:auto}
+.chat-item{width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:11px;padding:10px;text-align:left;display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:start}
+.chat-item:hover,.chat-item.active{background:var(--lightblue);border-color:#8bbbe0}
+.chat-avatar{width:32px;height:32px;border-radius:9px;background:#e3f1fb;color:var(--blue);display:grid;place-items:center;font-size:11px;font-weight:950}
+.chat-item-main{min-width:0}
+.chat-item-main b{display:block;font-size:10px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-item-main small{display:block;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.35;font-weight:750}
+.chat-item-time{color:var(--muted);font-size:8px;font-weight:800;white-space:nowrap}
+.chat-unread{min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#d95d4f;color:#fff;display:inline-grid;place-items:center;font-size:8px;font-weight:950}
+.chat-empty{height:100%;min-height:500px;display:grid;place-content:center;justify-items:center;text-align:center;color:var(--muted);gap:5px;padding:25px}
+.chat-empty-icon{width:54px;height:54px;border-radius:15px;background:var(--lightblue);display:grid;place-items:center;font-size:24px;margin-bottom:4px}
+.chat-empty b{font-size:13px;color:var(--text)}
+.chat-empty span{font-size:9px;max-width:260px;line-height:1.45}
+.chat-thread{display:flex;flex-direction:column}
+.chat-thread-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.chat-thread-head b{display:block;font-size:13px;font-weight:950}
+.chat-thread-head small{display:block;margin-top:3px;color:var(--muted);font-size:8px;font-weight:750}
+.chat-priority{display:inline-flex;padding:5px 8px;border-radius:99px;background:#fff0e8;color:#b54708;font-size:8px;font-weight:950}
+.chat-messages{flex:1;min-height:390px;max-height:430px;overflow:auto;padding:12px 4px;display:grid;align-content:start;gap:8px}
+.chat-bubble{max-width:78%;padding:9px 11px;border-radius:12px;border:1px solid var(--line);font-size:10px;line-height:1.45;font-weight:750}
+.chat-bubble.me{margin-left:auto;background:var(--lightblue);border-color:#b5d4ea}
+.chat-bubble .chat-author{display:block;font-size:8px;font-weight:950;margin-bottom:3px;color:var(--blue)}
+.chat-bubble .chat-time{display:block;margin-top:5px;font-size:7px;color:var(--muted);font-weight:700}
+.chat-context{margin-bottom:7px;padding:8px 9px;border-radius:9px;background:var(--lightblue);border:1px solid var(--line);font-size:8px;color:var(--muted);font-weight:800}
+.chat-compose{display:grid;grid-template-columns:1fr auto;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
+.chat-compose textarea{width:100%;min-height:44px;resize:vertical}
+.chat-compose .btn{min-width:78px}
+.chat-new-modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:14px;z-index:120}
+.chat-new-modal.show{display:flex}
+.chat-new-box{width:min(560px,100%);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 22px 60px rgba(0,0,0,.25)}
+.chat-new-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.chat-new-head h3{margin:0;font-size:15px;font-weight:950}
+.chat-recipient-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chat-recipient{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px;text-align:left}
+.chat-recipient.active{background:var(--lightblue);border-color:#6fa9d5}
+.chat-recipient b{display:block;font-size:10px;font-weight:900}
+.chat-recipient small{display:block;margin-top:2px;color:var(--muted);font-size:8px;font-weight:700}
+.chat-priority-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--lightblue)}
+.chat-priority-row label{font-size:9px;font-weight:900}
+.chat-priority-switch{display:inline-flex;gap:5px}
+.chat-priority-switch button{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 10px;font-size:8px;font-weight:900;color:var(--text)}
+.chat-priority-switch button.active{background:#fff0e8;border-color:#e6b38e;color:#b54708}
+.chat-hint{margin:8px 0 0;color:var(--muted);font-size:8px;line-height:1.45;font-weight:750}
+.nav .nav-chat-wrap{position:relative}
+.nav .nav-chat-badge{float:right;min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:#d95d4f;color:#fff;font-size:8px;font-weight:950;text-align:center;line-height:17px}
+[data-theme="dark"] .chat-item{background:#111e29}
+[data-theme="dark"] .chat-item:hover,[data-theme="dark"] .chat-item.active{background:#183446;border-color:#355a70}
+[data-theme="dark"] .chat-avatar{background:#17364c;color:#7ec8f5}
+[data-theme="dark"] .chat-bubble.me{background:#17364b;border-color:#315a72}
+[data-theme="dark"] .chat-priority{background:#3e2e1d;color:#f1c26b}
+[data-theme="dark"] .chat-new-box{background:#111e29}
+[data-theme="dark"] .chat-recipient{background:#111e29}
+[data-theme="dark"] .chat-recipient.active{background:#173b54;border-color:#4c88b0}
+[data-theme="dark"] .chat-priority-row{background:#172b39}
+[data-theme="dark"] .chat-priority-switch button{background:#111e29;color:#dce7ed}
+@media(max-width:900px){.chat-shell{grid-template-columns:1fr}.chat-inbox{order:1}.chat-thread{order:2}.chat-list{max-height:260px;grid-template-columns:1fr 1fr}.chat-empty{min-height:300px}.chat-messages{max-height:360px}}
+@media(max-width:520px){.chat-shell{gap:8px}.chat-list{grid-template-columns:1fr;max-height:230px}.chat-item{padding:9px}.chat-bubble{max-width:88%;font-size:9px}.chat-messages{min-height:300px}.chat-new-box{padding:12px}.chat-recipient-grid{grid-template-columns:1fr}.chat-compose{grid-template-columns:1fr}.chat-compose .btn{width:100%}}
 
 </style>
 </head>
@@ -797,63 +825,60 @@
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Monitoring Pekerjaan Fisik</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div style="display:flex;align-items:center;gap:8px"><button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button><div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div></div></header>
 <section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan</span><b id="sl">0</b></div><div class="stat"><span>Sudah Berlapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
 <section id="analitik" class="page">
-  <div class="heading analytics-page-heading">
+  <div class="heading">
     <div>
       <h2>Dashboard Analitik</h2>
-      <p>Ringkasan visual progres fisik, pelaporan, pemerataan kecamatan, dan aktivitas terbaru.</p>
+      <p>Gambaran visual kondisi progres, pelaporan, pemerataan kecamatan, dan aktivitas terbaru.</p>
     </div>
-    <div class="analytics-live"><span></span> Data terkini dari sistem</div>
   </div>
 
   <div class="analytics-grid">
-    <div class="card analytics-card analytics-progress-card">
+    <div class="card analytics-card analytics-chart-card">
       <div class="analytics-card-head">
         <div>
           <h3>📈 Distribusi Progres Pekerjaan Fisik</h3>
-          <span>Posisi progres terakhir setiap paket yang sudah termonitor.</span>
+          <span>Jumlah paket berdasarkan capaian progres terakhir.</span>
         </div>
       </div>
       <div class="progress-chart-wrap">
-        <div class="progress-donut" id="analyticsDonut">
-          <div><b id="analyticsDonutTotal">0</b><span>Paket</span></div>
-        </div>
+        <div class="progress-donut" id="analyticsDonut"><div><b id="analyticsDonutTotal">0</b><span>Paket</span></div></div>
         <div class="progress-legend" id="analyticsProgressLegend"></div>
       </div>
       <div class="bar-chart" id="analyticsProgressBars"></div>
     </div>
 
-    <div class="card analytics-card analytics-report-card">
+    <div class="card analytics-card">
       <div class="analytics-card-head">
         <div>
           <h3>📝 Statistik Laporan Mingguan</h3>
-          <span>Gambaran kepatuhan update laporan seluruh paket.</span>
+          <span>Indikator aktivitas pelaporan terbaru.</span>
         </div>
       </div>
       <div class="analytics-mini-grid">
-        <div class="analytics-mini"><span>Total Laporan</span><b id="anTotalReports">0</b><small>Semua laporan tersimpan</small></div>
-        <div class="analytics-mini"><span>Laporan Terbaru</span><b id="anRecentReports">0</b><small>Aktivitas terbaru</small></div>
-        <div class="analytics-mini"><span>Paket Sudah Update</span><b id="anUpdatedPackages">0</b><small>Memiliki laporan</small></div>
-        <div class="analytics-mini"><span>Belum Update</span><b id="anMissingPackages">0</b><small>Belum punya laporan</small></div>
+        <div class="analytics-mini"><span>Total Laporan</span><b id="anTotalReports">0</b></div>
+        <div class="analytics-mini"><span>Laporan Terbaru</span><b id="anRecentReports">0</b></div>
+        <div class="analytics-mini"><span>Paket Sudah Update</span><b id="anUpdatedPackages">0</b></div>
+        <div class="analytics-mini"><span>Belum Update</span><b id="anMissingPackages">0</b></div>
       </div>
       <div class="analytics-note" id="analyticsReportNote">-</div>
     </div>
 
-    <div class="card analytics-card analytics-district-card">
+    <div class="card analytics-card analytics-map-card">
       <div class="analytics-card-head">
         <div>
           <h3>🗺️ Pemerataan Pembangunan per Kecamatan</h3>
-          <span>Perbandingan jumlah paket, nilai, dan progres rata-rata antar kecamatan.</span>
+          <span>Distribusi jumlah paket, nilai, dan progres rata-rata.</span>
         </div>
-        <span class="analytics-chip">Distribusi kecamatan</span>
+        <span class="analytics-chip">Visual distribusi • bukan peta skala</span>
       </div>
       <div class="district-map" id="analyticsDistrictMap"></div>
     </div>
 
-    <div class="card analytics-card analytics-timeline-card">
+    <div class="card analytics-card">
       <div class="analytics-card-head">
         <div>
           <h3>🕒 Timeline Pekerjaan Terbaru</h3>
-          <span>Aktivitas laporan terakhir yang masuk ke sistem.</span>
+          <span>Aktivitas laporan paling baru yang tersedia.</span>
         </div>
       </div>
       <div class="analytics-timeline" id="analyticsTimeline"></div>
@@ -861,7 +886,52 @@
   </div>
 </section>
 
-<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Nilai</th><th>Progres Terakhir</th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
+<section id="pesan" class="page">
+  <div class="heading">
+    <div>
+      <h2>💬 Pesan Pimpinan</h2>
+      <p>Komunikasi resmi pimpinan dengan PPK, PPBJ, dan Kabag BPBJ.</p>
+    </div>
+    <button id="newChatBtn" class="btn primary" onclick="openNewChat()">+ Pesan Baru</button>
+  </div>
+
+  <div class="chat-shell">
+    <div class="card chat-inbox">
+      <div class="chat-inbox-head">
+        <div>
+          <h3>Pesan Masuk</h3>
+          <span id="chatInboxHint">Percakapan terbaru.</span>
+        </div>
+        <button class="btn" onclick="loadChats()">↻ Muat Ulang</button>
+      </div>
+      <div id="chatList" class="chat-list"></div>
+    </div>
+
+    <div class="card chat-thread">
+      <div id="chatEmpty" class="chat-empty">
+        <div class="chat-empty-icon">💬</div>
+        <b>Pilih percakapan</b>
+        <span>Pesan pimpinan dan balasan akan tampil di sini.</span>
+      </div>
+
+      <div id="chatActive" class="hidden">
+        <div class="chat-thread-head">
+          <div>
+            <b id="chatThreadTitle">Percakapan</b>
+            <small id="chatThreadMeta">-</small>
+          </div>
+          <span id="chatThreadPriority" class="chat-priority hidden">PENTING</span>
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <form id="chatReplyForm" class="chat-compose" onsubmit="sendChatReply(event)">
+          <textarea id="chatReply" rows="2" placeholder="Tulis balasan..." required></textarea>
+          <button class="btn primary" type="submit">Kirim</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+ class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table"><thead><tr><th>RUP</th><th>Nama Paket</th><th>Nilai</th><th>Progres Terakhir</th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
 <section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
@@ -895,10 +965,174 @@ function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').class
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
-function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);$('nav').innerHTML=items.map(([id,t])=>'<button data-page="'+id+'" onclick="showPage(\''+id+'\')">'+({dashboard:'▣',monitoring:'◉',laporan:'◷',analitik:'◈',verifikasi:'✓',manajemen:'▤',admin:'♙'}[id])+' &nbsp; '+t+'</button>').join('')}
+function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['pesan','Pesan Pimpinan']);if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',admin:'♙'};$('nav').innerHTML=items.map(([id,t])=>'<button class="'+(id==='pesan'?'nav-chat-wrap':'')+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(id==='pesan'?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>').join('');if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');else $('newChatBtn').classList.add('hidden');updateChatBadge()}
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();await loadData();showPage('dashboard')}
 async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement()}
+
+const chatState={threads:[],activeId:null,selectedRecipients:[],priority:false,loading:false};
+
+function idUserCanStartChat(){
+  return ['PIMPINAN'].includes(String(state.user?.role||'').toUpperCase());
+}
+
+function chatRoleCanUse(){
+  return ['PIMPINAN','PPK','PPBJ','KABAG BPBJ','KABAG','ADMIN'].includes(String(state.user?.role||'').toUpperCase());
+}
+
+function chatApiErrorMessage(e){
+  const m=String(e?.message||e||'');
+  if(/function|tidak.*ditemukan|not found|404/i.test(m)) return 'Tampilan Pesan Pimpinan sudah siap, tetapi API chat Supabase belum tersedia. Jangan khawatir, menu lain tetap normal.';
+  return m||'Pesan gagal dimuat.';
+}
+
+async function loadChats(){
+  if(!chatRoleCanUse()||!$('pesan'))return;
+  $('chatList').innerHTML='<div class="loading-dot">Memuat percakapan...</div>';
+  try{
+    const d=await call('getPesanPimpinan',[state.user.username]);
+    chatState.threads=Array.isArray(d?.threads)?d.threads:(Array.isArray(d)?d:[]);
+    renderChatList();
+    updateChatBadge();
+  }catch(e){
+    $('chatList').innerHTML='<div class="empty">'+esc(chatApiErrorMessage(e))+'</div>';
+    chatState.threads=[];
+    updateChatBadge();
+  }
+}
+
+function renderChatList(){
+  const wrap=$('chatList');
+  if(!chatState.threads.length){
+    wrap.innerHTML='<div class="empty">Belum ada percakapan pimpinan.</div>';
+    return;
+  }
+  wrap.innerHTML=chatState.threads.map(t=>{
+    const unread=Number(t.unread||t.unreadCount||0)||0;
+    const title=t.judul||t.title||((t.lawan||t.counterpart||'Percakapan Pimpinan'));
+    const preview=t.preview||t.pesanTerakhir||t.lastMessage||'Belum ada pesan';
+    const time=t.waktu||t.updatedAt||t.createdAt||'';
+    const initials=String(title).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+    return '<button class="chat-item '+(chatState.activeId===String(t.id||t.percakapanId)?'active':'')+'" onclick="openChatThread('+JSON.stringify(String(t.id||t.percakapanId||'')).replace(/"/g,'&quot;')+')"><div class="chat-avatar">'+esc(initials||'P')+'</div><div class="chat-item-main"><b>'+esc(title)+'</b><small>'+esc(preview)+'</small></div><div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div></button>';
+  }).join('');
+}
+
+function formatChatTime(v){
+  if(!v)return '';
+  const d=new Date(v);
+  if(Number.isNaN(d.getTime()))return String(v);
+  return d.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit'});
+}
+
+async function openChatThread(id){
+  if(!id)return;
+  chatState.activeId=id;
+  renderChatList();
+  $('chatEmpty').classList.add('hidden');
+  $('chatActive').classList.remove('hidden');
+  $('chatMessages').innerHTML='<div class="loading-dot">Memuat pesan...</div>';
+  try{
+    const d=await call('getPesanPimpinanThread',[state.user.username,id]);
+    const thread=d?.thread||d||{};
+    $('chatThreadTitle').textContent=thread.judul||thread.title||'Pesan Pimpinan';
+    $('chatThreadMeta').textContent=thread.meta||thread.konteks||'Percakapan resmi';
+    $('chatThreadPriority').classList.toggle('hidden',!thread.prioritas);
+    const msgs=Array.isArray(thread.messages)?thread.messages:(Array.isArray(thread.pesan)?thread.pesan:[]);
+    $('chatMessages').innerHTML=msgs.length?msgs.map(m=>{
+      const me=String(m.pengirim||m.sender||'').toLowerCase()===String(state.user.username||'').toLowerCase();
+      const context=m.kodeRup||m.namaPaket?'<div class="chat-context">'+esc([m.kodeRup?'RUP '+m.kodeRup:'',m.namaPaket||''].filter(Boolean).join(' · '))+'</div>':'';
+      return '<div class="chat-bubble '+(me?'me':'')+'">'+context+'<span class="chat-author">'+esc(m.namaPengirim||m.pengirimNama||m.senderName||m.pengirim||'-')+'</span>'+esc(m.isi||m.message||m.teks||'')+'<span class="chat-time">'+esc(formatChatTime(m.createdAt||m.waktu||''))+'</span></div>';
+    }).join(''):'<div class="empty">Belum ada pesan.</div>';
+    const box=$('chatMessages');box.scrollTop=box.scrollHeight;
+    try{await call('tandaiPesanDibaca',[state.user.username,id])}catch{}
+    await loadChats();
+  }catch(e){
+    $('chatMessages').innerHTML='<div class="msg err">'+esc(chatApiErrorMessage(e))+'</div>';
+  }
+}
+
+function openNewChat(){
+  if(!idUserCanStartChat())return;
+  const modal=$('chatNewModal');
+  if(!modal)return;
+  $('chatRecipientArea').innerHTML='<div class="loading-dot">Memuat penerima...</div>';
+  $('chatSubject').value='';
+  $('chatContextRup').value='';
+  $('chatFirstMessage').value='';
+  setChatPriority(false);
+  modal.classList.add('show');
+  loadChatRecipients();
+}
+
+function closeNewChat(){if($('chatNewModal'))$('chatNewModal').classList.remove('show')}
+
+async function loadChatRecipients(){
+  try{
+    const d=await call('getPenerimaPesanPimpinan',[]);
+    const list=Array.isArray(d?.users)?d.users:(Array.isArray(d)?d:[]);
+    const filtered=list.filter(u=>['PPK','PPBJ','KABAG BPBJ','KABAG'].includes(String(u.role||'').toUpperCase()));
+    $('chatRecipientArea').innerHTML=filtered.map((u,i)=>'<button type="button" class="chat-recipient" data-user="'+esc(u.username||'')+'" onclick="selectChatRecipient(this)"><b>'+esc(u.nama||u.username||'-')+'</b><small>'+esc(u.role||'-')+'</small></button>').join('')||'<div class="empty">Belum ada PPK, PPBJ, atau Kabag yang tersedia.</div>';
+  }catch(e){
+    $('chatRecipientArea').innerHTML='<div class="msg err">'+esc(chatApiErrorMessage(e))+'</div>';
+  }
+}
+
+function selectChatRecipient(btn){
+  document.querySelectorAll('.chat-recipient').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  chatState.selectedRecipients=[btn.getAttribute('data-user')||''];
+}
+
+function setChatPriority(v){
+  chatState.priority=!!v;
+  $('chatPriorityYes')?.classList.toggle('active',chatState.priority);
+  $('chatPriorityNo')?.classList.toggle('active',!chatState.priority);
+}
+
+async function startChat(e){
+  e.preventDefault();
+  if(!chatState.selectedRecipients.length){alert('Pilih penerima terlebih dahulu.');return}
+  const payload={
+    pengirimUsername:state.user.username,
+    penerimaUsername:chatState.selectedRecipients,
+    judul:$('chatSubject').value.trim(),
+    kodeRup:$('chatContextRup').value.trim()||null,
+    pesan:$('chatFirstMessage').value.trim(),
+    prioritas:chatState.priority
+  };
+  if(!payload.pesan){alert('Isi pesan wajib diisi.');return}
+  try{
+    const d=await call('mulaiPesanPimpinan',[payload]);
+    closeNewChat();
+    await loadChats();
+    const id=d?.percakapanId||d?.id||d?.threadId;
+    if(id)await openChatThread(String(id));
+    alert('Pesan pimpinan berhasil dikirim.');
+  }catch(e){alert(chatApiErrorMessage(e))}
+}
+
+async function sendChatReply(e){
+  e.preventDefault();
+  const text=$('chatReply').value.trim();
+  if(!text||!chatState.activeId)return;
+  try{
+    await call('kirimPesanPimpinan',[{percakapanId:chatState.activeId,pengirimUsername:state.user.username,pesan:text}]);
+    $('chatReply').value='';
+    await openChatThread(chatState.activeId);
+  }catch(e){alert(chatApiErrorMessage(e))}
+}
+
+async function updateChatBadge(){
+  const b=$('chatBadge');
+  if(!b||!chatRoleCanUse())return;
+  try{
+    const d=await call('getPesanPimpinanUnread',[state.user.username]);
+    const n=Number(d?.count??d?.unread??0)||0;
+    b.textContent=Math.min(n,99);
+    b.classList.toggle('hidden',n<=0);
+  }catch{}
+}
+
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();updateChatBadge()}
 function toggleSide(){$('side').classList.toggle('open')}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
@@ -1038,4 +1272,42 @@ function logout(){state.user=null;localStorage.removeItem('simon_user');$('app')
 async function restore(){const x=localStorage.getItem('simon_user');if(!x)return;try{state.user=JSON.parse(x);await boot()}catch{logout()}}
 initTheme();
 restore();
-</script></body></html>
+setTimeout(updateChatBadge,500);
+</script>
+<div id="chatNewModal" class="chat-new-modal" onclick="if(event.target===this)closeNewChat()">
+  <div class="chat-new-box">
+    <div class="chat-new-head">
+      <h3>Pesan Pimpinan Baru</h3>
+      <button class="x" type="button" onclick="closeNewChat()">✕</button>
+    </div>
+    <form onsubmit="startChat(event)">
+      <div class="field">
+        <label>Penerima</label>
+        <div id="chatRecipientArea" class="chat-recipient-grid"></div>
+      </div>
+      <div class="field">
+        <label>Judul Pesan</label>
+        <input id="chatSubject" placeholder="Contoh: Tindak lanjut pekerjaan jalan...">
+      </div>
+      <div class="field">
+        <label>Kode RUP (opsional)</label>
+        <input id="chatContextRup" placeholder="Hubungkan pesan dengan paket tertentu">
+      </div>
+      <div class="field">
+        <label>Pesan</label>
+        <textarea id="chatFirstMessage" rows="5" placeholder="Tulis arahan atau pesan pimpinan..." required></textarea>
+      </div>
+      <div class="chat-priority-row">
+        <label>Tandai sebagai pesan penting?</label>
+        <div class="chat-priority-switch">
+          <button id="chatPriorityNo" type="button" class="active" onclick="setChatPriority(false)">Tidak</button>
+          <button id="chatPriorityYes" type="button" onclick="setChatPriority(true)">⭐ Penting</button>
+        </div>
+      </div>
+      <div class="chat-hint">Penerima dapat membalas setelah percakapan dimulai oleh Pimpinan. Pesan penting diberi penanda prioritas.</div>
+      <button class="primary" type="submit" style="margin-top:12px">Kirim Pesan</button>
+    </form>
+  </div>
+</div>
+
+</body></html>
