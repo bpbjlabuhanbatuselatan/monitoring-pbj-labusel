@@ -1117,6 +1117,104 @@
 [data-theme="dark"] #admin .badge.ok{background:#173b2c;color:#79e0aa}
 [data-theme="dark"] #admin .badge.warn{background:#3a301c;color:#f4c86d}
 
+
+/* ===== LOG AKTIVITAS: MOBILE FIX ===== */
+@media(max-width:520px){
+  #aktivitas .card{padding:10px}
+  #aktivitas .toolbar{margin-bottom:9px}
+  #aktivitas .search{font-size:12px;font-weight:800;padding:10px 11px}
+  #aktivitas .tablewrap{overflow:visible}
+  #aktivitas .table{
+    width:100%;
+    min-width:0!important;
+    border-collapse:separate!important;
+    border-spacing:0 6px!important;
+  }
+  #aktivitas .table thead{display:none!important}
+  #aktivitas .table tbody{display:block!important}
+  #aktivitas .table tbody tr{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+    width:100%;
+    margin:0 0 7px!important;
+    padding:0!important;
+    overflow:hidden;
+    border:1px solid #d8e5ef!important;
+    border-radius:12px!important;
+    box-shadow:0 2px 7px rgba(16,42,67,.05)!important;
+  }
+  #aktivitas .table tbody tr:nth-child(odd){background:#fff!important}
+  #aktivitas .table tbody tr:nth-child(even){background:#eaf4fc!important}
+  #aktivitas .table tbody tr:hover{background:#dceefa!important}
+  #aktivitas .table tbody td{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    padding:9px 11px!important;
+    border:0!important;
+    border-bottom:1px solid #dbe7f0!important;
+    text-align:left!important;
+    font-size:11px!important;
+    line-height:1.4!important;
+    font-weight:800!important;
+    overflow:visible!important;
+    word-break:break-word!important;
+  }
+  #aktivitas .table tbody td:last-child{border-bottom:0!important}
+  #aktivitas .table tbody td:before{
+    display:block!important;
+    content:none!important;
+    font-size:8px!important;
+    line-height:1.2!important;
+    letter-spacing:.3px;
+    text-transform:uppercase;
+    color:#718096!important;
+    margin-bottom:3px!important;
+    font-weight:950!important;
+  }
+  #aktivitas .table tbody td:nth-child(1):before{content:'Waktu'!important}
+  #aktivitas .table tbody td:nth-child(2):before{content:'Pengguna'!important}
+  #aktivitas .table tbody td:nth-child(3):before{content:'Aktivitas'!important}
+  #aktivitas .table tbody td:nth-child(1){
+    color:#1769aa!important;
+    font-weight:900!important;
+  }
+  #aktivitas .table tbody td:nth-child(2){
+    color:var(--text)!important;
+    font-weight:900!important;
+  }
+  #aktivitas .table tbody td:nth-child(3){
+    color:var(--text)!important;
+    font-weight:850!important;
+  }
+  #aktivitas .empty{
+    padding:18px 10px!important;
+    font-size:10px!important;
+  }
+}
+[data-theme="dark"] #aktivitas .table tbody tr:nth-child(odd){
+  background:#111d29!important;
+  border-color:#263f51!important;
+}
+[data-theme="dark"] #aktivitas .table tbody tr:nth-child(even){
+  background:#172c3e!important;
+  border-color:#2c4a5e!important;
+}
+[data-theme="dark"] #aktivitas .table tbody tr:hover{
+  background:#1e3e52!important;
+}
+[data-theme="dark"] #aktivitas .table tbody td{
+  color:#e7edf3!important;
+  border-color:#284255!important;
+}
+[data-theme="dark"] #aktivitas .table tbody td:before{
+  color:#91a7b8!important;
+}
+[data-theme="dark"] #aktivitas .table tbody td:nth-child(1){
+  color:#7ec8f5!important;
+}
+
 </style>
 </head>
 <body>
@@ -1528,7 +1626,7 @@ function renderAktivitas(){
   $('logBody').innerHTML=rows.map(x=>`
     <tr>
       <td><b>${esc(x.tanggal||'-')}</b></td>
-      <td>${esc(x.username||'-')}</td>
+      <td><b>${esc(x.username||'-')}</b></td>
       <td>${esc(x.aktivitas||'-')}</td>
     </tr>
   `).join('');
