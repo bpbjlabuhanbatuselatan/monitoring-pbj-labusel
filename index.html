@@ -1425,6 +1425,56 @@
   border-color:#3f7897;
 }
 
+
+/* ===== ADMIN: PENDING VERIFICATION DI PALING ATAS ===== */
+.admin-pending-summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 13px;
+  border:1px solid #efd39e;
+  border-radius:10px;
+  background:#fff8e8;
+  color:#7a5611;
+}
+.admin-pending-summary b{font-size:11px;font-weight:950}
+.admin-pending-summary span{font-size:9px;font-weight:800;color:#97733a;text-align:right}
+.account-pending-row{background:#fff8e8!important}
+.account-pending-row td{border-bottom-color:#efd39e!important}
+
+/* ===== LONCENG SAAT ADA NOTIFIKASI ===== */
+.notify-btn.has-alert{
+  border-color:#e3a63a!important;
+  box-shadow:0 0 0 3px rgba(227,166,58,.10),0 4px 14px rgba(16,42,67,.08);
+  animation:notifyPulse 1.8s ease-in-out infinite;
+}
+@keyframes notifyPulse{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-1px)}
+}
+
+[data-theme="dark"] .admin-pending-summary{
+  background:#2a2417;
+  border-color:#6b5732;
+  color:#f1cf82;
+}
+[data-theme="dark"] .admin-pending-summary span{color:#cdb477}
+[data-theme="dark"] .account-pending-row{background:#2a2417!important}
+[data-theme="dark"] .notify-btn.has-alert{
+  border-color:#cfa455!important;
+  box-shadow:0 0 0 3px rgba(207,164,85,.10),0 4px 16px rgba(0,0,0,.18);
+}
+
+@media(max-width:520px){
+  .admin-pending-summary{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:4px;
+  }
+  .admin-pending-summary span{text-align:left}
+}
+
 </style>
 </head>
 <body>
@@ -2000,12 +2050,26 @@ async function refreshNotifications(){
     renderNotifications();
   }
 }
+function addNotificationItem(items,type,icon,title,text,target,action,meta){
+  items.push({
+    type:type||'system',
+    icon:icon||'🔔',
+    title:title||'Notifikasi',
+    text:text||'',
+    target:target||'',
+    action:action||'',
+    meta:meta||'',
+    count:1
+  });
+}
+
 function renderNotifications(){
   const badge=$('notifyBadge'),list=$('notifyList'),summary=$('notifySummary');
   if(!badge||!list)return;
   const total=notifyState.items.reduce((n,x)=>n+(Number(x.count)||0),0);
   badge.textContent=total>99?'99+':String(total);
   badge.classList.toggle('hidden',total<=0);
+  $('notifyBtn')?.classList.toggle('has-alert',total>0);
   summary.textContent=total?`${total} pemberitahuan perlu perhatian.`:'Tidak ada pemberitahuan baru.';
   if(!notifyState.items.length){
     list.innerHTML='<div class="notify-empty">✅ Semua aman.<br>Tidak ada pemberitahuan baru.</div>';
@@ -2319,8 +2383,58 @@ async function openDetail(rup){
 }
 async function loadVerifications(){try{const d=await call('getVerifikasiMasuk',[state.user.username]);state.verifications=d||[];$('vb').innerHTML=state.verifications.map(v=>'<tr><td>'+esc(v.tanggal)+'</td><td><b>'+esc(v.laporan?.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(v.laporan?.kodeRup||'')+'</small></td><td>'+esc(v.laporan?.mingguKe||'-')+'</td><td>'+pct(v.laporan?.progres).toFixed(1)+'%</td><td>'+esc(v.dari)+'</td><td><button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DITERIMA\')">Terima</button> <button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DIKEMBALIKAN\')">Kembalikan</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Tidak ada laporan yang menunggu verifikasi.</td></tr>'}catch(e){console.error(e)}}
 async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:state.user.username,statusBaru:status,catatan:cat}]);alert(d.message);await loadVerifications();await loadData()}catch(e){alert(e.message)}}
-async function loadAdmin(){try{const [d,p]=await Promise.all([call('getAdminDashboardData',[state.user.username]),call('getPendaftaranMenunggu',[state.user.username])]);$('ub').innerHTML=(d.daftar||[]).map(u=>{const st=String(u.status||'').toUpperCase();const statusBtn=st==='AKTIF'?'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'NONAKTIF\')">Nonaktifkan</button>':'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'AKTIF\')">Aktifkan</button>';return '<tr><td>'+esc(u.nama)+'</td><td>'+esc(u.username)+'</td><td>'+esc(u.role)+'</td><td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status)+'</span></td><td class="account-actions">'+statusBtn+' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username)+'\',\''+esc(u.nama)+'\')">Hapus</button></td></tr>'}).join('');$('pending').innerHTML=(p.daftar||[]).map(u=>'<div class="listitem"><b>'+esc(u.nama)+' — '+esc(u.role)+'</b><small>'+esc(u.username)+'</small><div style="margin-top:7px"><button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'SETUJUI\')">Setujui</button> <button class="btn" onclick="processReg(\''+esc(u.username)+'\',\'TOLAK\')">Tolak</button></div></div>').join('')||'<div class="empty">Tidak ada pendaftaran menunggu.</div>'}catch(e){console.error(e)}}
+async function loadAdmin(){
+  try{
+    const [d,p]=await Promise.all([
+      call('getAdminDashboardData',[state.user.username]),
+      call('getPendaftaranMenunggu',[state.user.username])
+    ]);
 
+    const accounts=Array.isArray(d?.daftar)?d.daftar:[];
+    const pending=Array.isArray(p?.daftar)?p.daftar:[];
+
+    // Akun pending selalu ditempatkan paling atas tabel.
+    const pendingRows=pending.map(u=>{
+      return '<tr class="account-pending-row">'+
+        '<td><b>'+esc(u.nama||'-')+'</b></td>'+
+        '<td><b>'+esc(u.username||'-')+'</b></td>'+
+        '<td>'+esc(u.role||'-')+'</td>'+
+        '<td><span class="badge warn">MENUNGGU VERIFIKASI</span></td>'+
+        '<td class="account-actions">'+
+          '<button class="btn" onclick="processReg(\''+esc(u.username||'')+'\',\'SETUJUI\')">Setujui</button> '+
+          '<button class="btn btn-account-delete" onclick="processReg(\''+esc(u.username||'')+'\',\'TOLAK\')">Tolak</button>'+
+        '</td>'+
+      '</tr>';
+    }).join('');
+
+    const accountRows=accounts.map(u=>{
+      const st=String(u.status||'').toUpperCase();
+      const statusBtn=st==='AKTIF'
+        ?'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'NONAKTIF\')">Nonaktifkan</button>'
+        :'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'AKTIF\')">Aktifkan</button>';
+
+      return '<tr>'+
+        '<td>'+esc(u.nama||'-')+'</td>'+
+        '<td>'+esc(u.username||'-')+'</td>'+
+        '<td>'+esc(u.role||'-')+'</td>'+
+        '<td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status||'-')+'</span></td>'+
+        '<td class="account-actions">'+statusBtn+
+        ' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Hapus</button></td>'+
+      '</tr>';
+    }).join('');
+
+    $('ub').innerHTML=(pendingRows+accountRows)||'<tr><td colspan="5" class="empty">Belum ada akun.</td></tr>';
+
+    $('pending').innerHTML=pending.length
+      ? '<div class="admin-pending-summary"><b>🔔 '+pending.length+' pendaftaran menunggu verifikasi</b><span>Permintaan verifikasi berada paling atas pada daftar akun.</span></div>'
+      : '<div class="empty">Tidak ada pendaftaran menunggu.</div>';
+
+    // Segarkan badge lonceng setelah data akun diperbarui.
+    refreshNotifications();
+  }catch(e){
+    console.error(e);
+  }
+}
 const ACCOUNT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/account-api';
 const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun']);
 const originalCall=call;
