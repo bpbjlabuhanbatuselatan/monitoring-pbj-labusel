@@ -1845,6 +1845,248 @@ h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
   body.side-open{overflow:hidden}
 }
 </style>
+
+<style id="simon-final-refinement">
+/* =========================================================
+   Si RAJA MONITOR — FINAL UI / PERFORMANCE REFINEMENT
+   Only presentation + lightweight rendering behavior.
+   No business logic, API endpoints, IDs, or data model changes.
+   ========================================================= */
+
+/* 1) Stable native font stack: no remote font request. */
+html,body,button,input,select,textarea{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
+  font-synthesis:none!important;
+  text-rendering:optimizeLegibility;
+}
+
+/* 2) Clear typographic hierarchy */
+body{font-weight:400;letter-spacing:-.003em}
+button,input,select,textarea{font-weight:400}
+h1,h2,h3,h4{font-weight:700}
+.brand h1,.heading h2,.modalhead h3{font-weight:700}
+.nav button{font-weight:500}
+.sidebrand b,.top>b,.topuser b{font-weight:600}
+.btn,.tabs button{font-weight:500}
+.btn.primary,.primary,.logout{font-weight:600}
+.field label,.table th,.stat span,.manage-stat span{font-weight:600}
+.table td{font-weight:400}
+.table td:first-child{font-weight:600}
+.badge{font-weight:600}
+.listitem b,.top10-item .name{font-weight:600}
+.listitem small,.top10-item .meta{font-weight:400}
+.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{font-weight:600}
+.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{font-weight:400}
+.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{font-weight:600}
+.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-weight:400}
+
+/* 3) Slightly larger small text for readability */
+.brand p{font-size:12px}
+.field label{font-size:11px}
+.heading p{font-size:11px}
+.note{font-size:10px}
+.table th{font-size:10px}
+.table td{font-size:12px}
+.listitem small,.top10-item .meta{font-size:10px}
+.monitor-last-update{font-size:9px}
+.analytics-card-head span,.analytics-note{font-size:10px}
+.analytics-bar-row,.district-meta{font-size:10px}
+.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-size:9px}
+
+/* 4) More breathing room without changing table columns/width */
+.table th,.table td{padding:10px 9px}
+.table th{line-height:1.25}
+.table td{line-height:1.5}
+
+/* 5) Login fields slightly more comfortable */
+.field{margin:11px 0}
+.field input,.field select,.field textarea{min-height:42px}
+
+/* 6) Remove unnecessary visual heaviness */
+.stat,.card,.top{box-shadow:0 5px 18px rgba(16,42,67,.055)}
+.modalbox{box-shadow:0 18px 45px rgba(16,42,67,.13)}
+@media(max-width:520px){
+  .stat,.card,.top{box-shadow:0 4px 14px rgba(16,42,67,.045)}
+}
+
+/* 7) Dark mode: readable but not pitch black */
+[data-theme="dark"]{
+  --nav:#173a55;
+  --blue:#73bde9;
+  --lightblue:#2d4b61;
+  --zebra:#254155;
+  --bg:#1a2a37;
+  --card:#243744;
+  --text:#eef5f9;
+  --muted:#becbd4;
+  --line:#3a5263;
+  --ok:#74d9a4;
+  --warn:#f3c66f;
+  --danger:#ff978d;
+  --shadow:0 7px 18px rgba(0,0,0,.16);
+}
+[data-theme="dark"] .login{
+  background:linear-gradient(135deg,#173447,#223948);
+}
+[data-theme="dark"] .top,
+[data-theme="dark"] .card,
+[data-theme="dark"] .stat,
+[data-theme="dark"] .modalbox,
+[data-theme="dark"] .loginbox{
+  background:var(--card);
+  color:var(--text);
+  border-color:var(--line);
+}
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea,
+[data-theme="dark"] .search,
+[data-theme="dark"] .manage-filter{
+  background:#1d303d;
+  color:var(--text);
+  border-color:#456071;
+}
+[data-theme="dark"] .table th{
+  background:#2d4b61;
+  color:#e0ebf1;
+}
+[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243744}
+[data-theme="dark"] .table tbody tr:nth-child(even){background:#2b4659}
+[data-theme="dark"] .table tbody tr:hover{background:#35566d}
+[data-theme="dark"] .table td{color:#eef5f9;border-color:#3a5364}
+[data-theme="dark"] .badge{background:#365064;color:#e2ebf0}
+[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
+  background:#203542;color:var(--text);border-color:var(--line)
+}
+[data-theme="dark"] .suggestion:hover{background:#2c4b60}
+[data-theme="dark"] .x{background:#314958;color:#eef5f9}
+[data-theme="dark"] .theme-toggle{background:#2d4b60;color:#eff7fb;border-color:#486375}
+[data-theme="dark"] .modal{background:rgba(10,24,34,.58)}
+[data-theme="dark"] .top10-list .top10-item{
+  background:linear-gradient(145deg,#294658 0%,#243b49 100%);
+  border-color:#456274;
+}
+[data-theme="dark"] .top10-item .name{color:#eff6fa}
+[data-theme="dark"] .top10-item .meta{color:#becbd4}
+[data-theme="dark"] .meta{background:#29404f;border-color:#456071}
+[data-theme="dark"] .adendum-box{background:#29404f;border-color:#4b6678}
+[data-theme="dark"] .switchrow button{background:#233744;color:#edf5f9;border-color:#405968}
+[data-theme="dark"] .switchrow button.active{background:#2d526a;border-color:#5a91b3}
+[data-theme="dark"] .detail-hero{background:linear-gradient(135deg,#28465a 0%,#233a48 52%,#2b4d62 100%);border-color:#4a687a}
+[data-theme="dark"] .detail-report-card{background:linear-gradient(145deg,#273d4a 0%,#243744 100%);border-color:#456071}
+[data-theme="dark"] .detail-report-card:nth-child(even){background:linear-gradient(145deg,#2d4a5c 0%,#253b49 100%)}
+[data-theme="dark"] .detail-work{background:#29404f;border-color:#456071;color:#d5e1e7}
+[data-theme="dark"] .detail-empty{background:#263d4b;color:#b9cad5;border-color:#4a6677}
+[data-theme="dark"] .bar{background:#385365}
+[data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#2b4657,#243744)}
+[data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#2a4455,#243744)}
+[data-theme="dark"] .analytics-event-icon,.chat-avatar{background:#31536a;color:#8fd2f4}
+
+/* 8) Bigger, clearer success/error toast */
+.simon-toast-wrap{
+  width:min(92vw,520px);
+  bottom:24px;
+  transform:translate(-50%,18px);
+}
+.simon-toast{
+  gap:12px;
+  padding:16px 17px;
+  border-radius:16px;
+  min-height:58px;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:500;
+  border-width:1px;
+  box-shadow:0 14px 34px rgba(16,42,67,.20);
+}
+.simon-toast-dot{
+  width:11px;height:11px;flex:0 0 11px;margin-top:6px
+}
+.simon-toast b{font-weight:700}
+
+/* 9) Explicit success emphasis for save/report success */
+.simon-toast.success{
+  border-color:rgba(8,116,67,.28);
+}
+.simon-toast.success::before{
+  content:'✓';
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;flex:0 0 28px;
+  background:var(--ok);color:#fff;
+  font-weight:800;font-size:16px;
+  margin-top:0;
+}
+.simon-toast.error{
+  border-color:rgba(180,35,24,.28);
+}
+.simon-toast.error::before{
+  content:'!';
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;flex:0 0 28px;
+  background:var(--danger);color:#fff;
+  font-weight:800;font-size:16px;
+  margin-top:0;
+}
+.simon-toast.warn::before{
+  content:'i';
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;flex:0 0 28px;
+  background:var(--warn);color:#fff;
+  font-weight:800;font-size:16px;
+  margin-top:0;
+}
+@media(max-width:520px){
+  .table th,.table td{padding:9px 8px}
+  .table td{font-size:11px;line-height:1.45}
+  .simon-toast-wrap{width:min(94vw,520px);bottom:15px}
+  .simon-toast{font-size:13px;padding:14px 15px;min-height:54px}
+}
+
+/* 10) Password controls kept prominent */
+.password-eye{font-weight:600!important}
+.forgot-password-btn{font-weight:500!important;font-size:11px}
+
+/* 11) Mobile sidebar should remain smooth and cheap to composite */
+@media(max-width:900px){
+  .sidebar{
+    will-change:transform;
+    backface-visibility:hidden;
+  }
+  .mobile-side-overlay{
+    contain:paint;
+  }
+}
+
+/* 12) Accessibility-friendly focus */
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+}
+
+/* 13) Disable costly motion when user/device prefers reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
+/* 14) Keep inline report-success message visible and readable when used */
+.report-save-msg{
+  font-size:12px!important;
+  line-height:1.45!important;
+  font-weight:500!important;
+  padding:10px 12px!important;
+}
+[data-theme="dark"] .report-save-msg{
+  background:#314b55!important;
+  color:#bff0d2!important;
+  border-color:#4d706f!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -3242,7 +3484,7 @@ async function saveReport(e){
     // Penyimpanan berhasil: bersihkan file input + preview sebelum form ditutup.
     clearReportPhotoState();
     if($('reportModal'))$('reportModal').classList.remove('show');
-    showToast(result.message||'Laporan berhasil disimpan.');
+    showToast(result.message||'Laporan berhasil disimpan.', 'success');
     await loadData();
     showPage('monitoring');
   }catch(x){
