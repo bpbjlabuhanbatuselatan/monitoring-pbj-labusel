@@ -1691,18 +1691,212 @@ html,body,button,input,select,textarea{
 .reset-password-help{margin:0 0 12px;color:var(--muted);font-size:10px;line-height:1.45;font-weight:750}
 @media(max-width:520px){.reset-password-box{padding:13px;border-radius:14px}.forgot-password-btn{font-size:10px;padding:8px 3px}}
 </style>
+
+<style id="simon-ui-refinement">
+/* ===== UI REFINEMENT: typography, spacing, contrast ===== */
+html,body,button,input,select,textarea{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+body{font-weight:400;letter-spacing:-.005em}
+button,input,select,textarea{font-weight:400}
+h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
+  font-weight:700;
+  letter-spacing:-.015em;
+}
+.heading h2{font-size:24px;line-height:1.2}
+.heading p,.brand p,.note,.topuser small{font-weight:400}
+.nav button{font-weight:500}
+.sidebrand b,.top>b,.topuser b{font-weight:650}
+.btn{font-weight:500}
+.btn.primary,.primary,.logout{font-weight:650}
+.field label,.table th,.stat span,.manage-stat span{
+  font-weight:600;
+}
+.field input,.field select,.field textarea,.search,.manage-filter{
+  font-weight:400;
+}
+.stat b,.manage-stat b,.top10-item .value,.detail-progress{
+  font-weight:700;
+}
+.table td{font-weight:400}
+.table td:first-child{font-weight:600}
+.badge{font-weight:600}
+.listitem b{font-weight:600}
+.listitem small{font-weight:400}
+.top10-item .name{font-weight:600}
+.top10-item .meta{font-weight:400}
+.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{
+  font-weight:600;
+}
+.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{
+  font-weight:400;
+}
+.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{
+  font-weight:600;
+}
+.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{
+  font-weight:400;
+}
+/* Sedikit lebih lega, tanpa mengubah struktur/kolom tabel */
+.table th,.table td{padding:10px 8px}
+.table th{line-height:1.25}
+.table td{line-height:1.45}
+.listitem{padding:11px 0}
+/* Dark mode yang lebih ramah mata */
+[data-theme="dark"]{
+  --nav:#12324b;
+  --blue:#69b7ec;
+  --lightblue:#29465d;
+  --zebra:#223c50;
+  --bg:#172532;
+  --card:#213443;
+  --text:#edf5fa;
+  --muted:#b7c5cf;
+  --line:#385164;
+  --ok:#70d6a3;
+  --warn:#f2c46b;
+  --danger:#ff938a;
+  --shadow:0 10px 28px rgba(0,0,0,.18);
+}
+[data-theme="dark"] .login{
+  background:linear-gradient(135deg,#132c40,#1a2e3d);
+}
+[data-theme="dark"] .top,
+[data-theme="dark"] .card,
+[data-theme="dark"] .stat,
+[data-theme="dark"] .modalbox,
+[data-theme="dark"] .loginbox{
+  background:var(--card);
+  border-color:var(--line);
+}
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea,
+[data-theme="dark"] .search,
+[data-theme="dark"] .manage-filter{
+  background:#1a2b39;
+  border-color:#40596b;
+  color:var(--text);
+}
+[data-theme="dark"] .table th{background:#29465d;color:#d8e6ee}
+[data-theme="dark"] .table tbody tr:nth-child(odd){background:#213443}
+[data-theme="dark"] .table tbody tr:nth-child(even){background:#29465d}
+[data-theme="dark"] .table td{border-color:#355064;color:var(--text)}
+[data-theme="dark"] .badge{background:#314757;color:#dae6ec}
+[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
+  background:#1d303e;color:var(--text);border-color:var(--line)
+}
+[data-theme="dark"] .theme-toggle{
+  background:#294052;color:#edf5fa;border-color:#456174
+}
+[data-theme="dark"] .x{background:#2a4050;color:#edf5fa}
+[data-theme="dark"] .modal{background:rgba(10,22,32,.58)}
+/* Toast modern */
+.simon-toast-wrap{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
+  display:flex;flex-direction:column;gap:8px;align-items:center;
+  width:min(92vw,420px);z-index:9999;pointer-events:none;
+  opacity:0;transition:opacity .18s ease,transform .18s ease;
+}
+.simon-toast-wrap.show{opacity:1;transform:translate(-50%,0)}
+.simon-toast{
+  width:100%;display:flex;align-items:flex-start;gap:10px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:13px;
+  background:var(--card);color:var(--text);
+  box-shadow:0 12px 30px rgba(16,42,67,.16);
+  font-size:12px;font-weight:450;line-height:1.45;
+}
+.simon-toast-dot{
+  width:9px;height:9px;border-radius:50%;margin-top:5px;
+  background:var(--blue);flex:0 0 9px;
+}
+.simon-toast.success .simon-toast-dot{background:var(--ok)}
+.simon-toast.error .simon-toast-dot{background:var(--danger)}
+.simon-toast.warn .simon-toast-dot{background:var(--warn)}
+.simon-toast b{font-weight:650}
+@media(max-width:520px){
+  .heading h2{font-size:21px}
+  .heading p{font-size:11px}
+  .table th,.table td{padding:8px 8px}
+  .table td{line-height:1.4}
+  .simon-toast-wrap{bottom:14px}
+  .simon-toast{font-size:11px;padding:11px 12px}
+}
+</style>
+
+<style id="simon-side-ui">
+@media(max-width:900px){
+  .sidebar{
+    transform:translate3d(-100%,0,0);
+    transition:transform .18s ease;
+    will-change:transform;
+    backface-visibility:hidden;
+  }
+  .sidebar.open{transform:translate3d(0,0,0)}
+  .mobile-side-overlay{
+    position:fixed;inset:0;background:rgba(9,25,39,.22);z-index:20;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .16s ease,visibility .16s ease;
+    contain:paint;
+  }
+  .mobile-side-overlay.show{
+    opacity:1;visibility:visible;pointer-events:auto;
+  }
+  body.side-open{overflow:hidden}
+}
+</style>
 </head>
 <body>
+
+<script>
+(function(){
+  let toastTimer=null;
+  window.showToast=function(message,type){
+    const text=String(message??'');
+    let kind=type;
+    if(!kind){
+      if(/gagal|error|ditolak|tidak berhasil|wajib|salah/i.test(text))kind='error';
+      else if(/peringatan|perhatian|konfirmasi|harus|belum/i.test(text))kind='warn';
+      else if(/berhasil|sukses|tersimpan|disimpan|diperbarui|dihapus|terkirim/i.test(text))kind='success';
+      else kind='info';
+    }
+    let wrap=document.getElementById('simonToastWrap');
+    if(!wrap){
+      wrap=document.createElement('div');
+      wrap.id='simonToastWrap';
+      wrap.className='simon-toast-wrap';
+      document.body.appendChild(wrap);
+    }
+    wrap.innerHTML='';
+    const item=document.createElement('div');
+    item.className='simon-toast '+kind;
+    const dot=document.createElement('span');
+    dot.className='simon-toast-dot';
+    const body=document.createElement('div');
+    body.textContent=text;
+    item.append(dot,body);
+    wrap.appendChild(item);
+    requestAnimationFrame(()=>wrap.classList.add('show'));
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>{
+      wrap.classList.remove('show');
+      setTimeout(()=>{if(wrap&&!wrap.classList.contains('show'))wrap.innerHTML=''},220);
+    },3200);
+  };
+})();
+</script>
+
 <div id="login" class="login"><div class="loginbox">
 <button id="loginThemeToggle" class="theme-toggle login-theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
 <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
 <form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button><button type="button" class="forgot-password-btn" onclick="openResetPassword()">Lupa / Reset Password</button></form>
-<form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
+<form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="rp" type="password" minlength="6" required><button type="button" class="password-eye" onclick="togglePassword('rp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
 <div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
+<div id="sideOverlay" class="mobile-side-overlay" aria-hidden="true" onclick="closeSide()"></div>
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Si RAJA MONITOR</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div class="top-actions">
   <div class="notify-wrap">
     <button id="notifyBtn" class="notify-btn" onclick="toggleNotifications()" title="Notifikasi" aria-label="Notifikasi">
@@ -2018,7 +2212,7 @@ function buildNav(){
   updateChatBadge();
 }
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();state.monitorSort='terbaru';await loadData();showPage('dashboard');startNotificationPolling()}
-async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
+async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);showToast(e.message)}}
 
 const chatState={threads:[],activeId:null,selectedRecipients:[],priority:false,loading:false};
 
@@ -2184,7 +2378,7 @@ function selectChatPackage(rup){
 
 async function startChat(e){
   e.preventDefault();
-  if(!chatState.selectedRecipients.length){alert('Pilih penerima terlebih dahulu.');return}
+  if(!chatState.selectedRecipients.length){showToast('Pilih penerima terlebih dahulu.');return}
   const payload={
     pengirimUsername:state.user.username,
     penerimaUsername:chatState.selectedRecipients,
@@ -2193,21 +2387,21 @@ async function startChat(e){
     pesan:$('chatFirstMessage').value.trim(),
     prioritas:chatState.priority
   };
-  if(!payload.pesan){alert('Isi pesan wajib diisi.');return}
+  if(!payload.pesan){showToast('Isi pesan wajib diisi.');return}
   try{
     const d=await call('mulaiPesanPimpinan',[state.user.username,payload]);
     closeNewChat();
     await loadChats();
     const id=d?.percakapanId||d?.id||d?.threadId;
     if(id)await openChatThread(String(id));
-    alert('Pesan pimpinan berhasil dikirim.');
-  }catch(e){alert(chatApiErrorMessage(e))}
+    showToast('Pesan pimpinan berhasil dikirim.');
+  }catch(e){showToast(chatApiErrorMessage(e))}
 }
 
 async function hapusChatAdmin(id){
   const role=String(state.user?.role||'').trim().toUpperCase();
   if(role!=='ADMIN'){
-    alert('Hanya Admin yang dapat menghapus percakapan.');
+    showToast('Hanya Admin yang dapat menghapus percakapan.');
     return;
   }
 
@@ -2250,19 +2444,19 @@ async function hapusChatAdmin(id){
       chatState.threads.unshift(thread);
       renderChatList();
     }
-    alert('Gagal menghapus percakapan.\n\n'+String(e?.message||e||'Kesalahan tidak diketahui.'));
+    showToast('Gagal menghapus percakapan.\n\n'+String(e?.message||e||'Kesalahan tidak diketahui.'));
   }
 }
 async function sendChatReply(e){
   e.preventDefault();
-  if(String(state.user?.role||'').toUpperCase()==='ADMIN'){alert('Admin hanya dapat melihat percakapan.');return}
+  if(String(state.user?.role||'').toUpperCase()==='ADMIN'){showToast('Admin hanya dapat melihat percakapan.');return}
   const text=$('chatReply').value.trim();
   if(!text||!chatState.activeId)return;
   try{
     await call('kirimPesanPimpinan',[state.user.username,{percakapanId:chatState.activeId,pengirimUsername:state.user.username,pesan:text}]);
     $('chatReply').value='';
     await openChatThread(chatState.activeId);
-  }catch(e){alert(chatApiErrorMessage(e))}
+  }catch(e){showToast(chatApiErrorMessage(e))}
 }
 
 async function updateChatBadge(){
@@ -2473,8 +2667,20 @@ function startNotificationPolling(){
   notifyState.timer=setInterval(refreshNotifications,20000);
 }
 
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
-function toggleSide(){$('side').classList.toggle('open')}
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';setSide(false);if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
+function setSide(open){
+  const side=$('side'), overlay=$('sideOverlay');
+  if(!side)return;
+  const willOpen = typeof open==='boolean' ? open : !side.classList.contains('open');
+  side.classList.toggle('open',willOpen);
+  if(overlay){
+    overlay.classList.toggle('show',willOpen);
+    overlay.setAttribute('aria-hidden',String(!willOpen));
+  }
+  document.body.classList.toggle('side-open',willOpen);
+}
+function toggleSide(){setSide()}
+function closeSide(){setSide(false)}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
 function parseMonitorDate(v){
@@ -2627,9 +2833,9 @@ async function hapusLaporanManajemen(laporan){
 
     // Sync from backend without deleting/recreating any project.
     loadData().catch(e=>console.warn('Sinkronisasi setelah hapus laporan:',e));
-    alert(d.message||'Laporan berhasil dihapus. Data paket tetap ada.');
+    showToast(d.message||'Laporan berhasil dihapus. Data paket tetap ada.');
   }catch(e){
-    alert(e.message||'Gagal menghapus laporan.');
+    showToast(e.message||'Gagal menghapus laporan.');
   }
 }
 
@@ -3036,13 +3242,13 @@ async function saveReport(e){
     // Penyimpanan berhasil: bersihkan file input + preview sebelum form ditutup.
     clearReportPhotoState();
     if($('reportModal'))$('reportModal').classList.remove('show');
-    alert(result.message||'Laporan berhasil disimpan.');
+    showToast(result.message||'Laporan berhasil disimpan.');
     await loadData();
     showPage('monitoring');
   }catch(x){
     console.error('saveReport:',x);
     const msg=String(x?.message||x?.error||x||'Terjadi kesalahan saat menyimpan laporan.');
-    alert(msg==='undefined'||msg==='null'||!msg.trim()
+    showToast(msg==='undefined'||msg==='null'||!msg.trim()
       ?'Terjadi kesalahan saat menyimpan laporan. Silakan coba lagi.'
       :msg);
   }finally{
@@ -3104,7 +3310,7 @@ async function openDetail(rup){
   }
 }
 async function loadVerifications(){try{const d=await call('getVerifikasiMasuk',[state.user.username]);state.verifications=d||[];$('vb').innerHTML=state.verifications.map(v=>'<tr><td>'+esc(v.tanggal)+'</td><td><b>'+esc(v.laporan?.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(v.laporan?.kodeRup||'')+'</small></td><td>'+esc(v.laporan?.mingguKe||'-')+'</td><td>'+pct(v.laporan?.progres).toFixed(1)+'%</td><td>'+esc(v.dari)+'</td><td><button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DITERIMA\')">Terima</button> <button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DIKEMBALIKAN\')">Kembalikan</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Tidak ada laporan yang menunggu verifikasi.</td></tr>'}catch(e){console.error(e)}}
-async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:state.user.username,statusBaru:status,catatan:cat}]);alert(d.message);await loadVerifications();await loadData()}catch(e){alert(e.message)}}
+async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:state.user.username,statusBaru:status,catatan:cat}]);showToast(d.message);await loadVerifications();await loadData()}catch(e){showToast(e.message)}}
 async function loadAdmin(){
   try{
     const [d,p]=await Promise.all([
@@ -3174,30 +3380,30 @@ call=async function(fn,args=[]){
 async function resetPasswordByAdmin(username,nama){
   const self=String(state.user?.username||'').toLowerCase();
   if(String(username||'').toLowerCase()===self){
-    alert('Gunakan perubahan password biasa untuk akun Admin sendiri.');
+    showToast('Gunakan perubahan password biasa untuk akun Admin sendiri.');
     return;
   }
   if(!confirm('Buat reset password untuk akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nKode reset berlaku 30 menit.'))return;
   try{
     const d=await call('adminResetPassword',[state.user.username,username]);
-    alert((d?.message||'Reset password berhasil dibuat.')+
+    showToast((d?.message||'Reset password berhasil dibuat.')+
       (d?.resetCode?'\n\nKODE RESET:\n'+d.resetCode+'\n\nBerikan kode ini hanya kepada pemilik akun.':''));
-  }catch(e){alert(e?.message||'Gagal membuat reset password.')}
+  }catch(e){showToast(e?.message||'Gagal membuat reset password.')}
 }
 async function hapusAkunAdmin(username,nama){
   const self=String(state.user.username||'').toLowerCase();
-  if(String(username||'').toLowerCase()===self){alert('Admin tidak dapat menghapus akun sendiri.');return}
+  if(String(username||'').toLowerCase()===self){showToast('Admin tidak dapat menghapus akun sendiri.');return}
   const yakin=confirm('Hapus akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nAkun akan dihapus permanen dari daftar pengguna.');
   if(!yakin)return;
   try{
     const d=await call('adminHapusAkun',[state.user.username,username]);
-    alert(d.message||'Akun berhasil dihapus.');
+    showToast(d.message||'Akun berhasil dihapus.');
     await loadAdmin();
-  }catch(e){alert(e.message||'Gagal menghapus akun.')}
+  }catch(e){showToast(e.message||'Gagal menghapus akun.')}
 }
 
-async function processReg(u,d){try{const x=await call('adminVerifikasiPendaftaran',[state.user.username,u,d]);alert(x.message);loadAdmin()}catch(e){alert(e.message)}}
-async function setStatus(u,s){try{const x=await call('adminSetStatus',[state.user.username,u,s]);alert(x.message);loadAdmin()}catch(e){alert(e.message)}}
+async function processReg(u,d){try{const x=await call('adminVerifikasiPendaftaran',[state.user.username,u,d]);showToast(x.message);loadAdmin()}catch(e){showToast(e.message)}}
+async function setStatus(u,s){try{const x=await call('adminSetStatus',[state.user.username,u,s]);showToast(x.message);loadAdmin()}catch(e){showToast(e.message)}}
 function logout(){state.user=null;localStorage.removeItem('simon_user');$('app').classList.add('hidden');$('login').classList.remove('hidden');$('lf').reset();authTab('login')}
 async function restore(){const x=localStorage.getItem('simon_user');if(!x)return;try{state.user=JSON.parse(x);await boot()}catch{logout()}}
 initTheme();
