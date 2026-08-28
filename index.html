@@ -1866,7 +1866,7 @@ html,body,button,input,select,textarea{
 <div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
-const state={monitorSort:'terbaru',user:null,projects:[],reports:[],verifications:[],users:[],adendum:'TIDAK',terus:'TIDAK',selected:null};
+const state={monitorSort:'terbaru',user:null,projects:[],reports:[],verifications:[],users:[],adendum:'TIDAK',terus:'TIDAK',selected:null,reportPhotoUrls:[]};
 const monitorSort={key:'updatedAt',dir:'desc'};
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme',theme);
@@ -2718,6 +2718,8 @@ function renderAnalytics(){
 }
 
 function openReport(){
+  // Setiap membuka form laporan baru harus selalu mulai tanpa foto lama.
+  clearReportPhotoState();
   $('reportModal').classList.add('show');
   $('packageSearch').value='';
   $('rRup').value='';
@@ -2850,13 +2852,51 @@ document.addEventListener('click',e=>{
   }
   if(!e.target.closest('.notify-wrap'))closeNotifications();
 });
+function clearReportPhotoState(){
+  // Bersihkan file input dan seluruh preview foto laporan sebelumnya.
+  const input=$('rFoto');
+  if(input)input.value='';
+
+  const preview=$('photoPreview');
+  if(preview)preview.innerHTML='';
+
+  // Lepaskan object URL agar tidak menumpuk di memori browser.
+  if(Array.isArray(state.reportPhotoUrls)){
+    state.reportPhotoUrls.forEach(url=>{
+      try{URL.revokeObjectURL(url)}catch(_){}
+    });
+    state.reportPhotoUrls=[];
+  }
+}
 function closeModal(id){
   const el=$(id);
+  if(id==='reportModal')clearReportPhotoState();
   if(el)el.classList.remove('show');
 }
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
-function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
+function previewPhotos(){
+  const input=$('rFoto');
+  const preview=$('photoPreview');
+  if(!input||!preview)return;
+
+  // Jangan biarkan object URL/preview dari pilihan sebelumnya menempel.
+  if(Array.isArray(state.reportPhotoUrls)){
+    state.reportPhotoUrls.forEach(url=>{
+      try{URL.revokeObjectURL(url)}catch(_){}
+    });
+  }
+  state.reportPhotoUrls=[];
+  preview.innerHTML='';
+
+  const fs=[...input.files].slice(0,5);
+  const html=fs.map(f=>{
+    const url=URL.createObjectURL(f);
+    state.reportPhotoUrls.push(url);
+    return '<img src="'+url+'" alt="foto">';
+  }).join('');
+  preview.innerHTML=html;
+}
 async function filesToBase64(){
   const files=[...$('rFoto').files].slice(0,5);
 
@@ -2993,6 +3033,8 @@ async function saveReport(e){
       throw Error(String(result.error));
     }
 
+    // Penyimpanan berhasil: bersihkan file input + preview sebelum form ditutup.
+    clearReportPhotoState();
     if($('reportModal'))$('reportModal').classList.remove('show');
     alert(result.message||'Laporan berhasil disimpan.');
     await loadData();
