@@ -1591,6 +1591,17 @@ html,body,button,input,select,textarea{
   font-weight:800;
 }
 [data-theme="dark"] .photo-compress-hint{color:#7f8e9b}
+
+/* ===== JUDUL HALAMAN UTAMA — SERAGAM ===== */
+#dashboard .heading h2,
+#monitoring .heading h2,
+#laporan .heading h2,
+#analitik .heading h2,
+#manajemen .heading h2,
+#aktivitas .heading h2{
+  font-weight:950;
+}
+
 </style>
 </head>
 <body>
@@ -2412,24 +2423,29 @@ function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value
 async function hapusLaporanManajemen(laporan){
   if(!laporan)return;
   const identitas=[laporan.namaPaket||'Paket',laporan.kodeRup?'RUP '+laporan.kodeRup:'',laporan.mingguKe?'Minggu ke-'+laporan.mingguKe:''].filter(Boolean).join(' · ');
-  const yakin=confirm('Hapus laporan ini?\n\n'+identitas+'\n\nTindakan ini digunakan untuk menghapus laporan yang salah/selip. Lanjutkan?');
-  if(!yakin)return;
+  if(!confirm('Hapus laporan ini?\n\n'+identitas+'\n\nHanya laporan ini beserta data terkait laporannya yang akan dihapus. Data paket/master tetap ada.'))return;
+
   try{
-    const payload={
-      idLaporan:laporan.idLaporan||laporan.id_laporan||laporan.id||laporan.laporanId||null,
-      kodeRup:laporan.kodeRup||null,
-      mingguKe:laporan.mingguKe||null,
-      tanggal:laporan.tanggal||null,
-      usernamePimpinan:state.user?.username||null
-    };
-    if(!payload.idLaporan){
-      throw Error('ID laporan tidak tersedia. Laporan tidak dapat dihapus.');
-    }
-    const d=await call('adminHapusLaporan',[state.user.username,payload.idLaporan]);
+    const idLaporan=laporan.idLaporan||laporan.id_laporan||laporan.id||laporan.laporanId||null;
+    if(!idLaporan)throw Error('ID laporan tidak tersedia. Laporan tidak dapat dihapus.');
+
+    // Backend contract: delete ONLY this report and dependent report rows.
+    // Never delete the master project/package.
+    const d=await call('adminHapusLaporan',[state.user.username,String(idLaporan)]);
     if(!d?.success)throw Error(d?.message||'Gagal menghapus laporan.');
-    alert(d.message||'Laporan berhasil dihapus.');
-    await loadData();
-    showPage('manajemen');
+
+    // Optimistic UI: remove the report from local state immediately so it cannot
+    // remain in Rekapan while the next full data sync is running.
+    state.reports=(state.reports||[]).filter(r=>String(r.idLaporan||r.id_laporan||r.id||r.laporanId||'')!==String(idLaporan));
+    renderManagement();
+    renderReports();
+    renderDashboard();
+    renderMonitoring();
+    renderAnalytics();
+
+    // Sync from backend without deleting/recreating any project.
+    loadData().catch(e=>console.warn('Sinkronisasi setelah hapus laporan:',e));
+    alert(d.message||'Laporan berhasil dihapus. Data paket tetap ada.');
   }catch(e){
     alert(e.message||'Gagal menghapus laporan.');
   }
