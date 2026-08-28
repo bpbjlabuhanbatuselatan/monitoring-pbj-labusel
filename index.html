@@ -1635,6 +1635,25 @@ html,body,button,input,select,textarea{
   letter-spacing:0;
 }
 
+
+/* ===== VALIDASI PROGRES MINGGUAN ===== */
+.progress-validation{
+  margin-top:6px;
+  padding:7px 9px;
+  border-radius:8px;
+  background:#fff5f3;
+  color:#b42318;
+  border:1px solid #f1c0ba;
+  font-size:10px;
+  font-weight:850;
+  line-height:1.35;
+}
+[data-theme="dark"] .progress-validation{
+  background:#3b2523;
+  color:#ff9b93;
+  border-color:#68403b;
+}
+
 </style>
 </head>
 <body>
@@ -1807,7 +1826,7 @@ html,body,button,input,select,textarea{
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
 <div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
@@ -2530,14 +2549,36 @@ function renderAnalytics(){
     : 'Belum ada laporan tersimpan di sistem.';
 
   const districts=['Kotapinang','Torgamba','Sungai Kanan','Silangkitang','Kampung Rakyat'];
+  const latestActive={};
+  (reports||[]).forEach(r=>{
+    const rup=String(r.kodeRup||'').trim();
+    if(!rup)return;
+    const old=latestActive[rup];
+    const rw=Number(r.mingguKe||0), ow=Number(old?.mingguKe||0);
+    if(!old||rw>ow){
+      latestActive[rup]=r;
+    }else if(rw===ow){
+      const rt=monitorDateValue(r), ot=monitorDateValue(old);
+      if(rt>ot)latestActive[rup]=r;
+    }
+  });
+
   const drows=districts.map(name=>{
-    const ps=projects.filter(p=>String(p.lokasi||'').toLowerCase()===name.toLowerCase());
-    const vals=ps.map(p=>latest[p.kodeRup]?.progres||0);
-    const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+    const rs=Object.values(latestActive).filter(r=>String(r.lokasi||'').toLowerCase()===name.toLowerCase());
+    const ps=rs.map(r=>projects.find(p=>String(p.kodeRup||'')===String(r.kodeRup||''))).filter(Boolean);
+    const avg=rs.length?rs.reduce((a,r)=>a+pct(r.progres),0)/rs.length:0;
     const value=ps.reduce((a,p)=>a+num(p.totalNilai),0);
-    return {name,count:ps.length,avg,value};
-  }).sort((a,b)=>b.count-a.count);
-  $('analyticsDistrictMap').innerHTML=drows.map((d,i)=>'<div class="district-item"><span class="district-rank">'+(i+1)+'</span><div class="district-name">'+esc(d.name)+'</div><div class="district-count">'+d.count+' <small>paket</small></div><div class="district-value">'+money(d.value)+'</div><div class="district-progress"><i style="width:'+Math.min(100,Math.max(0,d.avg))+'%"></i></div><div class="district-meta"><span>Progress rata-rata</span><b>'+d.avg.toFixed(1)+'%</b></div></div>').join('');
+    return {name,count:rs.length,avg,value};
+  }).sort((a,b)=>b.count-a.count||b.avg-a.avg);
+
+  $('analyticsDistrictMap').innerHTML=drows.map((d,i)=>
+    '<div class="district-item"><span class="district-rank">'+(i+1)+'</span>'+
+    '<div class="district-name">'+esc(d.name)+'</div>'+
+    '<div class="district-count">'+d.count+' <small>paket</small></div>'+
+    '<div class="district-value">'+money(d.value)+'</div>'+
+    '<div class="district-progress"><i style="width:'+Math.min(100,Math.max(0,d.avg))+'%"></i></div>'+
+    '<div class="district-meta"><span>Progress rata-rata</span><b>'+d.avg.toFixed(1)+'%</b></div></div>'
+  ).join('');
 
   const events=reports.slice(0,8);
   $('analyticsTimeline').innerHTML=events.length?events.map(r=>{
@@ -2546,10 +2587,110 @@ function renderAnalytics(){
   }).join(''):'<div class="analytics-empty">Belum ada aktivitas laporan terbaru.</div>';
 }
 
-function openReport(){ $('reportModal').classList.add('show');$('packageSearch').value='';$('rRup').value='';$('rPaket').value='';$('rPenyedia').value='';$('rMinggu').value='';$('rTanggal').value=new Date().toISOString().slice(0,10);$('rLokasi').value='';$('rProgres').value='';$('rKet').value='';setAdendum('TIDAK');setTerus('TIDAK');$('rPpbj').innerHTML='<option value="">Memuat...</option>';call('getDaftarPPBJ').then(a=>{$('rPpbj').innerHTML='<option value="">Pilih PPBJ...</option>'+((a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join(''))}).catch(e=>{$('rPpbj').innerHTML='<option value="">Gagal memuat</option>'});}
-function closeModal(id){$(id).classList.remove('show')}
-function searchPackages(){const q=($('packageSearch').value||'').toLowerCase().trim();const list=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));$('suggestions').classList.remove('hidden');$('suggestions').innerHTML=list.length?list.map(p=>'<button type="button" class="suggestion" onclick="selectPackage('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')"><b>'+esc(p.kodeRup)+' — '+esc(p.namaPaket)+'</b><small>'+esc(p.namaPenyedia||'-')+' · '+money(p.totalNilai)+'</small></button>').join(''):'<div class="empty">Paket tidak ditemukan.</div>'}
-async function selectPackage(rup){const p=state.projects.find(x=>x.kodeRup===rup);if(!p)return;$('rRup').value=p.kodeRup;$('packageSearch').value=p.kodeRup+' — '+p.namaPaket;$('rPaket').value=p.namaPaket;$('rPenyedia').value=p.namaPenyedia||'';$('rLokasi').value=p.lokasi||'';$('suggestions').classList.add('hidden');try{const d=await call('getMingguBerikutnya',[rup]);$('rMinggu').value=d.mingguBerikutnya||1;if((d.mingguBerikutnya||1)>1)$('rPenyedia').value=d.namaPenyediaTerakhir||p.namaPenyedia||''}catch(e){$('rMinggu').value=1}}
+function openReport(){
+  $('reportModal').classList.add('show');
+  $('packageSearch').value='';
+  $('rRup').value='';
+  $('rPaket').value='';
+  $('rPenyedia').value='';
+  $('rMinggu').value='';
+  $('rTanggal').value=new Date().toISOString().slice(0,10);
+  $('rLokasi').value='';
+  $('rProgres').value='';
+  $('rProgres').removeAttribute('min');
+  $('progressValidation')?.classList.add('hidden');
+  if($('progressValidation'))$('progressValidation').textContent='';
+  $('rKet').value='';
+  setAdendum('TIDAK');
+  setTerus('TIDAK');
+  $('rPpbj').innerHTML='<option value="">Memuat...</option>';
+  call('getDaftarPPBJ').then(a=>{
+    $('rPpbj').innerHTML='<option value="">Pilih PPBJ...</option>'+
+      ((a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join(''));
+  }).catch(e=>{$('rPpbj').innerHTML='<option value="">Gagal memuat</option>'});
+}
+function lastReportForRup(rup){
+  const rs=(state.reports||[]).filter(r=>String(r.kodeRup||'')===String(rup||''));
+  if(!rs.length)return null;
+  return rs.reduce((best,r)=>{
+    const bw=Number(best?.mingguKe||0), rw=Number(r?.mingguKe||0);
+    if(rw>bw)return r;
+    if(rw<bw)return best;
+    const bt=parseMonitorDate(best?.createdAt||best?.created_at||best?.tanggalLaporan||best?.tanggal);
+    const rt=parseMonitorDate(r?.createdAt||r?.created_at||r?.tanggalLaporan||r?.tanggal);
+    return rt>bt?r:best;
+  },rs[0]);
+}
+function progressMinimumForRup(rup){
+  const last=lastReportForRup(rup);
+  return last?Number(pct(last.progres)):null;
+}
+function validateProgressInput(){
+  const el=$('rProgres'), box=$('progressValidation');
+  if(!el||!box)return true;
+  const rup=$('rRup')?.value;
+  const last=rup?progressMinimumForRup(rup):null;
+  const value=el.value===''?null:Number(el.value);
+  box.classList.add('hidden');
+  box.textContent='';
+  el.setCustomValidity('');
+  if(last===null||value===null||Number.isNaN(value))return true;
+  if(value<=last){
+    const msg='⚠️ Progres tidak boleh lebih rendah atau sama dengan progres sebelumnya ('+last.toFixed(2)+'%). Masukkan angka di atas '+last.toFixed(2)+'%.';
+    box.textContent=msg;
+    box.classList.remove('hidden');
+    el.setCustomValidity(msg);
+    return false;
+  }
+  return true;
+}
+function searchPackages(){
+  const q=($('packageSearch').value||'').toLowerCase().trim();
+  const list=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));
+  $('suggestions').classList.remove('hidden');
+  $('suggestions').innerHTML=list.length
+    ?list.map(p=>'<button type="button" class="suggestion" onclick="selectPackage('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')"><b>'+esc(p.kodeRup)+' — '+esc(p.namaPaket)+'</b><small>'+esc(p.namaPenyedia||'-')+' · '+money(p.totalNilai)+'</small></button>').join('')
+    :'<div class="empty">Paket tidak ditemukan.</div>';
+}
+async function selectPackage(rup){
+  const p=state.projects.find(x=>x.kodeRup===rup);
+  if(!p)return;
+
+  const last=lastReportForRup(rup);
+
+  $('rRup').value=p.kodeRup;
+  $('packageSearch').value=p.kodeRup+' — '+p.namaPaket;
+  $('rPaket').value=p.namaPaket;
+
+  // Minggu berikutnya mewarisi penyedia + kecamatan dari laporan terakhir aktif.
+  $('rPenyedia').value=last?.namaPenyedia||p.namaPenyedia||'';
+  $('rLokasi').value=last?.lokasi||p.lokasi||'';
+
+  // Progress sebelumnya menjadi acuan validasi minggu berikutnya.
+  const lastProgress=last?Number(pct(last.progres)):null;
+  if(lastProgress!==null&&!Number.isNaN(lastProgress)){
+    $('rProgres').value='';
+    $('rProgres').setAttribute('min',String(lastProgress));
+  }else{
+    $('rProgres').value='';
+    $('rProgres').removeAttribute('min');
+  }
+  validateProgressInput();
+
+  $('suggestions').classList.add('hidden');
+  try{
+    const d=await call('getMingguBerikutnya',[rup]);
+    $('rMinggu').value=d.mingguBerikutnya||((last?.mingguKe||0)+1)||1;
+
+    // Backend tetap menjadi sumber minggu berikutnya; data turunan
+    // hanya fallback jika laporan aktif di frontend belum lengkap.
+    if((d.mingguBerikutnya||1)>1){
+      $('rPenyedia').value=d.namaPenyediaTerakhir||last?.namaPenyedia||p.namaPenyedia||'';
+    }
+  }catch(e){
+    $('rMinggu').value=(last?.mingguKe?Number(last.mingguKe)+1:1);
+  }
+}
 document.addEventListener('click',e=>{
   if(!e.target.closest('.autocomplete')){
     $('suggestions')?.classList.add('hidden');
@@ -2647,7 +2788,41 @@ async function filesToBase64(){
 
   return Promise.all(files.map(compressOne));
 }
-async function saveReport(e){e.preventDefault();try{if(!$('rRup').value)throw Error('Pilih paket dari pencarian terlebih dahulu.');const fotos=await filesToBase64();const d=await call('simpanLaporan',[{kodeRup:$('rRup').value,namaPaket:$('rPaket').value,namaPenyedia:$('rPenyedia').value,lokasi:$('rLokasi').value,adendum:state.adendum,nomorAdendum:$('rNoAd').value,tanggalAdendum:$('rTglAd').value,nilaiAdendum:$('rNilaiAd').value,keteranganAdendum:$('rKetAd').value,progres:$('rProgres').value,keterangan:$('rKet').value,dibuatOleh:state.user.username,diteruskan:state.terus,ppbjUsername:$('rPpbj').value,foto:fotos}]);if(!d.success)throw Error(d.message);closeModal('reportModal');alert(d.message);await loadData();showPage('monitoring')}catch(x){alert(x.message)}}
+async function saveReport(e){
+  e.preventDefault();
+  try{
+    if(!$('rRup').value)throw Error('Pilih paket dari pencarian terlebih dahulu.');
+    if(!validateProgressInput()){
+      $('rProgres').focus();
+      throw Error($('rProgres').validationMessage||'Progres tidak valid.');
+    }
+
+    const fotos=await filesToBase64();
+    const d=await call('simpanLaporan',[{
+      kodeRup:$('rRup').value,
+      namaPaket:$('rPaket').value,
+      namaPenyedia:$('rPenyedia').value,
+      lokasi:$('rLokasi').value,
+      adendum:state.adendum,
+      nomorAdendum:$('rNoAd').value,
+      tanggalAdendum:$('rTglAd').value,
+      nilaiAdendum:$('rNilaiAd').value,
+      keteranganAdendum:$('rKetAd').value,
+      progres:$('rProgres').value,
+      keterangan:$('rKet').value,
+      dibuatOleh:state.user.username,
+      diteruskan:state.terus,
+      ppbjUsername:$('rPpbj').value,
+      foto:fotos
+    }]);
+    if(!d.success)throw Error(d.message);
+    closeModal('reportModal');
+    alert(d.message);
+    await loadData();
+    showPage('monitoring');
+  }catch(x){alert(x.message)}
+}
+
 async function openDetail(rup){
   $('detailModal').classList.add('show');
   $('detailContent').innerHTML='<div class="detail-empty">Memuat detail laporan...</div>';
@@ -2671,8 +2846,8 @@ async function openDetail(rup){
             '</div>'+
           '</div>'+
           '<div class="detail-info-grid">'+
-            '<div class="detail-info-card"><span>Penyedia</span><b>'+esc(p.namaPenyedia||'-')+'</b></div>'+
-            '<div class="detail-info-card"><span>Lokasi</span><b>'+esc(p.lokasi||'-')+'</b></div>'+
+            '<div class="detail-info-card"><span>Penyedia</span><b>'+esc((weeks[weeks.length-1]?.laporan?.namaPenyedia)||'-')+'</b></div>'+
+            '<div class="detail-info-card"><span>Lokasi</span><b>'+esc((weeks[weeks.length-1]?.laporan?.lokasi)||'-')+'</b></div>'+
           '</div>'+
         '</div>'+
         '<div class="detail-section">'+
