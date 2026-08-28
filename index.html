@@ -1680,6 +1680,16 @@ html,body,button,input,select,textarea{
 .inherited-field{background:var(--lightblue)!important;color:var(--text);font-weight:850;cursor:not-allowed}
 [data-theme="dark"] .inherited-field{background:#17324a!important;color:var(--text)}
 
+
+/* ===== RESET PASSWORD ===== */
+.password-wrap{position:relative}.password-wrap input{padding-right:44px!important}
+.password-eye{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:8px;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0;font-size:16px;font-weight:900}
+.password-eye:hover{background:var(--lightblue);color:var(--text)}
+.forgot-password-btn{width:100%;border:0;background:transparent;color:var(--blue);padding:8px 4px;font-size:11px;font-weight:850;text-decoration:underline}
+.reset-password-modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:14px;z-index:180}
+.reset-password-modal.show{display:flex}.reset-password-box{width:min(470px,100%);background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 22px 60px rgba(0,0,0,.25)}
+.reset-password-help{margin:0 0 12px;color:var(--muted);font-size:10px;line-height:1.45;font-weight:750}
+@media(max-width:520px){.reset-password-box{padding:13px;border-radius:14px}.forgot-password-btn{font-size:10px;padding:8px 3px}}
 </style>
 </head>
 <body>
@@ -1688,7 +1698,7 @@ html,body,button,input,select,textarea{
 <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
-<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button></form>
+<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button><button type="button" class="forgot-password-btn" onclick="openResetPassword()">Lupa / Reset Password</button></form>
 <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
@@ -1715,7 +1725,7 @@ html,body,button,input,select,textarea{
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
   <div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div>
 </div></header>
-<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan</span><b id="sl">0</b></div><div class="stat"><span>Sudah Berlapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
+<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
 <section id="analitik" class="page">
   <div class="heading">
     <div>
@@ -1924,7 +1934,64 @@ function togglePassword(id,btn){
 }
 function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').classList.toggle('active',x==='reg');$('lf').classList.toggle('hidden',x!=='login');$('rf').classList.toggle('hidden',x!=='reg');$('am').innerHTML=''}
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
-async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
+async function doLogin(e){
+  e.preventDefault();
+  authMsg('Memeriksa akun...',true);
+  const username=$('lu').value.trim(), password=$('lp').value;
+  try{
+    const d=await call('login',[username,password]);
+    if(d.mustResetPassword){
+      openResetPassword();
+      $('rpResetUsername').value=username;
+      $('rpResetCode').value=password;
+      authMsg('Kode reset diterima. Buat password baru untuk melanjutkan.',true);
+      return;
+    }
+    if(!d.success)throw Error(d.message||'Login gagal.');
+    state.user=d.user;
+    localStorage.setItem('simon_user',JSON.stringify(state.user));
+    await boot();
+  }catch(x){
+    try{
+      const rs=await call('checkResetStatus',[username]);
+      if(rs?.mustReset){
+        openResetPassword();
+        $('rpResetUsername').value=username;
+        $('rpResetCode').value='';
+        authMsg('Akun ini memerlukan reset password. Masukkan kode dari Admin.',true);
+        return;
+      }
+    }catch(ignore){}
+    authMsg(String(x?.message||x||'Login gagal.'));
+  }
+}
+
+function openResetPassword(){
+  $('resetPasswordModal').classList.add('show');
+  $('rpResetUsername').value=($('lu')?.value||'').trim();
+  $('rpResetCode').value='';
+  $('rpResetNew').value='';
+  $('rpResetConfirm').value='';
+}
+function closeResetPassword(){
+  $('resetPasswordModal').classList.remove('show');
+}
+async function submitResetPassword(){
+  const username=$('rpResetUsername').value.trim();
+  const code=$('rpResetCode').value.trim();
+  const pwd=$('rpResetNew').value;
+  const confirmPwd=$('rpResetConfirm').value;
+  if(!username||!code||!pwd)throw Error('Username, kode reset, dan password baru wajib diisi.');
+  if(pwd.length<6)throw Error('Password baru minimal 6 karakter.');
+  if(pwd!==confirmPwd)throw Error('Konfirmasi password tidak sama.');
+  const d=await call('resetPassword',[username,code,pwd]);
+  if(!d?.success)throw Error(d?.message||'Reset password gagal.');
+  closeResetPassword();
+  $('lp').value='';
+  $('lu').value=username;
+  authTab('login');
+  authMsg('Password baru berhasil dibuat. Silakan login dengan password baru.',true);
+}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
 function buildNav(){
   const r=String(state.user.role||'').toUpperCase();
@@ -3032,6 +3099,7 @@ async function loadAdmin(){
         '<td>'+esc(u.role||'-')+'</td>'+
         '<td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status||'-')+'</span></td>'+
         '<td class="account-actions">'+statusBtn+
+        ' <button class="btn btn-account-reset" onclick="resetPasswordByAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Reset Password</button>'+ 
         ' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Hapus</button></td>'+
       '</tr>';
     }).join('');
@@ -3049,7 +3117,7 @@ async function loadAdmin(){
   }
 }
 const ACCOUNT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/account-api';
-const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun']);
+const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun','adminResetPassword','resetPassword','checkResetStatus']);
 const originalCall=call;
 call=async function(fn,args=[]){
   if(ACCOUNT_API_FUNCTIONS.has(fn)){
@@ -3061,6 +3129,19 @@ call=async function(fn,args=[]){
   return originalCall(fn,args);
 };
 
+async function resetPasswordByAdmin(username,nama){
+  const self=String(state.user?.username||'').toLowerCase();
+  if(String(username||'').toLowerCase()===self){
+    alert('Gunakan perubahan password biasa untuk akun Admin sendiri.');
+    return;
+  }
+  if(!confirm('Buat reset password untuk akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nKode reset berlaku 30 menit.'))return;
+  try{
+    const d=await call('adminResetPassword',[state.user.username,username]);
+    alert((d?.message||'Reset password berhasil dibuat.')+
+      (d?.resetCode?'\n\nKODE RESET:\n'+d.resetCode+'\n\nBerikan kode ini hanya kepada pemilik akun.':''));
+  }catch(e){alert(e?.message||'Gagal membuat reset password.')}
+}
 async function hapusAkunAdmin(username,nama){
   const self=String(state.user.username||'').toLowerCase();
   if(String(username||'').toLowerCase()===self){alert('Admin tidak dapat menghapus akun sendiri.');return}
@@ -3081,6 +3162,17 @@ initTheme();
 restore();
 setTimeout(updateChatBadge,500);
 </script>
+<div id="resetPasswordModal" class="reset-password-modal" onclick="if(event.target===this)closeResetPassword()">
+  <div class="reset-password-box">
+    <div class="modalhead"><h3>Reset Password</h3><button class="x" type="button" onclick="closeResetPassword()">✕</button></div>
+    <p class="reset-password-help">Masukkan kode reset dari Admin, lalu buat password baru.</p>
+    <div class="field"><label>Username</label><input id="rpResetUsername" autocomplete="username"></div>
+    <div class="field password-field"><label>Kode Reset</label><div class="password-wrap"><input id="rpResetCode" autocomplete="one-time-code"><button type="button" class="password-eye" onclick="togglePassword('rpResetCode',this)">👁</button></div></div>
+    <div class="field password-field"><label>Password Baru</label><div class="password-wrap"><input id="rpResetNew" type="password" autocomplete="new-password"><button type="button" class="password-eye" onclick="togglePassword('rpResetNew',this)">👁</button></div></div>
+    <div class="field password-field"><label>Konfirmasi Password Baru</label><div class="password-wrap"><input id="rpResetConfirm" type="password" autocomplete="new-password"><button type="button" class="password-eye" onclick="togglePassword('rpResetConfirm',this)">👁</button></div></div>
+    <button type="button" class="primary" onclick="submitResetPassword()">Simpan Password Baru</button>
+  </div>
+</div>
 <div id="chatNewModal" class="chat-new-modal" onclick="if(event.target===this)closeNewChat()">
   <div class="chat-new-box">
     <div class="chat-new-head">
