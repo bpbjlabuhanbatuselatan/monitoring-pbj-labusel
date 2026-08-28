@@ -1663,6 +1663,23 @@ html,body,button,input,select,textarea{
 [data-theme="dark"] .report-save-msg{
   background:#3b2523;color:#ff9b93;border-color:#68403b;
 }
+
+/* ===== PASSWORD VISIBILITY ===== */
+.password-wrap{position:relative}
+.password-wrap input{padding-right:44px!important}
+.password-eye{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border:0;border-radius:8px;
+  background:transparent;color:var(--muted);display:grid;place-items:center;
+  padding:0;font-size:16px;font-weight:900;
+}
+.password-eye:hover{background:var(--lightblue);color:var(--text)}
+[data-theme="dark"] .password-eye:hover{background:#17324a;color:var(--text)}
+
+
+.inherited-field{background:var(--lightblue)!important;color:var(--text);font-weight:850;cursor:not-allowed}
+[data-theme="dark"] .inherited-field{background:#17324a!important;color:var(--text)}
+
 </style>
 </head>
 <body>
@@ -1671,7 +1688,7 @@ html,body,button,input,select,textarea{
 <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
-<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field"><label>Password</label><input id="lp" type="password" required autocomplete="current-password"></div><button class="primary">Masuk ke Sistem</button></form>
+<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button></form>
 <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
@@ -1809,7 +1826,7 @@ html,body,button,input,select,textarea{
 <section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
-<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
+<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Tidak Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="TIDAK DITERUSKAN">Tidak Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
 <section id="aktivitas" class="page">
   <div class="heading">
     <div>
@@ -1894,6 +1911,17 @@ async function call(fn,args=[]){
   return d;
 }
 
+function togglePassword(id,btn){
+  const input=$(id);
+  if(!input)return;
+  const show=input.type==='password';
+  input.type=show?'text':'password';
+  if(btn){
+    btn.textContent=show?'🙈':'👁';
+    btn.title=show?'Sembunyikan password':'Tampilkan password';
+    btn.setAttribute('aria-label',btn.title);
+  }
+}
 function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').classList.toggle('active',x==='reg');$('lf').classList.toggle('hidden',x!=='login');$('rf').classList.toggle('hidden',x!=='reg');$('am').innerHTML=''}
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
@@ -2499,7 +2527,10 @@ function renderMonitoring(){
   }).join('');
 }
 
-function reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
+function reportStatus(r){
+  const raw=String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase();
+  return raw==='BELUM DITERUSKAN'?'TIDAK DITERUSKAN':raw;
+}
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
 function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" onclick="hapusLaporanManajemen('+JSON.stringify(r).replace(/"/g,'&quot;')+')">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
 
@@ -2625,6 +2656,9 @@ function openReport(){
   $('rRup').value='';
   $('rPaket').value='';
   $('rPenyedia').value='';
+  $('rPenyedia').readOnly=false;
+  $('rPenyedia').classList.remove('inherited-field');
+  $('rPenyedia').title='';
   $('rMinggu').value='';
   $('rTanggal').value=new Date().toISOString().slice(0,10);
   $('rLokasi').value='';
@@ -2695,8 +2729,21 @@ async function selectPackage(rup){
   $('rPaket').value=p.namaPaket;
 
   // Minggu berikutnya mewarisi penyedia + kecamatan dari laporan terakhir aktif.
-  $('rPenyedia').value=last?.namaPenyedia||p.namaPenyedia||'';
+  const inheritedProvider=String(last?.namaPenyedia||'').trim();
+  $('rPenyedia').value=inheritedProvider||p.namaPenyedia||'';
   $('rLokasi').value=last?.lokasi||p.lokasi||'';
+
+  // Setelah Minggu 1 ada, penyedia terkunci pada laporan berikutnya.
+  // Ini mencegah nama penyedia berubah-ubah di tengah rangkaian laporan.
+  if(last && inheritedProvider){
+    $('rPenyedia').readOnly=true;
+    $('rPenyedia').classList.add('inherited-field');
+    $('rPenyedia').title='Nama penyedia mengikuti laporan sebelumnya dan tidak dapat diubah.';
+  }else{
+    $('rPenyedia').readOnly=false;
+    $('rPenyedia').classList.remove('inherited-field');
+    $('rPenyedia').title='';
+  }
 
   // Progress sebelumnya menjadi acuan validasi minggu berikutnya.
   const lastProgress=last?Number(pct(last.progres)):null;
@@ -2717,7 +2764,13 @@ async function selectPackage(rup){
     // Backend tetap menjadi sumber minggu berikutnya; data turunan
     // hanya fallback jika laporan aktif di frontend belum lengkap.
     if((d.mingguBerikutnya||1)>1){
-      $('rPenyedia').value=d.namaPenyediaTerakhir||last?.namaPenyedia||p.namaPenyedia||'';
+      const inheritedFromBackend=String(d.namaPenyediaTerakhir||last?.namaPenyedia||'').trim();
+      $('rPenyedia').value=inheritedFromBackend||p.namaPenyedia||'';
+      if(inheritedFromBackend){
+        $('rPenyedia').readOnly=true;
+        $('rPenyedia').classList.add('inherited-field');
+        $('rPenyedia').title='Nama penyedia mengikuti laporan sebelumnya dan tidak dapat diubah.';
+      }
     }
   }catch(e){
     $('rMinggu').value=(last?.mingguKe?Number(last.mingguKe)+1:1);
