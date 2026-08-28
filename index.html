@@ -1390,6 +1390,41 @@
   border-color:#3f7897;
 }
 
+
+/* ===== PESAN PIMPINAN: EKSEKUTIF + ADMIN READ ONLY ===== */
+.nav .nav-executive{
+  margin-top:5px;
+  padding-top:12px!important;
+  padding-bottom:12px!important;
+  background:linear-gradient(90deg,rgba(103,183,238,.12),rgba(103,183,238,.05));
+  border:1px solid rgba(103,183,238,.20);
+  color:#e7f4fd;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+.nav .nav-executive:hover,.nav .nav-executive.active{
+  background:linear-gradient(90deg,rgba(103,183,238,.20),rgba(103,183,238,.10));
+  border-color:rgba(103,183,238,.34);
+}
+.nav-executive-divider{
+  display:block;height:1px;margin:7px 5px 1px;
+  background:linear-gradient(90deg,transparent,#6aaed3,transparent);
+  opacity:.55;
+}
+.chat-readonly-tag{
+  display:inline-flex;margin-top:5px;padding:3px 6px;border-radius:99px;
+  background:var(--lightblue);color:var(--muted);font-size:7px;font-weight:950;
+  letter-spacing:.35px;
+}
+[data-theme="dark"] .nav .nav-executive{
+  background:linear-gradient(90deg,rgba(103,183,238,.14),rgba(103,183,238,.06));
+  border-color:#294d63;
+}
+[data-theme="dark"] .nav .nav-executive:hover,
+[data-theme="dark"] .nav .nav-executive.active{
+  background:linear-gradient(90deg,rgba(103,183,238,.22),rgba(103,183,238,.10));
+  border-color:#3f7897;
+}
+
 </style>
 </head>
 <body>
@@ -1602,31 +1637,16 @@ async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',t
 function buildNav(){
   const r=String(state.user.role||'').toUpperCase();
   let items=[['dashboard','Dashboard']];
-
-  // Pembagian menu final per role.
   if(['KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['laporan','Laporan Mingguan']);
   items.push(['monitoring','Monitoring Paket']);
-  if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['analitik','Dashboard Analitik']);
+  items.push(['analitik','Dashboard Analitik']);
   if(['PPK','PPBJ'].includes(r)) items.push(['verifikasi','Verifikasi Masuk']);
-  if(['KABAG BPBJ','KABAG','ADMIN'].includes(r)) items.push(['manajemen','Manajemen Laporan']);
-  if(['KABAG BPBJ','KABAG','ADMIN'].includes(r)) items.push(['aktivitas','Log Aktivitas']);
+  if(['ADMIN','KABAG BPBJ','KABAG'].includes(r)) items.push(['manajemen','Manajemen Laporan']);
+  if(['ADMIN','KABAG BPBJ','KABAG'].includes(r)) items.push(['aktivitas','Log Aktivitas']);
   if(r==='ADMIN') items.push(['admin','Manajemen Akun']);
-
-  // Pesan Pimpinan selalu paling bawah dan dibuat menonjol.
   if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['pesan','Pesan Pimpinan']);
 
-  const icons={
-    dashboard:'▣',
-    monitoring:'◉',
-    laporan:'◷',
-    pesan:'💬',
-    analitik:'📊',
-    verifikasi:'✓',
-    manajemen:'▤',
-    aktivitas:'🕘',
-    admin:'♙'
-  };
-
+  const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',aktivitas:'🕘',admin:'♙'};
   $('nav').innerHTML=items.map(([id,t])=>{
     const isExecutive=id==='pesan';
     const cls=isExecutive?'nav-chat-wrap nav-executive':'';
@@ -1678,16 +1698,18 @@ function renderChatList(){
     wrap.innerHTML='<div class="empty">Belum ada percakapan pimpinan.</div>';
     return;
   }
+  const isAdmin=String(state.user?.role||'').toUpperCase()==='ADMIN';
   wrap.innerHTML=chatState.threads.map(t=>{
     const unread=Number(t.unread||t.unreadCount||0)||0;
-    const title=t.judul||t.title||((t.lawan||t.counterpart||'Percakapan Pimpinan'));
+    const counterpart=t.lawanNama||t.lawan||t.counterpart||'Percakapan';
+    const subject=t.judul||t.title||'Pesan Pimpinan';
     const preview=t.preview||t.pesanTerakhir||t.lastMessage||'Belum ada pesan';
     const time=t.waktu||t.updatedAt||t.createdAt||'';
-    const initials=String(title).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
-    return '<button class="chat-item '+(chatState.activeId===String(t.id||t.percakapanId)?'active':'')+'" onclick="openChatThread('+JSON.stringify(String(t.id||t.percakapanId||'')).replace(/"/g,'&quot;')+')"><div class="chat-avatar">'+esc(initials||'P')+'</div><div class="chat-item-main"><b>'+esc(title)+'</b><small>'+esc(preview)+'</small></div><div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div></button>';
+    const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+    const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
+    return '<button class="chat-item '+(chatState.activeId===String(t.id||t.percakapanId)?'active':'')+'" onclick="openChatThread('+JSON.stringify(String(t.id||t.percakapanId||'')).replace(/"/g,'&quot;')+')"><div class="chat-avatar">'+esc(initials||'P')+'</div><div class="chat-item-main"><b>'+esc(counterpart)+'</b><small>'+esc(subject)+' · '+esc(preview)+'</small>'+adminTag+'</div><div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div></button>';
   }).join('');
 }
-
 function formatChatTime(v){
   if(!v)return '';
   const d=new Date(v);
@@ -1706,7 +1728,8 @@ async function openChatThread(id){
     const d=await call('getPesanPimpinanThread',[state.user.username,id]);
     const thread=d?.thread||d||{};
     $('chatThreadTitle').textContent=thread.judul||thread.title||'Pesan Pimpinan';
-    $('chatThreadMeta').textContent=thread.meta||thread.konteks||'Percakapan resmi';
+    $('chatThreadMeta').textContent=thread.konteks||thread.meta||'Percakapan resmi';
+    if($('chatReplyForm'))$('chatReplyForm').classList.toggle('hidden',!!thread.readOnly);
     $('chatThreadPriority').classList.toggle('hidden',!thread.prioritas);
     const msgs=Array.isArray(thread.messages)?thread.messages:(Array.isArray(thread.pesan)?thread.pesan:[]);
     $('chatMessages').innerHTML=msgs.length?msgs.map(m=>{
@@ -1813,6 +1836,7 @@ async function startChat(e){
 
 async function sendChatReply(e){
   e.preventDefault();
+  if(String(state.user?.role||'').toUpperCase()==='ADMIN'){alert('Admin hanya dapat melihat percakapan.');return}
   const text=$('chatReply').value.trim();
   if(!text||!chatState.activeId)return;
   try{
