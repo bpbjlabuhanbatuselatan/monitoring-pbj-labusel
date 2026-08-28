@@ -2618,27 +2618,52 @@ function renderAnalytics(){
   }).join(''):'<div class="analytics-empty">Belum ada aktivitas laporan terbaru.</div>';
 }
 
-function openReport(){
-  $('reportModal').classList.add('show');
-  $('packageSearch').value='';
-  $('rRup').value='';
-  $('rPaket').value='';
-  $('rPenyedia').value='';
-  $('rMinggu').value='';
-  $('rTanggal').value=new Date().toISOString().slice(0,10);
-  $('rLokasi').value='';
-  $('rProgres').value='';
-  $('rProgres').removeAttribute('min');
-  $('progressValidation')?.classList.add('hidden');
-  if($('progressValidation'))$('progressValidation').textContent='';
-  $('rKet').value='';
+function resetReportPhotoState(){
+  const input=$('rFoto');
+  const preview=$('photoPreview');
+
+  // Release object URLs created for preview thumbnails.
+  if(input && input._previewUrls){
+    input._previewUrls.forEach(u=>{try{URL.revokeObjectURL(u)}catch(_){}});
+    input._previewUrls=[];
+  }
+
+  if(input)input.value='';
+  if(preview)preview.innerHTML='';
+}
+
+function resetReportForm(){
+  const ids=['packageSearch','rRup','rPaket','rPenyedia','rMinggu','rProgres','rKet','rNoAd','rTglAd','rNilaiAd','rKetAd'];
+  ids.forEach(id=>{const el=$(id);if(el)el.value='';});
+  if($('rTanggal'))$('rTanggal').value=new Date().toISOString().slice(0,10);
+  if($('rLokasi'))$('rLokasi').value='';
+  if($('rPpbj'))$('rPpbj').innerHTML='<option value="">Memuat...</option>';
+  if($('suggestions')){$('suggestions').innerHTML='';$('suggestions').classList.add('hidden')}
+  if($('progressValidation')){$('progressValidation').textContent='';$('progressValidation').classList.add('hidden')}
+  if($('reportSaveMsg')){$('reportSaveMsg').textContent='';$('reportSaveMsg').classList.add('hidden')}
+  state.adendum='TIDAK';
+  state.terus='TIDAK';
   setAdendum('TIDAK');
   setTerus('TIDAK');
-  $('rPpbj').innerHTML='<option value="">Memuat...</option>';
+  resetReportPhotoState();
+}
+
+function closeModal(id){
+  const el=$(id);
+  if(el)el.classList.remove('show');
+  if(id==='reportModal')resetReportPhotoState();
+}
+
+function openReport(){
+  resetReportForm();
+  $('reportModal').classList.add('show');
+
   call('getDaftarPPBJ').then(a=>{
     $('rPpbj').innerHTML='<option value="">Pilih PPBJ...</option>'+
       ((a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join(''));
-  }).catch(e=>{$('rPpbj').innerHTML='<option value="">Gagal memuat</option>'});
+  }).catch(e=>{
+    $('rPpbj').innerHTML='<option value="">Gagal memuat</option>';
+  });
 }
 function lastReportForRup(rup){
   const rs=(state.reports||[]).filter(r=>String(r.kodeRup||'')===String(rup||''));
@@ -2731,7 +2756,23 @@ document.addEventListener('click',e=>{
 });
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
-function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
+function previewPhotos(){
+  const input=$('rFoto'), preview=$('photoPreview');
+  if(!input||!preview)return;
+
+  if(input._previewUrls){
+    input._previewUrls.forEach(u=>{try{URL.revokeObjectURL(u)}catch(_){}});
+  }
+  input._previewUrls=[];
+
+  const fs=[...input.files].slice(0,5);
+  const htmls=fs.map(f=>{
+    const url=URL.createObjectURL(f);
+    input._previewUrls.push(url);
+    return '<img src="'+url+'" alt="foto">';
+  });
+  preview.innerHTML=htmls.join('');
+}
 async function filesToBase64(){
   const files=[...$('rFoto').files].slice(0,5);
 
