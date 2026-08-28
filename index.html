@@ -1655,36 +1655,41 @@ html,body,button,input,select,textarea{
 }
 
 
-/* ===== FINAL UI POLISH — VISUAL ONLY ===== */
-:root{--text:#10243a;--secondary:#526579;--soft:#eef3f8}
-body{color:var(--text)}
-.heading p,.topuser small,.brand p,.detail-date,.detail-rup{color:var(--secondary)!important}
-.listitem small,.top10-item .meta,.monitor-last-update,.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.analytics-event-main small{color:var(--secondary)!important}
-.nav button{transition:background .16s ease,transform .16s ease,color .16s ease}
-.nav button:hover{transform:translateX(2px)}
-.nav button.active{box-shadow:inset 3px 0 0 rgba(255,255,255,.9)}
-.hamb{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}.hamb:active{transform:scale(.94)}
-.mobile-side-overlay{display:none;position:fixed;inset:0;background:rgba(7,24,40,.34);backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px);z-index:25;opacity:0;transition:opacity .18s ease}
-@media(max-width:900px){.mobile-side-overlay.show{display:block;opacity:1}.sidebar{z-index:30;box-shadow:10px 0 28px rgba(5,25,45,.18)}body.side-open{overflow:hidden}}
-/* Modern feedback layer */
-#uiToastHost{position:fixed;right:18px;bottom:18px;z-index:10000;display:grid;gap:10px;pointer-events:none;max-width:min(390px,calc(100vw - 28px))}
-.ui-toast{display:flex;align-items:flex-start;gap:10px;background:#fff;color:#10243a;border:1px solid #dce5ed;border-radius:14px;padding:12px 14px;box-shadow:0 14px 35px rgba(12,35,58,.16);font-size:12px;font-weight:750;line-height:1.4;animation:uiToastIn .2s ease both}
-.ui-toast .ui-toast-icon{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;flex:0 0 24px;font-size:13px}
-.ui-toast.ok .ui-toast-icon{background:#e8f7ef}.ui-toast.err .ui-toast-icon{background:#fff0ef}.ui-toast.info .ui-toast-icon{background:#eaf3fb}
-.ui-toast-title{font-weight:950;margin-bottom:2px}.ui-toast-text{color:#526579;font-weight:700}
-@keyframes uiToastIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
-.ui-confirm-backdrop{position:fixed;inset:0;z-index:10001;background:rgba(7,24,40,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:grid;place-items:center;padding:18px;animation:uiFade .15s ease both}
-.ui-confirm{width:min(410px,100%);background:#fff;border:1px solid #dce5ed;border-radius:18px;padding:20px;box-shadow:0 24px 70px rgba(4,23,43,.25);animation:uiPop .18s ease both}
-.ui-confirm-icon{width:42px;height:42px;border-radius:12px;background:#fff1ef;display:grid;place-items:center;font-size:19px;margin-bottom:12px}
-.ui-confirm h3{margin:0 0 7px;color:#10243a;font-size:17px;font-weight:950}.ui-confirm p{margin:0;color:#526579;font-size:12px;line-height:1.55;font-weight:650;white-space:pre-line}
-.ui-confirm-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.ui-confirm-actions button{border:0;border-radius:10px;padding:9px 14px;font-size:11px;font-weight:900;cursor:pointer}.ui-confirm-cancel{background:#eef3f8;color:#10243a}.ui-confirm-ok{background:#0b2b4d;color:#fff}
-@keyframes uiFade{from{opacity:0}to{opacity:1}}@keyframes uiPop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
-[data-theme="dark"] .ui-toast,[data-theme="dark"] .ui-confirm{background:#10202f;color:#eaf2f8;border-color:#263c4e}.
-[data-theme="dark"] .ui-toast-text,[data-theme="dark"] .ui-confirm p{color:#a9bac7}
-[data-theme="dark"] .ui-confirm h3{color:#eef6fb}.
-[data-theme="dark"] .ui-confirm-cancel{background:#1b3041;color:#eaf2f8}.
-@media(max-width:520px){#uiToastHost{right:12px;left:12px;bottom:12px;max-width:none}.ui-toast{border-radius:13px}.ui-confirm{border-radius:16px;padding:18px}}
+.report-save-msg{
+  margin-top:8px;padding:8px 10px;border-radius:8px;
+  font-size:10px;font-weight:850;line-height:1.35;
+  background:#fff5f3;color:#b42318;border:1px solid #f1c0ba;
+}
+[data-theme="dark"] .report-save-msg{
+  background:#3b2523;color:#ff9b93;border-color:#68403b;
+}
 
+/* ===== PASSWORD VISIBILITY ===== */
+.password-wrap{position:relative}
+.password-wrap input{padding-right:44px!important}
+.password-eye{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border:0;border-radius:8px;
+  background:transparent;color:var(--muted);display:grid;place-items:center;
+  padding:0;font-size:16px;font-weight:900;
+}
+.password-eye:hover{background:var(--lightblue);color:var(--text)}
+[data-theme="dark"] .password-eye:hover{background:#17324a;color:var(--text)}
+
+
+.inherited-field{background:var(--lightblue)!important;color:var(--text);font-weight:850;cursor:not-allowed}
+[data-theme="dark"] .inherited-field{background:#17324a!important;color:var(--text)}
+
+
+/* ===== RESET PASSWORD ===== */
+.password-wrap{position:relative}.password-wrap input{padding-right:44px!important}
+.password-eye{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:8px;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0;font-size:16px;font-weight:900}
+.password-eye:hover{background:var(--lightblue);color:var(--text)}
+.forgot-password-btn{width:100%;border:0;background:transparent;color:var(--blue);padding:8px 4px;font-size:11px;font-weight:850;text-decoration:underline}
+.reset-password-modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:14px;z-index:180}
+.reset-password-modal.show{display:flex}.reset-password-box{width:min(470px,100%);background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 22px 60px rgba(0,0,0,.25)}
+.reset-password-help{margin:0 0 12px;color:var(--muted);font-size:10px;line-height:1.45;font-weight:750}
+@media(max-width:520px){.reset-password-box{padding:13px;border-radius:14px}.forgot-password-btn{font-size:10px;padding:8px 3px}}
 </style>
 </head>
 <body>
@@ -1693,11 +1698,11 @@ body{color:var(--text)}
 <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
-<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field"><label>Password</label><input id="lp" type="password" required autocomplete="current-password"></div><button class="primary">Masuk ke Sistem</button></form>
+<form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button><button type="button" class="forgot-password-btn" onclick="openResetPassword()">Lupa / Reset Password</button></form>
 <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
-<div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside><div id="sideOverlay" class="mobile-side-overlay" aria-hidden="true" onclick="closeSide()"></div>
+<div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Si RAJA MONITOR</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div class="top-actions">
   <div class="notify-wrap">
     <button id="notifyBtn" class="notify-btn" onclick="toggleNotifications()" title="Notifikasi" aria-label="Notifikasi">
@@ -1720,7 +1725,7 @@ body{color:var(--text)}
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
   <div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div>
 </div></header>
-<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan</span><b id="sl">0</b></div><div class="stat"><span>Sudah Berlapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
+<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
 <section id="analitik" class="page">
   <div class="heading">
     <div>
@@ -1831,7 +1836,7 @@ body{color:var(--text)}
 <section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
-<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
+<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Tidak Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="TIDAK DITERUSKAN">Tidak Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
 <section id="aktivitas" class="page">
   <div class="heading">
     <div>
@@ -1857,7 +1862,7 @@ body{color:var(--text)}
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
 <div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
@@ -1884,18 +1889,109 @@ function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
 const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
 const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca']);
 async function call(fn,args=[]){
-  const endpoint=fn==='adminHapusPercakapan'?ADMIN_DELETE_CHAT_API:(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
+  const endpoint=fn==='adminHapusPercakapan'
+    ?ADMIN_DELETE_CHAT_API
+    :(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
   const body=fn==='adminHapusPercakapan'
     ?{function:'deleteChat',args}
     :{function:fn,args};
-  const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}
-  if(!r.ok||d?.success===false&&d?.message)throw Error(d?.message||'Permintaan gagal.');
+
+  let r;
+  try{
+    r=await fetch(endpoint,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+  }catch(err){
+    throw Error('Koneksi ke server gagal. Periksa internet lalu coba lagi.');
+  }
+
+  let d=null;
+  try{d=await r.json()}catch{
+    throw Error('Server mengembalikan respons yang tidak valid.');
+  }
+
+  if(!r.ok){
+    throw Error(d?.message||d?.error||('Permintaan gagal (HTTP '+r.status+').'));
+  }
+  if(d?.success===false){
+    throw Error(d.message||d.error||'Permintaan ditolak oleh server.');
+  }
   return d;
+}
+
+function togglePassword(id,btn){
+  const input=$(id);
+  if(!input)return;
+  const show=input.type==='password';
+  input.type=show?'text':'password';
+  if(btn){
+    btn.textContent=show?'🙈':'👁';
+    btn.title=show?'Sembunyikan password':'Tampilkan password';
+    btn.setAttribute('aria-label',btn.title);
+  }
 }
 function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').classList.toggle('active',x==='reg');$('lf').classList.toggle('hidden',x!=='login');$('rf').classList.toggle('hidden',x!=='reg');$('am').innerHTML=''}
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
-async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
+async function doLogin(e){
+  e.preventDefault();
+  authMsg('Memeriksa akun...',true);
+  const username=$('lu').value.trim(), password=$('lp').value;
+  try{
+    const d=await call('login',[username,password]);
+    if(d.mustResetPassword){
+      openResetPassword();
+      $('rpResetUsername').value=username;
+      $('rpResetCode').value=password;
+      authMsg('Kode reset diterima. Buat password baru untuk melanjutkan.',true);
+      return;
+    }
+    if(!d.success)throw Error(d.message||'Login gagal.');
+    state.user=d.user;
+    localStorage.setItem('simon_user',JSON.stringify(state.user));
+    await boot();
+  }catch(x){
+    try{
+      const rs=await call('checkResetStatus',[username]);
+      if(rs?.mustReset){
+        openResetPassword();
+        $('rpResetUsername').value=username;
+        $('rpResetCode').value='';
+        authMsg('Akun ini memerlukan reset password. Masukkan kode dari Admin.',true);
+        return;
+      }
+    }catch(ignore){}
+    authMsg(String(x?.message||x||'Login gagal.'));
+  }
+}
+
+function openResetPassword(){
+  $('resetPasswordModal').classList.add('show');
+  $('rpResetUsername').value=($('lu')?.value||'').trim();
+  $('rpResetCode').value='';
+  $('rpResetNew').value='';
+  $('rpResetConfirm').value='';
+}
+function closeResetPassword(){
+  $('resetPasswordModal').classList.remove('show');
+}
+async function submitResetPassword(){
+  const username=$('rpResetUsername').value.trim();
+  const code=$('rpResetCode').value.trim();
+  const pwd=$('rpResetNew').value;
+  const confirmPwd=$('rpResetConfirm').value;
+  if(!username||!code||!pwd)throw Error('Username, kode reset, dan password baru wajib diisi.');
+  if(pwd.length<6)throw Error('Password baru minimal 6 karakter.');
+  if(pwd!==confirmPwd)throw Error('Konfirmasi password tidak sama.');
+  const d=await call('resetPassword',[username,code,pwd]);
+  if(!d?.success)throw Error(d?.message||'Reset password gagal.');
+  closeResetPassword();
+  $('lp').value='';
+  $('lu').value=username;
+  authTab('login');
+  authMsg('Password baru berhasil dibuat. Silakan login dengan password baru.',true);
+}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
 function buildNav(){
   const r=String(state.user.role||'').toUpperCase();
@@ -2121,7 +2217,7 @@ async function hapusChatAdmin(id){
   const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===conversationId);
   const nama=thread?.lawanNama||thread?.lawan||'percakapan ini';
 
-  if(!(await uiConfirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan dalam percakapan ini akan dihapus permanen.','Hapus percakapan?')))return;
+  if(!confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan dalam percakapan ini akan dihapus permanen.'))return;
 
   const row=document.querySelector('.chat-item-row [data-chat-id="'+CSS.escape(conversationId)+'"]')?.closest('.chat-item-row');
   if(row){
@@ -2377,8 +2473,8 @@ function startNotificationPolling(){
   notifyState.timer=setInterval(refreshNotifications,20000);
 }
 
-function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';closeSide();if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
-function legacyToggleSide(){setSideOpen(!$('side')?.classList.contains('open'))}
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const target=$(id);if(!target)return;target.classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('subtitle').textContent={dashboard:'Dashboard',monitoring:'Monitoring Paket',laporan:'Laporan Mingguan',pesan:'Pesan Pimpinan',analitik:'Dashboard Analitik',verifikasi:'Verifikasi Masuk',manajemen:'Manajemen Laporan',aktivitas:'Log Aktivitas',admin:'Manajemen Akun'}[id]||'';$('side').classList.remove('open');if(id==='pesan')loadChats();if(id==='verifikasi')loadVerifications();if(id==='admin')loadAdmin();if(id==='manajemen')renderManagement();if(id==='aktivitas')loadAktivitas();updateChatBadge()}
+function toggleSide(){$('side').classList.toggle('open')}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
 function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
 function parseMonitorDate(v){
@@ -2498,7 +2594,10 @@ function renderMonitoring(){
   }).join('');
 }
 
-function reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
+function reportStatus(r){
+  const raw=String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase();
+  return raw==='BELUM DITERUSKAN'?'TIDAK DITERUSKAN':raw;
+}
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
 function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" onclick="hapusLaporanManajemen('+JSON.stringify(r).replace(/"/g,'&quot;')+')">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
 
@@ -2506,7 +2605,7 @@ function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value
 async function hapusLaporanManajemen(laporan){
   if(!laporan)return;
   const identitas=[laporan.namaPaket||'Paket',laporan.kodeRup?'RUP '+laporan.kodeRup:'',laporan.mingguKe?'Minggu ke-'+laporan.mingguKe:''].filter(Boolean).join(' · ');
-  if(!(await uiConfirm('Hapus laporan ini?\n\n'+identitas+'\n\nHanya laporan ini beserta data terkait laporannya yang akan dihapus. Data paket/master tetap ada.','Hapus laporan?')))return;
+  if(!confirm('Hapus laporan ini?\n\n'+identitas+'\n\nHanya laporan ini beserta data terkait laporannya yang akan dihapus. Data paket/master tetap ada.'))return;
 
   try{
     const idLaporan=laporan.idLaporan||laporan.id_laporan||laporan.id||laporan.laporanId||null;
@@ -2624,6 +2723,9 @@ function openReport(){
   $('rRup').value='';
   $('rPaket').value='';
   $('rPenyedia').value='';
+  $('rPenyedia').readOnly=false;
+  $('rPenyedia').classList.remove('inherited-field');
+  $('rPenyedia').title='';
   $('rMinggu').value='';
   $('rTanggal').value=new Date().toISOString().slice(0,10);
   $('rLokasi').value='';
@@ -2694,8 +2796,21 @@ async function selectPackage(rup){
   $('rPaket').value=p.namaPaket;
 
   // Minggu berikutnya mewarisi penyedia + kecamatan dari laporan terakhir aktif.
-  $('rPenyedia').value=last?.namaPenyedia||p.namaPenyedia||'';
+  const inheritedProvider=String(last?.namaPenyedia||'').trim();
+  $('rPenyedia').value=inheritedProvider||p.namaPenyedia||'';
   $('rLokasi').value=last?.lokasi||p.lokasi||'';
+
+  // Setelah Minggu 1 ada, penyedia terkunci pada laporan berikutnya.
+  // Ini mencegah nama penyedia berubah-ubah di tengah rangkaian laporan.
+  if(last && inheritedProvider){
+    $('rPenyedia').readOnly=true;
+    $('rPenyedia').classList.add('inherited-field');
+    $('rPenyedia').title='Nama penyedia mengikuti laporan sebelumnya dan tidak dapat diubah.';
+  }else{
+    $('rPenyedia').readOnly=false;
+    $('rPenyedia').classList.remove('inherited-field');
+    $('rPenyedia').title='';
+  }
 
   // Progress sebelumnya menjadi acuan validasi minggu berikutnya.
   const lastProgress=last?Number(pct(last.progres)):null;
@@ -2716,7 +2831,13 @@ async function selectPackage(rup){
     // Backend tetap menjadi sumber minggu berikutnya; data turunan
     // hanya fallback jika laporan aktif di frontend belum lengkap.
     if((d.mingguBerikutnya||1)>1){
-      $('rPenyedia').value=d.namaPenyediaTerakhir||last?.namaPenyedia||p.namaPenyedia||'';
+      const inheritedFromBackend=String(d.namaPenyediaTerakhir||last?.namaPenyedia||'').trim();
+      $('rPenyedia').value=inheritedFromBackend||p.namaPenyedia||'';
+      if(inheritedFromBackend){
+        $('rPenyedia').readOnly=true;
+        $('rPenyedia').classList.add('inherited-field');
+        $('rPenyedia').title='Nama penyedia mengikuti laporan sebelumnya dan tidak dapat diubah.';
+      }
     }
   }catch(e){
     $('rMinggu').value=(last?.mingguKe?Number(last.mingguKe)+1:1);
@@ -2729,6 +2850,10 @@ document.addEventListener('click',e=>{
   }
   if(!e.target.closest('.notify-wrap'))closeNotifications();
 });
+function closeModal(id){
+  const el=$(id);
+  if(el)el.classList.remove('show');
+}
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
 function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
@@ -2821,37 +2946,69 @@ async function filesToBase64(){
 }
 async function saveReport(e){
   e.preventDefault();
+  const submitBtn=e.submitter||document.querySelector('#reportModal button[type="submit"]');
   try{
-    if(!$('rRup').value)throw Error('Pilih paket dari pencarian terlebih dahulu.');
+    if(!$('rRup')?.value)throw Error('Pilih paket dari pencarian terlebih dahulu.');
     if(!validateProgressInput()){
-      $('rProgres').focus();
-      throw Error($('rProgres').validationMessage||'Progres tidak valid.');
+      $('rProgres')?.focus();
+      throw Error($('rProgres')?.validationMessage||'Progres tidak valid.');
+    }
+
+    if(submitBtn){
+      submitBtn.disabled=true;
+      submitBtn.dataset.oldText=submitBtn.textContent;
+      submitBtn.textContent='Menyimpan...';
     }
 
     const fotos=await filesToBase64();
-    const d=await call('simpanLaporan',[{
-      kodeRup:$('rRup').value,
-      namaPaket:$('rPaket').value,
-      namaPenyedia:$('rPenyedia').value,
-      lokasi:$('rLokasi').value,
-      adendum:state.adendum,
-      nomorAdendum:$('rNoAd').value,
-      tanggalAdendum:$('rTglAd').value,
-      nilaiAdendum:$('rNilaiAd').value,
-      keteranganAdendum:$('rKetAd').value,
-      progres:$('rProgres').value,
-      keterangan:$('rKet').value,
-      dibuatOleh:state.user.username,
-      diteruskan:state.terus,
-      ppbjUsername:$('rPpbj').value,
+    const payload={
+      kodeRup:$('rRup')?.value||'',
+      namaPaket:$('rPaket')?.value||'',
+      namaPenyedia:$('rPenyedia')?.value||'',
+      lokasi:$('rLokasi')?.value||'',
+      adendum:state.adendum||'TIDAK',
+      nomorAdendum:$('rNoAd')?.value||'',
+      tanggalAdendum:$('rTglAd')?.value||'',
+      nilaiAdendum:$('rNilaiAd')?.value||'',
+      keteranganAdendum:$('rKetAd')?.value||'',
+      progres:$('rProgres')?.value||'',
+      keterangan:$('rKet')?.value||'',
+      dibuatOleh:state.user?.username||'',
+      diteruskan:state.terus||'TIDAK',
+      ppbjUsername:$('rPpbj')?.value||'',
       foto:fotos
-    }]);
-    if(!d.success)throw Error(d.message);
-    closeModal('reportModal');
-    alert(d.message);
+    };
+
+    const d=await call('simpanLaporan',[payload]);
+    const result=d?.data??d;
+
+    // Jangan pernah menampilkan "undefined" ke user.
+    if(!result){
+      throw Error('Server tidak mengembalikan hasil penyimpanan laporan.');
+    }
+    if(result.success===false){
+      throw Error(result.message||result.error||'Penyimpanan laporan ditolak oleh server.');
+    }
+    if(result.success===undefined && result.error){
+      throw Error(String(result.error));
+    }
+
+    if($('reportModal'))$('reportModal').classList.remove('show');
+    alert(result.message||'Laporan berhasil disimpan.');
     await loadData();
     showPage('monitoring');
-  }catch(x){alert(x.message)}
+  }catch(x){
+    console.error('saveReport:',x);
+    const msg=String(x?.message||x?.error||x||'Terjadi kesalahan saat menyimpan laporan.');
+    alert(msg==='undefined'||msg==='null'||!msg.trim()
+      ?'Terjadi kesalahan saat menyimpan laporan. Silakan coba lagi.'
+      :msg);
+  }finally{
+    if(submitBtn){
+      submitBtn.disabled=false;
+      submitBtn.textContent=submitBtn.dataset.oldText||'Simpan Laporan';
+    }
+  }
 }
 
 async function openDetail(rup){
@@ -2942,6 +3099,7 @@ async function loadAdmin(){
         '<td>'+esc(u.role||'-')+'</td>'+
         '<td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status||'-')+'</span></td>'+
         '<td class="account-actions">'+statusBtn+
+        ' <button class="btn btn-account-reset" onclick="resetPasswordByAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Reset Password</button>'+ 
         ' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Hapus</button></td>'+
       '</tr>';
     }).join('');
@@ -2959,7 +3117,7 @@ async function loadAdmin(){
   }
 }
 const ACCOUNT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/account-api';
-const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun']);
+const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun','adminResetPassword','resetPassword','checkResetStatus']);
 const originalCall=call;
 call=async function(fn,args=[]){
   if(ACCOUNT_API_FUNCTIONS.has(fn)){
@@ -2971,10 +3129,23 @@ call=async function(fn,args=[]){
   return originalCall(fn,args);
 };
 
+async function resetPasswordByAdmin(username,nama){
+  const self=String(state.user?.username||'').toLowerCase();
+  if(String(username||'').toLowerCase()===self){
+    alert('Gunakan perubahan password biasa untuk akun Admin sendiri.');
+    return;
+  }
+  if(!confirm('Buat reset password untuk akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nKode reset berlaku 30 menit.'))return;
+  try{
+    const d=await call('adminResetPassword',[state.user.username,username]);
+    alert((d?.message||'Reset password berhasil dibuat.')+
+      (d?.resetCode?'\n\nKODE RESET:\n'+d.resetCode+'\n\nBerikan kode ini hanya kepada pemilik akun.':''));
+  }catch(e){alert(e?.message||'Gagal membuat reset password.')}
+}
 async function hapusAkunAdmin(username,nama){
   const self=String(state.user.username||'').toLowerCase();
   if(String(username||'').toLowerCase()===self){alert('Admin tidak dapat menghapus akun sendiri.');return}
-  const yakin=await uiConfirm('Hapus akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nAkun akan dihapus permanen dari daftar pengguna.','Hapus akun?');
+  const yakin=confirm('Hapus akun ini?\n\n'+(nama||username)+'\nUsername: '+username+'\n\nAkun akan dihapus permanen dari daftar pengguna.');
   if(!yakin)return;
   try{
     const d=await call('adminHapusAkun',[state.user.username,username]);
@@ -2990,40 +3161,18 @@ async function restore(){const x=localStorage.getItem('simon_user');if(!x)return
 initTheme();
 restore();
 setTimeout(updateChatBadge,500);
-
-/* ===== FINAL UI POLISH JS — no backend changes ===== */
-(function(){
-  const host=document.createElement('div');host.id='uiToastHost';document.body.appendChild(host);
-  window.uiToast=function(message,type='info',title){
-    const t=document.createElement('div');t.className='ui-toast '+(type||'info');
-    const icon=type==='ok'?'✓':type==='err'?'!':'i';
-    t.innerHTML='<div class="ui-toast-icon">'+icon+'</div><div><div class="ui-toast-title">'+esc(title||({ok:'Berhasil',err:'Tidak berhasil',info:'Informasi'}[type]||'Informasi'))+'</div><div class="ui-toast-text">'+esc(message)+'</div></div>';
-    host.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(6px)';t.style.transition='.18s ease';setTimeout(()=>t.remove(),190)},3400);
-  };
-  window.uiConfirm=function(message,title='Konfirmasi tindakan'){
-    return new Promise(resolve=>{
-      const wrap=document.createElement('div');wrap.className='ui-confirm-backdrop';
-      wrap.innerHTML='<div class="ui-confirm" role="dialog" aria-modal="true"><div class="ui-confirm-icon">!</div><h3>'+esc(title)+'</h3><p>'+esc(message)+'</p><div class="ui-confirm-actions"><button type="button" class="ui-confirm-cancel">Batal</button><button type="button" class="ui-confirm-ok">Ya, lanjutkan</button></div></div>';
-      const finish=v=>{wrap.remove();resolve(v)};
-      wrap.querySelector('.ui-confirm-cancel').onclick=()=>finish(false);wrap.querySelector('.ui-confirm-ok').onclick=()=>finish(true);wrap.onclick=e=>{if(e.target===wrap)finish(false)};
-      document.body.appendChild(wrap);wrap.querySelector('.ui-confirm-ok').focus();
-    });
-  };
-  /* Replace browser alert with the modern in-app notification. */
-  window.alert=function(message){uiToast(String(message||''),/gagal|error|tidak|wajib|invalid/i.test(String(message||''))?'err':'ok')};
-})();
-
-function setSideOpen(open){const side=$('side');if(!side)return;side.classList.toggle('open',!!open);$('sideOverlay')?.classList.toggle('show',!!open);document.body.classList.toggle('side-open',!!open)}
-function toggleSide(){setSideOpen(!$('side')?.classList.contains('open'))}
-function closeSide(){setSideOpen(false)}
-
-document.addEventListener('click',function(e){
-  const side=$('side');const overlay=$('sideOverlay');
-  if(window.innerWidth<=900 && side?.classList.contains('open') && overlay?.classList.contains('show') && e.target===overlay)closeSide();
-});
-window.addEventListener('resize',function(){if(window.innerWidth>900)closeSide()});
-
 </script>
+<div id="resetPasswordModal" class="reset-password-modal" onclick="if(event.target===this)closeResetPassword()">
+  <div class="reset-password-box">
+    <div class="modalhead"><h3>Reset Password</h3><button class="x" type="button" onclick="closeResetPassword()">✕</button></div>
+    <p class="reset-password-help">Masukkan kode reset dari Admin, lalu buat password baru.</p>
+    <div class="field"><label>Username</label><input id="rpResetUsername" autocomplete="username"></div>
+    <div class="field password-field"><label>Kode Reset</label><div class="password-wrap"><input id="rpResetCode" autocomplete="one-time-code"><button type="button" class="password-eye" onclick="togglePassword('rpResetCode',this)">👁</button></div></div>
+    <div class="field password-field"><label>Password Baru</label><div class="password-wrap"><input id="rpResetNew" type="password" autocomplete="new-password"><button type="button" class="password-eye" onclick="togglePassword('rpResetNew',this)">👁</button></div></div>
+    <div class="field password-field"><label>Konfirmasi Password Baru</label><div class="password-wrap"><input id="rpResetConfirm" type="password" autocomplete="new-password"><button type="button" class="password-eye" onclick="togglePassword('rpResetConfirm',this)">👁</button></div></div>
+    <button type="button" class="primary" onclick="submitResetPassword()">Simpan Password Baru</button>
+  </div>
+</div>
 <div id="chatNewModal" class="chat-new-modal" onclick="if(event.target===this)closeNewChat()">
   <div class="chat-new-box">
     <div class="chat-new-head">
