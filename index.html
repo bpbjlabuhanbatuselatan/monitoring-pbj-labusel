@@ -1654,6 +1654,15 @@ html,body,button,input,select,textarea{
   border-color:#68403b;
 }
 
+
+.report-save-msg{
+  margin-top:8px;padding:8px 10px;border-radius:8px;
+  font-size:10px;font-weight:850;line-height:1.35;
+  background:#fff5f3;color:#b42318;border:1px solid #f1c0ba;
+}
+[data-theme="dark"] .report-save-msg{
+  background:#3b2523;color:#ff9b93;border-color:#68403b;
+}
 </style>
 </head>
 <body>
@@ -1826,7 +1835,7 @@ html,body,button,input,select,textarea{
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
 <div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
@@ -1853,15 +1862,38 @@ function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
 const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
 const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca']);
 async function call(fn,args=[]){
-  const endpoint=fn==='adminHapusPercakapan'?ADMIN_DELETE_CHAT_API:(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
+  const endpoint=fn==='adminHapusPercakapan'
+    ?ADMIN_DELETE_CHAT_API
+    :(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
   const body=fn==='adminHapusPercakapan'
     ?{function:'deleteChat',args}
     :{function:fn,args};
-  const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}
-  if(!r.ok||d?.success===false&&d?.message)throw Error(d?.message||'Permintaan gagal.');
+
+  let r;
+  try{
+    r=await fetch(endpoint,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+  }catch(err){
+    throw Error('Koneksi ke server gagal. Periksa internet lalu coba lagi.');
+  }
+
+  let d=null;
+  try{d=await r.json()}catch{
+    throw Error('Server mengembalikan respons yang tidak valid.');
+  }
+
+  if(!r.ok){
+    throw Error(d?.message||d?.error||('Permintaan gagal (HTTP '+r.status+').'));
+  }
+  if(d?.success===false){
+    throw Error(d.message||d.error||'Permintaan ditolak oleh server.');
+  }
   return d;
 }
+
 function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').classList.toggle('active',x==='reg');$('lf').classList.toggle('hidden',x!=='login');$('rf').classList.toggle('hidden',x!=='reg');$('am').innerHTML=''}
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
@@ -2790,37 +2822,69 @@ async function filesToBase64(){
 }
 async function saveReport(e){
   e.preventDefault();
+  const submitBtn=e.submitter||document.querySelector('#reportModal button[type="submit"]');
   try{
-    if(!$('rRup').value)throw Error('Pilih paket dari pencarian terlebih dahulu.');
+    if(!$('rRup')?.value)throw Error('Pilih paket dari pencarian terlebih dahulu.');
     if(!validateProgressInput()){
-      $('rProgres').focus();
-      throw Error($('rProgres').validationMessage||'Progres tidak valid.');
+      $('rProgres')?.focus();
+      throw Error($('rProgres')?.validationMessage||'Progres tidak valid.');
+    }
+
+    if(submitBtn){
+      submitBtn.disabled=true;
+      submitBtn.dataset.oldText=submitBtn.textContent;
+      submitBtn.textContent='Menyimpan...';
     }
 
     const fotos=await filesToBase64();
-    const d=await call('simpanLaporan',[{
-      kodeRup:$('rRup').value,
-      namaPaket:$('rPaket').value,
-      namaPenyedia:$('rPenyedia').value,
-      lokasi:$('rLokasi').value,
-      adendum:state.adendum,
-      nomorAdendum:$('rNoAd').value,
-      tanggalAdendum:$('rTglAd').value,
-      nilaiAdendum:$('rNilaiAd').value,
-      keteranganAdendum:$('rKetAd').value,
-      progres:$('rProgres').value,
-      keterangan:$('rKet').value,
-      dibuatOleh:state.user.username,
-      diteruskan:state.terus,
-      ppbjUsername:$('rPpbj').value,
+    const payload={
+      kodeRup:$('rRup')?.value||'',
+      namaPaket:$('rPaket')?.value||'',
+      namaPenyedia:$('rPenyedia')?.value||'',
+      lokasi:$('rLokasi')?.value||'',
+      adendum:state.adendum||'TIDAK',
+      nomorAdendum:$('rNoAd')?.value||'',
+      tanggalAdendum:$('rTglAd')?.value||'',
+      nilaiAdendum:$('rNilaiAd')?.value||'',
+      keteranganAdendum:$('rKetAd')?.value||'',
+      progres:$('rProgres')?.value||'',
+      keterangan:$('rKet')?.value||'',
+      dibuatOleh:state.user?.username||'',
+      diteruskan:state.terus||'TIDAK',
+      ppbjUsername:$('rPpbj')?.value||'',
       foto:fotos
-    }]);
-    if(!d.success)throw Error(d.message);
+    };
+
+    const d=await call('simpanLaporan',[payload]);
+    const result=d?.data??d;
+
+    // Jangan pernah menampilkan "undefined" ke user.
+    if(!result){
+      throw Error('Server tidak mengembalikan hasil penyimpanan laporan.');
+    }
+    if(result.success===false){
+      throw Error(result.message||result.error||'Penyimpanan laporan ditolak oleh server.');
+    }
+    if(result.success===undefined && result.error){
+      throw Error(String(result.error));
+    }
+
     closeModal('reportModal');
-    alert(d.message);
+    alert(result.message||'Laporan berhasil disimpan.');
     await loadData();
     showPage('monitoring');
-  }catch(x){alert(x.message)}
+  }catch(x){
+    console.error('saveReport:',x);
+    const msg=String(x?.message||x?.error||x||'Terjadi kesalahan saat menyimpan laporan.');
+    alert(msg==='undefined'||msg==='null'||!msg.trim()
+      ?'Terjadi kesalahan saat menyimpan laporan. Silakan coba lagi.'
+      :msg);
+  }finally{
+    if(submitBtn){
+      submitBtn.disabled=false;
+      submitBtn.textContent=submitBtn.dataset.oldText||'Simpan Laporan';
+    }
+  }
 }
 
 async function openDetail(rup){
