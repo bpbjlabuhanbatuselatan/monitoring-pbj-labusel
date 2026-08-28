@@ -1777,13 +1777,18 @@ function renderChatList(){
     const preview=t.preview||t.pesanTerakhir||t.lastMessage||'Belum ada pesan';
     const time=t.waktu||t.updatedAt||t.createdAt||'';
     const id=String(t.id||t.percakapanId||'');
-    const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+    const initials=String(counterpart).trim().split(/\\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
+
+    // FIX: gunakan atribut data untuk ID dan listener onclick tanpa memutus
+    // tanda kutip HTML. ID UUID aman dibawa sebagai entity text.
+    const safeId=esc(id);
     const deleteBtn=isAdmin
-      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusChatAdmin('+JSON.stringify(id)+')">🗑</button>'
+      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+safeId+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusChatAdmin(this.dataset.chatId)">🗑</button>'
       : '';
+
     return '<div class="chat-item-row">'+
-      '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
+      '<button type="button" class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread(this.dataset.chatId)" data-chat-id="'+safeId+'">'+
         '<div class="chat-avatar">'+esc(initials||'P')+'</div>'+
         '<div class="chat-item-main"><b>'+esc(counterpart)+'</b><small>'+esc(subject)+' · '+esc(preview)+'</small>'+adminTag+'</div>'+
         '<div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div>'+
