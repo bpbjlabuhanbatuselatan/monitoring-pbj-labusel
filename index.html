@@ -1780,7 +1780,7 @@ function renderChatList(){
     const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
     const deleteBtn=isAdmin
-      ? '<button type="button" class="chat-delete-btn" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusChatAdmin('+JSON.stringify(id)+')">🗑</button>'
+      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusChatAdmin('+JSON.stringify(id)+')">🗑</button>'
       : '';
     return '<div class="chat-item-row">'+
       '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
@@ -1917,30 +1917,53 @@ async function startChat(e){
 }
 
 async function hapusChatAdmin(id){
-  if(String(state.user?.role||'').toUpperCase()!=='ADMIN'){
+  const role=String(state.user?.role||'').trim().toUpperCase();
+  if(role!=='ADMIN'){
     alert('Hanya Admin yang dapat menghapus percakapan.');
     return;
   }
-  if(!id)return;
-  const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===String(id));
+
+  const conversationId=String(id||'').trim();
+  if(!conversationId)return;
+
+  const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===conversationId);
   const nama=thread?.lawanNama||thread?.lawan||'percakapan ini';
-  if(!confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan akan dihapus permanen.'))return;
+
+  if(!confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan dalam percakapan ini akan dihapus permanen.'))return;
+
+  const btn=document.querySelector('.chat-delete-btn[data-chat-id="'+CSS.escape(conversationId)+'"]');
+  if(btn){btn.disabled=true;btn.textContent='…';}
 
   try{
-    const d=await call('adminHapusPercakapan',[state.user.username,String(id)]);
+    const r=await fetch(ADMIN_DELETE_CHAT_API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        function:'deleteChat',
+        args:[String(state.user.username||''),conversationId],
+        adminUsername:String(state.user.username||''),
+        conversationId:conversationId
+      })
+    });
+
+    const d=await r.json().catch(()=>null);
+    if(!r.ok)throw new Error(d?.message||('HTTP '+r.status));
     if(!d?.success)throw new Error(d?.message||'Percakapan gagal dihapus.');
 
-    if(String(chatState.activeId)===String(id)){
+    if(String(chatState.activeId)===conversationId){
       chatState.activeId=null;
       $('chatActive').classList.add('hidden');
       $('chatEmpty').classList.remove('hidden');
     }
+
     await loadChats();
-    await updateChatBadge();
+    updateChatBadge();
     alert('Percakapan berhasil dihapus.');
   }catch(e){
-    console.error('adminHapusPercakapan',e);
-    alert('Gagal menghapus percakapan.\n\n'+String(e?.message||e));
+    console.error('admin-delete-chat',e);
+    alert('Gagal menghapus percakapan.\n\n'+String(e?.message||e||'Kesalahan tidak diketahui.'));
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='🗑';}
   }
 }
 
