@@ -1878,6 +1878,233 @@ button,input,select,textarea{
 }
 
 </style>
+<style>
+
+/* ===== REFINED TYPOGRAPHY / SPACING =====
+   Visual-only layer: does not change IDs, data flow, API calls, or JS logic.
+*/
+:root{
+  --font-ui:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+html,body,button,input,select,textarea{
+  font-family:var(--font-ui);
+  letter-spacing:normal;
+}
+body{
+  font-weight:400;
+  line-height:1.45;
+}
+button,input,select,textarea{
+  font-weight:400;
+}
+.heading h2{
+  font-weight:750;
+  letter-spacing:-.02em;
+}
+.heading p{
+  font-weight:400;
+}
+.top b{
+  font-weight:700;
+}
+.topuser b{
+  font-weight:600;
+}
+.topuser small{
+  font-weight:400;
+}
+.card h3{
+  font-weight:650;
+  letter-spacing:-.01em;
+}
+.stat span{
+  font-weight:600;
+  letter-spacing:.04em;
+}
+.stat b{
+  font-weight:750;
+  letter-spacing:-.02em;
+}
+.btn{
+  font-weight:500;
+}
+.btn.primary,.primary{
+  font-weight:650;
+}
+.nav button{
+  font-weight:500;
+}
+.sidebrand b{
+  font-weight:700;
+}
+.logout{
+  font-weight:650;
+}
+.table th{
+  font-weight:600;
+  letter-spacing:.04em;
+}
+.table td{
+  font-weight:400;
+  line-height:1.5;
+}
+.table td:first-child{
+  font-weight:600;
+}
+.badge{
+  font-weight:600;
+}
+.listitem b{
+  font-weight:600;
+}
+.listitem small,
+.empty{
+  font-weight:400;
+}
+.top10-item .name{
+  font-weight:600;
+}
+.top10-item .value,
+.top10-item .rank{
+  font-weight:700;
+}
+.top10-item .meta{
+  font-weight:400;
+}
+.field label{
+  font-weight:600;
+}
+.field input,.field select,.field textarea{
+  font-weight:400;
+}
+.switchrow button{
+  font-weight:500;
+}
+.meta span{
+  font-weight:600;
+}
+.meta b{
+  font-weight:500;
+}
+.detail-title{
+  font-weight:700;
+}
+.detail-kicker,
+.detail-value-box span,
+.detail-info-card span{
+  font-weight:600;
+}
+.detail-value-box b,
+.detail-week{
+  font-weight:700;
+}
+.detail-rup,
+.detail-date{
+  font-weight:400;
+}
+.detail-info-card b{
+  font-weight:500;
+}
+.detail-section-head h4{
+  font-weight:650;
+}
+.detail-section-head span{
+  font-weight:400;
+}
+.detail-work{
+  font-weight:400;
+}
+.report-form .field label{
+  font-weight:600;
+}
+.report-form .switchrow button{
+  font-weight:500;
+}
+.manage-stat span{
+  font-weight:600;
+}
+.chat-inbox-head h3,
+.chat-new-head h3{
+  font-weight:650;
+}
+.chat-inbox-head span,
+.chat-item-main small,
+.chat-item-time,
+.chat-thread-head small,
+.chat-context,
+.chat-bubble .chat-time,
+.chat-hint{
+  font-weight:400;
+}
+.chat-item-main b,
+.chat-thread-head b{
+  font-weight:600;
+}
+.chat-bubble{
+  font-weight:400;
+}
+.chat-priority,
+.chat-unread{
+  font-weight:600;
+}
+.analytics-card-head h3{
+  font-weight:650;
+}
+.analytics-card-head span,
+.analytics-mini span,
+.analytics-note,
+.analytics-event-main small,
+.analytics-empty{
+  font-weight:400;
+}
+.analytics-mini b,
+.district-count,
+.district-name,
+.analytics-event-main b{
+  font-weight:650;
+}
+.district-value{
+  font-weight:500;
+}
+.district-meta{
+  font-weight:400;
+}
+/* breathe a little more without changing table geometry */
+.table th,.table td{
+  padding-top:10px;
+  padding-bottom:10px;
+}
+/* Keep compact mobile cards, but make text easier to read */
+@media(max-width:520px){
+  body{font-size:13px}
+  .heading h2{font-size:20px;font-weight:750}
+  .heading p{font-size:11px}
+  .stat span{font-size:9px}
+  .stat b{font-size:19px}
+  .table tbody td{
+    font-size:10.5px;
+    line-height:1.4;
+    padding-top:6px;
+    padding-bottom:6px;
+  }
+  .table tbody td:before{
+    font-size:8px;
+    font-weight:600;
+  }
+  .table tbody td:nth-child(2){
+    font-size:11.5px;
+    font-weight:600;
+  }
+  .table tbody td:nth-child(7) .btn{
+    font-size:10px;
+  }
+  .top10-item .name{font-size:10.5px;font-weight:600}
+  .top10-item .meta{font-size:9px}
+  .detail-title{font-size:14px;font-weight:700}
+  .detail-info-card b{font-size:10.5px}
+}
+
+</style>
 </head>
 <body>
 <div id="login" class="login"><div class="loginbox">
