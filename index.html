@@ -1688,19 +1688,130 @@ body{color:var(--text)}
 
 .report-form #rNilaiPaket{font-weight:950;background:#f5f9fc;color:var(--text);border-color:#cfe0ed}
 [data-theme="dark"] .report-form #rNilaiPaket{background:#162a39;color:#e8f0f6;border-color:#304d62}
+
+/* =========================================================
+   SI RAJA MONITOR — MODERN UI OVERHAUL
+   UI-only layer: preserves existing HTML IDs, JS functions,
+   API endpoints and table structure.
+   ========================================================= */
+:root{
+  --nav:#12395b;--nav-2:#174a73;--blue:#1769aa;--accent:#2c83c7;
+  --lightblue:#eef6fc;--zebra:#f7fbff;--bg:#f4f7fb;--card:#ffffff;
+  --text:#17324a;--muted:#607789;--muted-2:#7890a2;--line:#d8e5ef;
+  --ok:#16734a;--warn:#a85b08;--danger:#b33a32;
+  --shadow-sm:0 4px 16px rgba(18,57,91,.06);
+  --shadow:0 10px 30px rgba(18,57,91,.08);
+  --shadow-lg:0 18px 48px rgba(18,57,91,.12);
+}
+body{background:linear-gradient(180deg,#f6f9fc 0%,#f2f6fa 100%);color:var(--text);letter-spacing:-.01em}
+button,input,select,textarea{font-weight:650}
+.hidden{display:none!important}
+.login{background:radial-gradient(circle at 50% 0%,#ffffff 0%,#f4f8fc 58%,#edf3f8 100%)}
+.loginbox{width:min(460px,100%);border:1px solid #d8e5ef;border-radius:24px;padding:30px;box-shadow:var(--shadow-lg);background:rgba(255,255,255,.96);backdrop-filter:blur(10px)}
+.logos{gap:12px;margin-bottom:20px}
+.logo{width:68px;height:68px;border:1px solid #dbe7ef;border-radius:16px;padding:5px;background:#fff;box-shadow:0 4px 12px rgba(18,57,91,.05);loading:eager;}
+.brand h1{font-size:26px;letter-spacing:-.025em;color:#12395b}
+.brand p{color:#607789}
+.tabs{background:#edf3f7;border:1px solid #e0eaf1;padding:4px;border-radius:12px}
+.tabs button{color:#657d8e;padding:10px}
+.tabs button.active{background:#fff;color:#17324a;box-shadow:0 3px 10px rgba(18,57,91,.08)}
+.field label{color:#39556a}
+.field input,.field select,.field textarea,.search,.manage-filter{border-color:#cfdeea;background:#fff;color:#17324a;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:#5da5d7;box-shadow:0 0 0 3px rgba(44,131,199,.10)}
+.primary,.btn.primary{background:linear-gradient(135deg,#12395b,#1b5c8d);border-color:#12395b;box-shadow:0 5px 14px rgba(18,57,91,.15)}
+.primary:hover,.btn.primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn{background:#fff;border-color:#d5e2eb;color:#29465b;transition:all .18s ease}
+.btn:hover{border-color:#a9c7db;background:#f8fbfd;transform:translateY(-1px)}
+.app{background:linear-gradient(180deg,#f4f8fb 0%,#eef4f8 100%)}
+.sidebar{background:linear-gradient(180deg,#12395b 0%,#154568 54%,#123b5d 100%);box-shadow:10px 0 28px rgba(18,57,91,.10);border-right:1px solid rgba(255,255,255,.08)}
+.sidebrand{padding:9px 8px 18px;border-bottom-color:rgba(255,255,255,.12)}
+.sidebrand img{border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.10)}
+.nav button{color:#d8e8f4;border:1px solid transparent;transition:all .16s ease}
+.nav button:hover,.nav button.active{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.08);color:#fff;transform:translateX(2px)}
+.logout{background:#fff;color:#12395b;box-shadow:0 5px 15px rgba(0,0,0,.10)}
+.main{background:transparent}
+.top{background:rgba(255,255,255,.94);border-color:#dbe7ef;box-shadow:var(--shadow-sm);backdrop-filter:blur(8px)}
+.hamb{background:#12395b;box-shadow:0 4px 12px rgba(18,57,91,.18)}
+.avatar{background:#e8f3fb;color:#1769aa;border:1px solid #d6e7f2}
+.heading h2{color:#16384f;letter-spacing:-.025em}
+.heading p,.topuser small{color:#607789}
+.stats{gap:12px}
+.stat,.card{border-color:#dbe7ef;box-shadow:var(--shadow-sm);background:rgba(255,255,255,.96)}
+.stat{position:relative;overflow:hidden}
+.stat:before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#2c83c7;opacity:.9}
+.stat span{color:#6a8191}
+.stat b{color:#17324a}
+.table th{background:#edf5fa;color:#4b6679;border-bottom-color:#d6e4ed}
+.table tbody tr:nth-child(even){background:#f6fbfe}
+.table tbody tr:hover{background:#eaf5fc}
+.table td{border-bottom-color:#e5eef4;color:#29465b}
+.badge{background:#eff3f6;color:#4f6777;border:1px solid rgba(95,119,137,.08)}
+.badge.ok{background:#e8f7ef;color:#16734a}.badge.warn{background:#fff5df;color:#9c590b}.badge.bad{background:#fff0ee;color:#ad3932}
+.bar{background:#e7eef3}.bar i{background:linear-gradient(90deg,#2079b4,#4ba5d7)}
+.top10-list .top10-item{background:linear-gradient(135deg,#f4f9fd,#eaf4fb);border-color:#d7e6ef;box-shadow:var(--shadow-sm)}
+.top10-list .top10-item:nth-child(odd){background:linear-gradient(135deg,#f8fbfd,#edf6fb)}
+.top10-item .rank{background:#12395b}.top10-item .value{color:#12395b}.top10-item .meta{color:#607789}
+.modal{background:rgba(9,34,52,.42);backdrop-filter:blur(3px)}
+.modalbox,.chat-new-box{border:1px solid #d7e4ec;box-shadow:0 24px 70px rgba(18,57,91,.18)}
+.x{background:#f3f6f8;color:#36536a}.suggestions{border-color:#d4e3ec;box-shadow:0 16px 34px rgba(18,57,91,.12)}
+.suggestion:hover{background:#edf6fb}
+.theme-toggle{background:#fff;border-color:#d4e1ea;color:#315169;box-shadow:var(--shadow-sm)}
+.notify-panel{box-shadow:0 18px 48px rgba(18,57,91,.16)!important;border-color:#d6e4ed!important}
+/* Readable secondary text — no washed-out gray */
+.listitem small,.top10-item .meta,.monitor-last-update,.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.analytics-event-main small{color:#5f7485!important}
+/* Modern feedback surface */
+#uiToastHost{position:fixed;right:18px;bottom:18px;z-index:9999;display:grid;gap:10px;width:min(360px,calc(100vw - 28px));pointer-events:none}
+.ui-toast{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;padding:12px 14px;border:1px solid #d8e5ee;border-radius:14px;background:rgba(255,255,255,.98);box-shadow:0 14px 36px rgba(18,57,91,.16);color:#19384f;animation:uiToastIn .22s ease both}
+.ui-toast.out{animation:uiToastOut .18s ease both}.ui-toast-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#edf6fb;color:#1769aa;font-size:15px}.ui-toast.ok .ui-toast-icon{background:#e8f7ef;color:#16734a}.ui-toast.err .ui-toast-icon{background:#fff0ee;color:#b33a32}.ui-toast.warn .ui-toast-icon{background:#fff5df;color:#a85b08}.ui-toast b{display:block;font-size:11px;line-height:1.25}.ui-toast span{display:block;margin-top:2px;color:#5f7485;font-size:9px;line-height:1.35;font-weight:650}.ui-toast-close{border:0;background:transparent;color:#718696;padding:4px;font-size:16px;cursor:pointer}
+@keyframes uiToastIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}@keyframes uiToastOut{to{opacity:0;transform:translateY(4px) scale(.98)}}
+.mobile-side-overlay{background:rgba(11,39,61,.32)!important;backdrop-filter:blur(1px)}
+/* Softer, readable dark theme — blue charcoal, not black */
+[data-theme="dark"]{
+  --nav:#173f61;--blue:#69b7e7;--accent:#70bdea;--lightblue:#203f58;--zebra:#1c354a;
+  --bg:#152a3b;--card:#1c3448;--text:#eef5fa;--muted:#b9cbd7;--muted-2:#a6bdcb;--line:#35556b;
+  --ok:#71d5a0;--warn:#f2c46e;--danger:#ff9a91;--shadow-sm:0 5px 18px rgba(0,0,0,.16);--shadow:0 10px 28px rgba(0,0,0,.18);--shadow-lg:0 18px 48px rgba(0,0,0,.26)
+}
+[data-theme="dark"] body{background:linear-gradient(180deg,#172d3f 0%,#132738 100%);color:var(--text)}
+[data-theme="dark"] .app{background:linear-gradient(180deg,#172d3f,#132637)}
+[data-theme="dark"] .login{background:radial-gradient(circle at 50% 0%,#28465d 0%,#1b3448 55%,#152a3a 100%)}
+[data-theme="dark"] .loginbox,[data-theme="dark"] .top,[data-theme="dark"] .card,[data-theme="dark"] .stat,[data-theme="dark"] .modalbox,[data-theme="dark"] .chat-new-box{background:#1d3548!important;border-color:#35556b!important;box-shadow:var(--shadow)}
+[data-theme="dark"] .brand h1,[data-theme="dark"] .heading h2,[data-theme="dark"] .stat b,[data-theme="dark"] .top b,[data-theme="dark"] .detail-title{color:#f1f7fb}
+[data-theme="dark"] .brand p,[data-theme="dark"] .heading p,[data-theme="dark"] .topuser small,[data-theme="dark"] .listitem small,[data-theme="dark"] .top10-item .meta,[data-theme="dark"] .monitor-last-update,[data-theme="dark"] .chat-item-main small,[data-theme="dark"] .chat-item-time,[data-theme="dark"] .chat-thread-head small,[data-theme="dark"] .chat-context,[data-theme="dark"] .analytics-event-main small{color:#b4c7d3!important}
+[data-theme="dark"] .tabs{background:#163045;border-color:#35556b}.tabs button{color:#aec2ce!important}.tabs button.active{background:#28465b!important;color:#f2f7fa!important}
+[data-theme="dark"] .field label{color:#c7d6df}.field input,[data-theme="dark"] .field select,[data-theme="dark"] .field textarea,[data-theme="dark"] .search,[data-theme="dark"] .manage-filter{background:#152a3a!important;color:#edf5fa!important;border-color:#3a5d73!important}
+[data-theme="dark"] .field input::placeholder,[data-theme="dark"] .field textarea::placeholder,[data-theme="dark"] .search::placeholder{color:#89a4b4}
+[data-theme="dark"] .btn,[data-theme="dark"] .theme-toggle{background:#203c50;color:#e6f0f5;border-color:#3a596e}
+[data-theme="dark"] .btn:hover{background:#27485d}.primary,.btn.primary{background:linear-gradient(135deg,#1b537b,#2879ad)}
+[data-theme="dark"] .table th{background:#24455c;color:#d0dee6;border-color:#36566b}.table tbody tr:nth-child(odd){background:#1a3042}.table tbody tr:nth-child(even){background:#203b51}.table tbody tr:hover{background:#294a61}.table td{color:#dce9ef;border-color:#314f63}
+[data-theme="dark"] .badge{background:#2b4354;color:#d2e0e7}.badge.ok{background:#214936;color:#8be0b2}.badge.warn{background:#4b3d25;color:#f4cf7e}.badge.bad{background:#4c2928;color:#ffaaa2}
+[data-theme="dark"] .bar{background:#2b4558}.bar i{background:linear-gradient(90deg,#4d9ccc,#78c5ef)}
+[data-theme="dark"] .top10-list .top10-item,[data-theme="dark"] .top10-list .top10-item:nth-child(odd),[data-theme="dark"] .top10-list .top10-item:nth-child(even){background:linear-gradient(135deg,#224157,#1d3548);border-color:#3a5a6f}.top10-item .name{color:#eef6fa}.top10-item .value{color:#8fd2f2}.top10-item .rank{background:#2a678f}
+[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{background:#1d3548;color:#edf5fa;border-color:#35556b}.suggestion:hover{background:#26475b}
+[data-theme="dark"] .x{background:#284358;color:#e5eff4}.notify-panel{background:#1d3548!important}
+[data-theme="dark"] .ui-toast{background:#203b50;border-color:#3a5a6f;color:#edf5fa}.ui-toast span{color:#b5c8d3}.ui-toast-icon{background:#284d64;color:#8dd0f2}
+[data-theme="dark"] .login .logo{background:#fff;border-color:#527186}
+@media(max-width:900px){.main{padding:8px}.top{border-radius:13px}.card,.stat{box-shadow:var(--shadow-sm)}.mobile-side-overlay{display:block}}
+@media(max-width:520px){
+  .loginbox{border-radius:20px;padding:20px}.logos{gap:8px}.logo{width:54px;height:54px;border-radius:13px}
+  .heading h2{font-size:20px}.stat b{font-size:19px}.card{border-radius:13px}
+  #uiToastHost{right:12px;bottom:12px;width:calc(100vw - 24px)}
+  .ui-toast{padding:11px 12px;border-radius:13px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
 </style>
 </head>
 <body>
 <div id="login" class="login"><div class="loginbox">
 <button id="loginThemeToggle" class="theme-toggle login-theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
-<div class="logos"><img class="logo" src="logo-labusel.png" alt="Pemkab Labuhanbatu Selatan" fetchpriority="high"><img class="logo" src="logo-lkpp.png" alt="LKPP" loading="eager" decoding="async"><img class="logo" src="logo-ukpbj.png" alt="UKPBJ" loading="eager" decoding="async"></div>
+<div class="logos"><img class="logo" src="logo-labusel.png" loading="eager" decoding="async" alt="Pemkab Labuhanbatu Selatan" fetchpriority="high"><img class="logo" src="logo-lkpp.png" loading="eager" decoding="async" alt="LKPP" loading="eager" decoding="async"><img class="logo" src="logo-ukpbj.png" loading="eager" decoding="async" alt="UKPBJ" loading="eager" decoding="async"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
 <form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field"><label>Password</label><input id="lp" type="password" required autocomplete="current-password"></div><button class="primary">Masuk ke Sistem</button></form>
 <form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field"><label>Password</label><input id="rp" type="password" minlength="6" required></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
-<div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png" alt="Pemkab Labuhanbatu Selatan" decoding="async"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside><div id="sideOverlay" class="mobile-side-overlay" aria-hidden="true" onclick="closeSide()"></div>
+<div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png" loading="eager" decoding="async" alt="Pemkab Labuhanbatu Selatan" decoding="async"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside><div id="sideOverlay" class="mobile-side-overlay" aria-hidden="true" onclick="closeSide()"></div>
 <main class="main"><header class="top"><div style="display:flex;align-items:center;gap:9px"><button class="hamb" onclick="toggleSide()">☰</button><div><b>Si RAJA MONITOR</b><small id="subtitle" style="display:block;color:#66788a;font-size:9px">Dashboard</small></div></div><div class="top-actions">
   <div class="notify-wrap">
     <button id="notifyBtn" class="notify-btn" onclick="toggleNotifications()" title="Notifikasi" aria-label="Notifikasi">
@@ -3101,6 +3212,56 @@ document.addEventListener('click',function(e){
 window.addEventListener('resize',function(){if(window.innerWidth>900)closeSide()});
 
 </script>
+
+<script>
+/* Modern feedback layer. Existing calls such as alert(...) remain functional. */
+(function(){
+  const host=document.createElement('div');host.id='uiToastHost';document.body.appendChild(host);
+  function toast(message,type){
+    type=type||'ok';
+    const text=String(message??'');
+    let icon='✓',title='Berhasil';
+    if(type==='err'){icon='!';title='Terjadi kendala'}
+    else if(type==='warn'){icon='!';title='Perhatian'}
+    const el=document.createElement('div');el.className='ui-toast '+type;
+    el.innerHTML='<div class="ui-toast-icon">'+icon+'</div><div><b>'+title+'</b><span></span></div><button class="ui-toast-close" aria-label="Tutup">×</button>';
+    el.querySelector('span').textContent=text;
+    const close=()=>{el.classList.add('out');setTimeout(()=>el.remove(),180)};
+    el.querySelector('.ui-toast-close').onclick=close;host.appendChild(el);
+    setTimeout(close,4200);
+  }
+  window.uiToast=toast;
+  window.alert=function(message){toast(message,/gagal|error|invalid|tidak valid/i.test(String(message||''))?'err':'ok')};
+  window.addEventListener('error',e=>{if(e?.message) toast(e.message,'err')});
+  /* Keep mobile sidebar behavior native and friction-free. */
+  document.addEventListener('click',function(e){
+    const side=document.getElementById('side');
+    const overlay=document.querySelector('.mobile-side-overlay');
+    if(!side||!overlay)return;
+    if(window.innerWidth<=900 && side.classList.contains('open') && (e.target===overlay || overlay.contains(e.target))){
+      side.classList.remove('open');document.body.classList.remove('side-open');overlay.classList.remove('show');
+    }
+  },true);
+  const oldToggle=window.toggleSide;
+  window.toggleSide=function(){
+    const side=document.getElementById('side'); if(!side)return;
+    let overlay=document.querySelector('.mobile-side-overlay');
+    if(!overlay){overlay=document.createElement('div');overlay.className='mobile-side-overlay';overlay.setAttribute('aria-hidden','true');document.body.appendChild(overlay)}
+    const open=!side.classList.contains('open'); side.classList.toggle('open',open);
+    document.body.classList.toggle('side-open',open);overlay.classList.toggle('show',open);
+  };
+  /* Make the existing showPage close state consistent when navigating. */
+  const oldShowPage=window.showPage;
+  if(typeof oldShowPage==='function'){
+    window.showPage=function(id){
+      const r=oldShowPage.apply(this,arguments);
+      document.getElementById('side')?.classList.remove('open');document.body.classList.remove('side-open');document.querySelector('.mobile-side-overlay')?.classList.remove('show');
+      return r;
+    };
+  }
+})();
+</script>
+
 <div id="chatNewModal" class="chat-new-modal" onclick="if(event.target===this)closeNewChat()">
   <div class="chat-new-box">
     <div class="chat-new-head">
