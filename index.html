@@ -1583,6 +1583,14 @@ html,body,button,input,select,textarea{
 .chat-context,.analytics-event-main small{
   color:#5d6974;
 }
+
+.photo-compress-hint{
+  margin-top:6px;
+  color:#5d6974;
+  font-size:8px;
+  font-weight:800;
+}
+[data-theme="dark"] .photo-compress-hint{color:#7f8e9b}
 </style>
 </head>
 <body>
@@ -1755,7 +1763,7 @@ html,body,button,input,select,textarea{
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label>Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
 <div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
@@ -2503,7 +2511,93 @@ document.addEventListener('click',e=>{
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
 function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
-function filesToBase64(){return Promise.all([...$('rFoto').files].slice(0,5).map(f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res({name:f.name,data:r.result});r.onerror=rej;r.readAsDataURL(f)})))}
+async function filesToBase64(){
+  const files=[...$('rFoto').files].slice(0,5);
+
+  const compressOne=file=>new Promise((resolve,reject)=>{
+    // File kecil tidak perlu diproses ulang.
+    if(file.size<=900*1024){
+      const r=new FileReader();
+      r.onload=()=>resolve({name:file.name,data:r.result});
+      r.onerror=reject;
+      r.readAsDataURL(file);
+      return;
+    }
+
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+
+    img.onload=()=>{
+      try{
+        const maxSide=1600;
+        const scale=Math.min(1,maxSide/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+        const w=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+        const h=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+
+        const canvas=document.createElement('canvas');
+        canvas.width=w; canvas.height=h;
+        const ctx=canvas.getContext('2d',{alpha:false});
+        if(!ctx)throw new Error('Browser tidak mendukung pemrosesan foto.');
+
+        ctx.imageSmoothingEnabled=true;
+        ctx.imageSmoothingQuality='high';
+        ctx.drawImage(img,0,0,w,h);
+
+        // JPEG quality bertahap supaya tetap jelas untuk dokumentasi lapangan
+        // tetapi ukuran payload jauh lebih ringan.
+        let quality=0.82;
+        const make=()=>{
+          canvas.toBlob(blob=>{
+            if(!blob){
+              URL.revokeObjectURL(url);
+              reject(new Error('Gagal memproses foto.'));
+              return;
+            }
+            // Bila masih terlalu besar, turunkan kualitas sedikit.
+            if(blob.size>1100*1024 && quality>0.68){
+              quality-=0.06;
+              make();
+              return;
+            }
+
+            const reader=new FileReader();
+            reader.onload=()=>{
+              URL.revokeObjectURL(url);
+              const baseName=file.name.replace(/\.[^.]+$/,'');
+              resolve({
+                name:baseName+'.jpg',
+                data:reader.result
+              });
+            };
+            reader.onerror=()=>{
+              URL.revokeObjectURL(url);
+              reject(reader.error||new Error('Gagal membaca foto hasil kompresi.'));
+            };
+            reader.readAsDataURL(blob);
+          },'image/jpeg',quality);
+        };
+        make();
+      }catch(err){
+        URL.revokeObjectURL(url);
+        reject(err);
+      }
+    };
+
+    img.onerror=()=>{
+      URL.revokeObjectURL(url);
+      // Fallback: kalau browser gagal decode, kirim file asli agar upload
+      // tidak rusak hanya karena kompresi.
+      const r=new FileReader();
+      r.onload=()=>resolve({name:file.name,data:r.result});
+      r.onerror=reject;
+      r.readAsDataURL(file);
+    };
+
+    img.src=url;
+  });
+
+  return Promise.all(files.map(compressOne));
+}
 async function saveReport(e){e.preventDefault();try{if(!$('rRup').value)throw Error('Pilih paket dari pencarian terlebih dahulu.');const fotos=await filesToBase64();const d=await call('simpanLaporan',[{kodeRup:$('rRup').value,namaPaket:$('rPaket').value,namaPenyedia:$('rPenyedia').value,lokasi:$('rLokasi').value,adendum:state.adendum,nomorAdendum:$('rNoAd').value,tanggalAdendum:$('rTglAd').value,nilaiAdendum:$('rNilaiAd').value,keteranganAdendum:$('rKetAd').value,progres:$('rProgres').value,keterangan:$('rKet').value,dibuatOleh:state.user.username,diteruskan:state.terus,ppbjUsername:$('rPpbj').value,foto:fotos}]);if(!d.success)throw Error(d.message);closeModal('reportModal');alert(d.message);await loadData();showPage('monitoring')}catch(x){alert(x.message)}}
 async function openDetail(rup){
   $('detailModal').classList.add('show');
