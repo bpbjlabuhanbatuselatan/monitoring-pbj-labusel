@@ -2303,7 +2303,10 @@ function getMonitoringLatestMap(){
 }
 function updateMonitorSortUI(){
   const sel=$('monitorSortSelect');
-  if(sel)sel.value=monitorSort.key+'-'+(monitorSort.dir<0?'desc':'asc');
+  if(sel){
+    const uiKey=monitorSort.key==='updatedAt'?'updated':monitorSort.key;
+    sel.value=uiKey+'-'+(monitorSort.dir<0?'desc':'asc');
+  }
   document.querySelectorAll('.monitor-table .sort-btn').forEach(btn=>{
     const key=btn.dataset.sort;
     const active=monitorSort.key===key;
