@@ -2730,6 +2730,10 @@ document.addEventListener('click',e=>{
   }
   if(!e.target.closest('.notify-wrap'))closeNotifications();
 });
+function closeModal(id){
+  const el=$(id);
+  if(el)el.classList.remove('show');
+}
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value=''}
 function previewPhotos(){const fs=[...$('rFoto').files].slice(0,5);$('photoPreview').innerHTML=fs.map(f=>'<img src="'+URL.createObjectURL(f)+'" alt="foto">').join('')}
@@ -2869,7 +2873,7 @@ async function saveReport(e){
       throw Error(String(result.error));
     }
 
-    closeModal('reportModal');
+    if($('reportModal'))$('reportModal').classList.remove('show');
     alert(result.message||'Laporan berhasil disimpan.');
     await loadData();
     showPage('monitoring');
