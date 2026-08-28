@@ -2087,6 +2087,196 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 </style>
 
+
+<style id="simon-sf-lite">
+/* Si RAJA MONITOR — SF-style native typography, zero remote font loading.
+   Presentation only: does not alter application logic, APIs, IDs, or data. */
+
+html,body,button,input,select,textarea{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;
+  font-synthesis:none!important;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+body,
+button,input,select,textarea{
+  font-weight:400!important;
+  letter-spacing:-.003em;
+}
+
+/* Apple-like hierarchy */
+h1,h2,h3,h4,
+.brand h1,.heading h2,.modalhead h3{
+  font-weight:700!important;
+  letter-spacing:-.015em;
+}
+.sidebrand b,
+.top>b,.topuser b{
+  font-weight:600!important;
+}
+.nav button,
+.btn,.tabs button,
+.theme-toggle,
+.forgot-password-btn{
+  font-weight:500!important;
+}
+.primary,.btn.primary,.logout{
+  font-weight:600!important;
+}
+.field label,
+.table th,
+.stat span,
+.manage-stat span{
+  font-weight:600!important;
+}
+.table td{
+  font-weight:400!important;
+}
+.table td:first-child,
+.badge,
+.listitem b,
+.top10-item .name,
+.analytics-card-head h3,
+.analytics-event-main b,
+.chat-item-main b,
+.chat-thread-head b{
+  font-weight:600!important;
+}
+.listitem small,
+.top10-item .meta,
+.heading p,
+.topuser small,
+.brand p,
+.analytics-card-head span,
+.analytics-note,
+.chat-item-main small,
+.chat-item-time,
+.chat-thread-head small,
+.chat-context,
+.chat-hint{
+  font-weight:400!important;
+}
+
+/* Make small text readable without making the interface bulky */
+.table th{font-size:10px!important}
+.table td{font-size:11.5px!important;line-height:1.45!important}
+.listitem small,.top10-item .meta{font-size:10px!important}
+.heading p,.topuser small{font-size:10.5px!important}
+.monitor-last-update{font-size:9px!important}
+.analytics-card-head span,.analytics-note{font-size:9.5px!important}
+.chat-item-main small,.chat-item-time,.chat-thread-head small{font-size:9px!important}
+
+/* More breathing room, but preserve table dimensions/columns */
+.table th,.table td{padding:10px 9px!important}
+
+/* Keep controls comfortable */
+.field input,.field select,.field textarea{font-size:12px!important}
+
+/* Dark mode remains readable and not pitch black.
+   This is intentionally a modest tint shift, not a redesign. */
+[data-theme="dark"]{
+  --nav:#17384f;
+  --blue:#74bee9;
+  --lightblue:#2d4b60;
+  --zebra:#263f51;
+  --bg:#1b2a35;
+  --card:#243640;
+  --text:#eef4f7;
+  --muted:#becbd3;
+  --line:#3b5261;
+  --ok:#75d9a5;
+  --warn:#f1c66e;
+  --danger:#ff958c;
+  --shadow:0 6px 18px rgba(0,0,0,.15);
+}
+[data-theme="dark"] .top,
+[data-theme="dark"] .card,
+[data-theme="dark"] .stat,
+[data-theme="dark"] .modalbox,
+[data-theme="dark"] .loginbox{
+  background:var(--card)!important;
+  color:var(--text)!important;
+  border-color:var(--line)!important;
+}
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea,
+[data-theme="dark"] .search,
+[data-theme="dark"] .manage-filter{
+  background:#1e303b!important;
+  color:var(--text)!important;
+  border-color:#486170!important;
+}
+[data-theme="dark"] .table th{
+  background:#2d4b60!important;
+  color:#e0e9ee!important;
+  border-color:#456071!important;
+}
+[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243640!important}
+[data-theme="dark"] .table tbody tr:nth-child(even){background:#2a4556!important}
+[data-theme="dark"] .table tbody tr:hover{background:#35576b!important}
+[data-theme="dark"] .table td{color:#eef4f7!important;border-color:#3b5565!important}
+[data-theme="dark"] .suggestions,
+[data-theme="dark"] .suggestion{
+  background:#213640!important;
+  color:var(--text)!important;
+  border-color:var(--line)!important;
+}
+[data-theme="dark"] .x{background:#304955!important;color:#eef4f7!important}
+[data-theme="dark"] .theme-toggle{background:#2d4b60!important;color:#eef7fa!important;border-color:#4b6473!important}
+[data-theme="dark"] .modal{background:rgba(8,21,30,.56)!important}
+[data-theme="dark"] .badge{background:#385163!important;color:#e4edf1!important}
+[data-theme="dark"] .meta,
+[data-theme="dark"] .adendum-box{
+  background:#2a414e!important;
+  border-color:#466171!important;
+}
+[data-theme="dark"] .switchrow button{
+  background:#243842!important;color:#edf4f7!important;border-color:#405866!important;
+}
+[data-theme="dark"] .switchrow button.active{
+  background:#2d5268!important;border-color:#5b90b0!important;color:#e6f4fb!important;
+}
+
+/* Lightweight shadows/transitions for mobile */
+.stat,.card,.top{box-shadow:0 5px 16px rgba(16,42,67,.05)!important}
+@media(max-width:520px){
+  .stat,.card,.top{box-shadow:0 4px 12px rgba(16,42,67,.04)!important}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
+/* Larger, obvious save/success feedback */
+.simon-toast-wrap{
+  width:min(92vw,520px)!important;
+  bottom:18px!important;
+}
+.simon-toast{
+  min-height:58px!important;
+  padding:15px 17px!important;
+  border-radius:16px!important;
+  font-size:14px!important;
+  line-height:1.45!important;
+  font-weight:500!important;
+}
+.simon-toast b{font-weight:700!important}
+@media(max-width:520px){
+  .simon-toast{font-size:13px!important;padding:14px 15px!important}
+}
+
+/* Keep password visibility + reset controls clear */
+.password-eye{font-weight:500!important}
+.forgot-password-btn{font-weight:500!important}
+</style>
+
 </head>
 <body>
 
