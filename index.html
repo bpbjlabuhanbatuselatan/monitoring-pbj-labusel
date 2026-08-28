@@ -1298,6 +1298,15 @@
   [data-theme="dark"] .monitor-mobile-sort{background:#0e1a25;color:#e7edf3;border-color:#294254}
 }
 
+
+/* ===== MONITORING: SATU SORTIR UNTUK MOBILE & DESKTOP ===== */
+.monitor-sort-select{flex:0 0 240px;max-width:240px}
+@media(max-width:520px){
+  .monitor-sort-select{flex:1 1 100%;max-width:none;order:0;font-size:11px;font-weight:850;padding:10px 11px}
+  #monitoring .toolbar{display:flex;flex-direction:column;gap:7px}
+  #monitoring .search{width:100%;order:1}
+}
+
 </style>
 </head>
 <body>
@@ -1441,15 +1450,7 @@
     </div>
   </div>
 </section>
-<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><select id="monitorMobileSort" class="monitor-mobile-sort" aria-label="Urutkan monitoring paket" onchange="setMonitoringMobileSort(this.value)">
-  <option value="terbaru">🕐 Terbaru dilaporkan</option>
-  <option value="terlama">🕐 Terlama dilaporkan</option>
-  <option value="progress_desc">📈 Progress tertinggi</option>
-  <option value="progress_asc">📉 Progress terendah</option>
-  <option value="nilai_desc">💰 Nilai tertinggi</option>
-  <option value="nilai_asc">💰 Nilai terendah</option>
-</select>
-<div class="toolbar"><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring"><option value="updated-desc">Terbaru diupdate</option><option value="value-desc">Nilai terbesar</option><option value="value-asc">Nilai terkecil</option><option value="progress-desc">Progres terbesar</option><option value="progress-asc">Progres terkecil</option><option value="reports-desc">Laporan terbanyak</option><option value="reports-asc">Laporan tersedikit</option></select></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th><button class="sort-btn" data-sort="reports" onclick="toggleMonitoringSort('reports')">Laporan <span>↕</span></button></th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
+<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
 <section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
 <section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Belum Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="BELUM DITERUSKAN">Belum Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
@@ -1516,7 +1517,7 @@ function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err'
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
 function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard'],['monitoring','Monitoring Paket'],['laporan','Laporan Mingguan']];if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['pesan','Pesan Pimpinan']);if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN'].includes(r))items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['manajemen','Manajemen Laporan']);if(r==='ADMIN'||r==='KABAG BPBJ'||r==='KABAG')items.push(['aktivitas','Log Aktivitas']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',aktivitas:'🕘',admin:'♙'};$('nav').innerHTML=items.map(([id,t])=>'<button class="'+(id==='pesan'?'nav-chat-wrap':'')+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(id==='pesan'?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>').join('');if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');else $('newChatBtn').classList.add('hidden');updateChatBadge()}
-async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();state.monitorSort='terbaru';await loadData();if($('monitorMobileSort'))$('monitorMobileSort').value='terbaru';showPage('dashboard');startNotificationPolling()}
+async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();state.monitorSort='terbaru';await loadData();showPage('dashboard');startNotificationPolling()}
 async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
 
 const chatState={threads:[],activeId:null,selectedRecipients:[],priority:false,loading:false};
@@ -1909,24 +1910,29 @@ function parseMonitorDate(v){
   }else d=new Date(s);
   return Number.isNaN(d?.getTime?.())?0:d.getTime();
 }
+function monitorDateValue(r){
+  if(!r)return 0;
+  const candidates=[r.createdAt,r.created_at,r.tanggalLaporan,r.tanggal];
+  for(const v of candidates){
+    const t=parseMonitorDate(v);
+    if(t>0)return t;
+  }
+  return 0;
+}
 function monitorLatest(p){
   const rs=state.reports.filter(r=>String(r.kodeRup||'')===String(p.kodeRup||''));
   if(!rs.length)return null;
   return rs.reduce((best,r)=>{
-    const bd=best?parseMonitorDate(best.tanggal||best.createdAt||best.created_at):0;
-    const rd=parseMonitorDate(r.tanggal||r.createdAt||r.created_at);
+    const bd=monitorDateValue(best), rd=monitorDateValue(r);
     if(rd>bd)return r;
     if(rd===bd && Number(r.mingguKe||0)>Number(best?.mingguKe||0))return r;
     return best;
   },null);
 }
-function monitorSortRows(rows){
-  return rows.sort((a,b)=>{
-    if(monitorSort.key==='value')return (num(a.p.totalNilai)-num(b.p.totalNilai))*monitorSort.dir;
-    if(monitorSort.key==='progress')return (a.progress-b.progress)*monitorSort.dir;
-    if(monitorSort.key==='reports')return (a.reports-b.reports)*monitorSort.dir;
-    return (a.updatedAt-b.updatedAt)*monitorSort.dir;
-  });
+function getMonitoringLatestMap(){
+  const map={};
+  for(const p of state.projects)map[p.kodeRup]=monitorLatest(p);
+  return map;
 }
 function updateMonitorSortUI(){
   const sel=$('monitorSortSelect');
@@ -1935,77 +1941,78 @@ function updateMonitorSortUI(){
     const key=btn.dataset.sort;
     const active=monitorSort.key===key;
     btn.classList.toggle('active',active);
-    btn.querySelector('span').textContent=active?(monitorSort.dir<0?'↓':'↑'):'↕';
+    const arrow=btn.querySelector('span');
+    if(arrow)arrow.textContent=active?(monitorSort.dir<0?'↓':'↑'):'↕';
   });
 }
 function toggleMonitoringSort(key){
+  if(!['value','progress'].includes(key))return;
   if(monitorSort.key===key)monitorSort.dir*=-1;
   else{monitorSort.key=key;monitorSort.dir=-1}
   updateMonitorSortUI();
   renderMonitoring();
 }
 function changeMonitoringSort(value){
-  const [key,dir]=String(value||'updated-desc').split('-');
-  monitorSort.key=key==='updated'?'updatedAt':key;
-  monitorSort.dir=dir==='asc'?1:-1;
+  const parts=String(value||'updated-desc').split('-');
+  const key=parts[0],dir=parts[1]==='asc'?1:-1;
+  const keyMap={updated:'updatedAt',progress:'progress',value:'value'};
+  monitorSort.key=keyMap[key]||'updatedAt';
+  monitorSort.dir=dir;
   updateMonitorSortUI();
   renderMonitoring();
 }
 function getMonitoringSortValue(p, latest){
   const l=latest[p.kodeRup];
-  const pr=l?.progres||0;
-  const laporanCount=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
-  let time=0;
-  const r=l?.report;
-  if(r){
-    const candidates=[r.createdAt,r.created_at,r.tanggal,r.tanggalLaporan];
-    for(const v of candidates){
-      const t=new Date(String(v||'')).getTime();
-      if(Number.isFinite(t)&&t>0){time=t;break}
-    }
-  }
-  return {l,pr,nilai:num(p.totalNilai),laporanCount,time};
+  const pr=pct(l?.progres||0);
+  const reportCount=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
+  const time=monitorDateValue(l);
+  return {l,pr,nilai:num(p.totalNilai),laporanCount:reportCount,time};
 }
-
-function setMonitoringMobileSort(mode){
-  state.monitorSort=mode||'terbaru';
-  renderMonitoring();
-}
-
 function renderMonitoring(){
-  const q=($('monitorSearch')?.value||'').toLowerCase().trim();
-  let list=state.projects.filter(p=>[p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q));
-  const latest=latestByRup();
-  const sortMode=state.monitorSort||$('monitorMobileSort')?.value||'terbaru';
-  if($('monitorMobileSort'))$('monitorMobileSort').value=sortMode;
+  const q=($('ms')?.value||'').toLowerCase().trim();
+  let list=state.projects.filter(p=>
+    [p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q)
+  );
+  const latest=getMonitoringLatestMap();
 
   list.sort((a,b)=>{
-    const A=getMonitoringSortValue(a,latest),B=getMonitoringSortValue(b,latest);
-    const noA=A.time===0,noB=B.time===0;
+    const A=getMonitoringSortValue(a,latest), B=getMonitoringSortValue(b,latest);
 
-    if(sortMode==='terbaru'){
-      if(noA!==noB)return noA?1:-1;
+    if(monitorSort.key==='updatedAt'){
+      const noA=A.time===0,noB=B.time===0;
+      if(noA!==noB)return noA?1:-1; // paket tanpa laporan selalu di belakang untuk mode terbaru
+      if(A.time!==B.time)return (B.time-A.time)*(monitorSort.dir<0?1:-1);
+      return (B.pr-A.pr);
+    }
+    if(monitorSort.key==='progress'){
+      if(A.pr!==B.pr)return (A.pr-B.pr)*monitorSort.dir;
       return B.time-A.time;
     }
-    if(sortMode==='terlama'){
-      if(noA!==noB)return noA?-1:1;
-      return A.time-B.time;
+    if(monitorSort.key==='value'){
+      if(A.nilai!==B.nilai)return (A.nilai-B.nilai)*monitorSort.dir;
+      return B.time-A.time;
     }
-    if(sortMode==='progress_desc')return B.pr-A.pr || B.time-A.time;
-    if(sortMode==='progress_asc')return A.pr-B.pr || B.time-A.time;
-    if(sortMode==='nilai_desc')return B.nilai-A.nilai;
-    if(sortMode==='nilai_asc')return A.nilai-B.nilai;
     return 0;
   });
 
-  if(!list.length){$('mb').innerHTML='<div class="empty">Paket tidak ditemukan.</div>';return}
+  updateMonitorSortUI();
+
+  if(!list.length){
+    $('mb').innerHTML='<div class="empty">Paket tidak ditemukan.</div>';
+    return;
+  }
 
   $('mb').innerHTML=list.map(p=>{
-    const l=latest[p.kodeRup],pr=l?.progres||0;
+    const l=latest[p.kodeRup],pr=pct(l?.progres||0);
     const jumlah=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
-    return '<tr><td>'+esc(p.kodeRup)+'</td><td><b>'+esc(p.namaPaket)+'</b><small class="monitor-last-update">'+(l?'Update: '+esc(l.report.tanggal)+' · '+esc(l.report.dibuatOleh||'-'):'Belum pernah update')+'</small></td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+jumlah+' laporan</td><td><span class="badge '+(pr>0?'warn':'')+'">'+(pr>0?'BERJALAN':'BELUM ADA LAPORAN')+'</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>'
+    return '<tr><td>'+esc(p.kodeRup)+'</td><td><b>'+esc(p.namaPaket)+'</b><small class="monitor-last-update">'+
+      (l?'Update: '+esc(l.tanggal||l.tanggalLaporan||'-')+' · '+esc(l.dibuatOleh||'-'):'Belum pernah update')+
+      '</small></td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+
+      jumlah+' laporan</td><td><span class="badge '+(pr>0?'warn':'')+'">'+(pr>0?'BERJALAN':'BELUM ADA LAPORAN')+
+      '</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>';
   }).join('');
 }
+
 function reportStatus(r){return String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase()}
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
 function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" onclick="hapusLaporanManajemen('+JSON.stringify(r).replace(/"/g,'&quot;')+')">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
