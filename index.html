@@ -1475,6 +1475,22 @@
   .admin-pending-summary span{text-align:left}
 }
 
+
+/* ===== ADMIN: HAPUS PERCAKAPAN ===== */
+.chat-item-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:stretch}
+.chat-item-row .chat-item{min-width:0}
+.chat-delete-btn{
+  width:36px;border:1px solid var(--line);border-radius:9px;
+  background:var(--card);color:var(--danger);font-size:13px;font-weight:950;
+}
+.chat-delete-btn:hover{background:#fff1f0;border-color:#efb2ad}
+[data-theme="dark"] .chat-delete-btn{background:#101e2a;color:#ff8981;border-color:#2a4557}
+[data-theme="dark"] .chat-delete-btn:hover{background:#3a2424;border-color:#6a3d39}
+@media(max-width:520px){
+  .chat-item-row{grid-template-columns:minmax(0,1fr) 34px;gap:4px}
+  .chat-delete-btn{width:34px;font-size:12px}
+}
+
 </style>
 </head>
 <body>
@@ -1672,7 +1688,7 @@ const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').repla
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
 const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
-const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca']);
+const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca','adminHapusPercakapan']);
 async function call(fn,args=[]){
   const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
   const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:fn,args})});
@@ -1755,9 +1771,20 @@ function renderChatList(){
     const subject=t.judul||t.title||'Pesan Pimpinan';
     const preview=t.preview||t.pesanTerakhir||t.lastMessage||'Belum ada pesan';
     const time=t.waktu||t.updatedAt||t.createdAt||'';
+    const id=String(t.id||t.percakapanId||'');
     const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
-    return '<button class="chat-item '+(chatState.activeId===String(t.id||t.percakapanId)?'active':'')+'" onclick="openChatThread('+JSON.stringify(String(t.id||t.percakapanId||'')).replace(/"/g,'&quot;')+')"><div class="chat-avatar">'+esc(initials||'P')+'</div><div class="chat-item-main"><b>'+esc(counterpart)+'</b><small>'+esc(subject)+' · '+esc(preview)+'</small>'+adminTag+'</div><div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div></button>';
+    const deleteBtn=isAdmin
+      ? '<button type="button" class="chat-delete-btn" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusChatAdmin('+JSON.stringify(id)+')">🗑</button>'
+      : '';
+    return '<div class="chat-item-row">'+
+      '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
+        '<div class="chat-avatar">'+esc(initials||'P')+'</div>'+
+        '<div class="chat-item-main"><b>'+esc(counterpart)+'</b><small>'+esc(subject)+' · '+esc(preview)+'</small>'+adminTag+'</div>'+
+        '<div>'+ (unread?'<span class="chat-unread">'+Math.min(unread,99)+'</span>':'<span class="chat-item-time">'+esc(formatChatTime(time))+'</span>')+'</div>'+
+      '</button>'+
+      deleteBtn+
+    '</div>';
   }).join('');
 }
 function formatChatTime(v){
@@ -1882,6 +1909,31 @@ async function startChat(e){
     if(id)await openChatThread(String(id));
     alert('Pesan pimpinan berhasil dikirim.');
   }catch(e){alert(chatApiErrorMessage(e))}
+}
+
+async function hapusChatAdmin(id){
+  if(String(state.user?.role||'').toUpperCase()!=='ADMIN'){
+    alert('Hanya Admin yang dapat menghapus percakapan.');
+    return;
+  }
+  if(!id)return;
+  const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===String(id));
+  const nama=thread?.lawanNama||thread?.lawan||'percakapan ini';
+  const yakin=confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan dalam percakapan akan dihapus permanen.');
+  if(!yakin)return;
+  try{
+    await call('adminHapusPercakapan',[state.user.username,String(id)]);
+    if(String(chatState.activeId)===String(id)){
+      chatState.activeId=null;
+      $('chatActive').classList.add('hidden');
+      $('chatEmpty').classList.remove('hidden');
+    }
+    await loadChats();
+    updateChatBadge();
+    alert('Percakapan berhasil dihapus.');
+  }catch(e){
+    alert(chatApiErrorMessage(e));
+  }
 }
 
 async function sendChatReply(e){
