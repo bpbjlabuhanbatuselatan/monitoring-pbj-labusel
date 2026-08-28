@@ -1360,6 +1360,36 @@
   color:#93a7b8;
 }
 
+
+/* ===== PESAN PIMPINAN DI POSISI EKSEKUTIF ===== */
+.nav .nav-executive{
+  margin-top:5px;
+  padding-top:12px!important;
+  padding-bottom:12px!important;
+  background:linear-gradient(90deg,rgba(103,183,238,.12),rgba(103,183,238,.05));
+  border:1px solid rgba(103,183,238,.20);
+  color:#e7f4fd;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+.nav .nav-executive:hover,.nav .nav-executive.active{
+  background:linear-gradient(90deg,rgba(103,183,238,.20),rgba(103,183,238,.10));
+  border-color:rgba(103,183,238,.34);
+}
+.nav-executive-divider{
+  display:block;height:1px;margin:7px 5px 1px;
+  background:linear-gradient(90deg,transparent,#6aaed3,transparent);
+  opacity:.55;
+}
+[data-theme="dark"] .nav .nav-executive{
+  background:linear-gradient(90deg,rgba(103,183,238,.14),rgba(103,183,238,.06));
+  border-color:#294d63;box-shadow:0 5px 16px rgba(0,0,0,.16);
+}
+[data-theme="dark"] .nav .nav-executive:hover,
+[data-theme="dark"] .nav .nav-executive.active{
+  background:linear-gradient(90deg,rgba(103,183,238,.22),rgba(103,183,238,.10));
+  border-color:#3f7897;
+}
+
 </style>
 </head>
 <body>
@@ -1569,7 +1599,45 @@ function authTab(x){$('tl').classList.toggle('active',x==='login');$('tr').class
 function authMsg(t,ok=false){$('am').innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
 async function doLogin(e){e.preventDefault();authMsg('Memeriksa akun...',true);try{const d=await call('login',[$('lu').value.trim(),$('lp').value]);if(!d.success)throw Error(d.message||'Login gagal.');state.user=d.user;localStorage.setItem('simon_user',JSON.stringify(state.user));await boot()}catch(x){authMsg(x.message)}}
 async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',true);try{const d=await call('daftarUser',[{nama:$('rn').value.trim(),username:$('ru').value.trim(),password:$('rp').value,role:$('rr').value}]);if(!d.success)throw Error(d.message);$('rf').reset();authTab('login');authMsg(d.message,true)}catch(x){authMsg(x.message)}}
-function buildNav(){const r=String(state.user.role||'').toUpperCase();let items=[['dashboard','Dashboard']];if(['KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['laporan','Laporan Mingguan']);items.push(['monitoring','Monitoring Paket']);if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r))items.push(['pesan','Pesan Pimpinan']);items.push(['analitik','Dashboard Analitik']);if(['PPK','PPBJ'].includes(r))items.push(['verifikasi','Verifikasi Masuk']);if(['ADMIN','KABAG BPBJ','KABAG'].includes(r))items.push(['manajemen','Manajemen Laporan']);if(['ADMIN','KABAG BPBJ','KABAG'].includes(r))items.push(['aktivitas','Log Aktivitas']);if(r==='ADMIN')items.push(['admin','Manajemen Akun']);const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',aktivitas:'🕘',admin:'♙'};$('nav').innerHTML=items.map(([id,t])=>'<button class="'+(id==='pesan'?'nav-chat-wrap':'')+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(id==='pesan'?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>').join('');if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');else $('newChatBtn').classList.add('hidden');updateChatBadge()}
+function buildNav(){
+  const r=String(state.user.role||'').toUpperCase();
+  let items=[['dashboard','Dashboard']];
+
+  // Pembagian menu final per role.
+  if(['KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['laporan','Laporan Mingguan']);
+  items.push(['monitoring','Monitoring Paket']);
+  if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['analitik','Dashboard Analitik']);
+  if(['PPK','PPBJ'].includes(r)) items.push(['verifikasi','Verifikasi Masuk']);
+  if(['KABAG BPBJ','KABAG','ADMIN'].includes(r)) items.push(['manajemen','Manajemen Laporan']);
+  if(['KABAG BPBJ','KABAG','ADMIN'].includes(r)) items.push(['aktivitas','Log Aktivitas']);
+  if(r==='ADMIN') items.push(['admin','Manajemen Akun']);
+
+  // Pesan Pimpinan selalu paling bawah dan dibuat menonjol.
+  if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['pesan','Pesan Pimpinan']);
+
+  const icons={
+    dashboard:'▣',
+    monitoring:'◉',
+    laporan:'◷',
+    pesan:'💬',
+    analitik:'📊',
+    verifikasi:'✓',
+    manajemen:'▤',
+    aktivitas:'🕘',
+    admin:'♙'
+  };
+
+  $('nav').innerHTML=items.map(([id,t])=>{
+    const isExecutive=id==='pesan';
+    const cls=isExecutive?'nav-chat-wrap nav-executive':'';
+    const divider=isExecutive?'<span class="nav-executive-divider"></span>':'';
+    return divider+'<button class="'+cls+'" data-page="'+id+'" onclick="showPage(\''+id+'\')">'+icons[id]+' &nbsp; '+t+(isExecutive?'<span id="chatBadge" class="nav-chat-badge hidden">0</span>':'')+'</button>';
+  }).join('');
+
+  if(idUserCanStartChat())$('newChatBtn').classList.remove('hidden');
+  else $('newChatBtn').classList.add('hidden');
+  updateChatBadge();
+}
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();state.monitorSort='terbaru';await loadData();showPage('dashboard');startNotificationPolling()}
 async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);alert(e.message)}}
 
