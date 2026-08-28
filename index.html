@@ -1491,6 +1491,8 @@
   .chat-delete-btn{width:34px;font-size:12px}
 }
 
+
+.chat-delete-btn:disabled{opacity:.55;cursor:wait}
 </style>
 </head>
 <body>
@@ -1917,24 +1919,41 @@ async function hapusChatAdmin(id){
     return;
   }
   if(!id)return;
+
   const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===String(id));
   const nama=thread?.lawanNama||thread?.lawan||'percakapan ini';
-  const yakin=confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan dalam percakapan akan dihapus permanen.');
-  if(!yakin)return;
+
+  if(!confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan akan dihapus permanen.'))return;
+
+  const rowBtn=document.querySelector('.chat-item-row button.chat-delete-btn[onclick*="'+String(id).replace(/"/g,'\\"')+'"]');
+  if(rowBtn){rowBtn.disabled=true;rowBtn.textContent='…';}
+
   try{
-    await call('adminHapusPercakapan',[state.user.username,String(id)]);
+    const result=await call('adminHapusPercakapan',[state.user.username,String(id)]);
+
+    if(result?.success===false){
+      throw new Error(result.message||'Penghapusan percakapan gagal.');
+    }
+
     if(String(chatState.activeId)===String(id)){
       chatState.activeId=null;
       $('chatActive').classList.add('hidden');
       $('chatEmpty').classList.remove('hidden');
     }
+
     await loadChats();
-    updateChatBadge();
-    alert('Percakapan berhasil dihapus.');
+    await updateChatBadge();
+    toast('✓ Percakapan berhasil dihapus.');
   }catch(e){
-    alert(chatApiErrorMessage(e));
+    console.error('adminHapusPercakapan:',e);
+    // Tampilkan error asli dari Supabase agar tidak gagal diam-diam.
+    const msg=String(e?.message||e||'Penghapusan gagal.');
+    alert('Gagal menghapus percakapan.\n\n'+msg);
+  }finally{
+    if(rowBtn){rowBtn.disabled=false;rowBtn.textContent='🗑';}
   }
 }
+
 
 async function sendChatReply(e){
   e.preventDefault();
