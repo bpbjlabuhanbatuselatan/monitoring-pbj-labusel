@@ -1689,11 +1689,14 @@ const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>
 const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').replace('%',''))||0));
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
-const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
-const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca','adminHapusPercakapan']);
+const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
+const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca']);
 async function call(fn,args=[]){
-  const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
-  const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({function:fn,args})});
+  const endpoint=fn==='adminHapusPercakapan'?ADMIN_DELETE_CHAT_API:(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
+  const body=fn==='adminHapusPercakapan'
+    ?{function:'deleteChat',args}
+    :{function:fn,args};
+  const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   let d;try{d=await r.json()}catch{throw Error('Respons Supabase tidak valid.')}
   if(!r.ok||d?.success===false&&d?.message)throw Error(d?.message||'Permintaan gagal.');
   return d;
@@ -1919,38 +1922,25 @@ async function hapusChatAdmin(id){
     return;
   }
   if(!id)return;
-
   const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===String(id));
   const nama=thread?.lawanNama||thread?.lawan||'percakapan ini';
-
   if(!confirm('Hapus percakapan ini?\n\n'+nama+'\n\nSeluruh riwayat pesan akan dihapus permanen.'))return;
 
-  const rowBtn=document.querySelector('.chat-item-row button.chat-delete-btn[onclick*="'+String(id).replace(/"/g,'\\"')+'"]');
-  if(rowBtn){rowBtn.disabled=true;rowBtn.textContent='…';}
-
   try{
-    const result=await call('adminHapusPercakapan',[state.user.username,String(id)]);
-
-    if(result?.success===false){
-      throw new Error(result.message||'Penghapusan percakapan gagal.');
-    }
+    const d=await call('adminHapusPercakapan',[state.user.username,String(id)]);
+    if(!d?.success)throw new Error(d?.message||'Percakapan gagal dihapus.');
 
     if(String(chatState.activeId)===String(id)){
       chatState.activeId=null;
       $('chatActive').classList.add('hidden');
       $('chatEmpty').classList.remove('hidden');
     }
-
     await loadChats();
     await updateChatBadge();
-    toast('✓ Percakapan berhasil dihapus.');
+    alert('Percakapan berhasil dihapus.');
   }catch(e){
-    console.error('adminHapusPercakapan:',e);
-    // Tampilkan error asli dari Supabase agar tidak gagal diam-diam.
-    const msg=String(e?.message||e||'Penghapusan gagal.');
-    alert('Gagal menghapus percakapan.\n\n'+msg);
-  }finally{
-    if(rowBtn){rowBtn.disabled=false;rowBtn.textContent='🗑';}
+    console.error('adminHapusPercakapan',e);
+    alert('Gagal menghapus percakapan.\n\n'+String(e?.message||e));
   }
 }
 
