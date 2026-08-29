@@ -1730,32 +1730,6 @@ html,body,button,input,select,textarea{
   .chat-compose .btn{min-width:70px}
   .chat-new-box{border-radius:18px;padding:15px}
 }
-
-/* ===== PESAN PIMPINAN: DELETE MODAL + UI REFINEMENT ===== */
-.chat-delete-btn{border-radius:12px;transition:.2s ease}
-.chat-delete-btn:hover{transform:translateY(-1px) scale(1.04)}
-.chat-item-row{position:relative}
-.chat-item{min-height:74px}
-.chat-item-main b{font-weight:800;letter-spacing:.1px}
-.chat-item-main small{line-height:1.45}
-.chat-bubble{border-radius:18px;box-shadow:0 4px 14px rgba(20,40,60,.05);line-height:1.5}
-.chat-bubble.me{border-bottom-right-radius:6px}
-.chat-bubble:not(.me){border-bottom-left-radius:6px}
-.chat-author{font-weight:800;margin-bottom:4px}
-.chat-delete-modal{position:fixed;inset:0;z-index:99999;background:rgba(10,24,38,.48);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:18px}
-.chat-delete-modal.show{display:flex}
-.chat-delete-box{width:min(430px,100%);background:#fff;border-radius:24px;padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.24);animation:chatDeleteIn .22s ease}
-.chat-delete-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:27px;background:#fff0ef;margin-bottom:14px}
-.chat-delete-box h3{margin:0 0 8px;font-size:20px;font-weight:900}
-.chat-delete-box p{margin:0;color:#64748b;line-height:1.55}
-.chat-delete-name{margin-top:14px;padding:12px 14px;border-radius:14px;background:#f7fafc;font-weight:800;word-break:break-word}
-.chat-delete-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
-.chat-delete-actions button{border-radius:13px;padding:11px 16px;font-weight:800;border:1px solid #dbe4ea;cursor:pointer}
-.chat-delete-cancel{background:#fff}
-.chat-delete-confirm{background:#dc2626!important;color:#fff;border-color:#dc2626!important}
-@keyframes chatDeleteIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-@media(max-width:600px){.chat-delete-box{padding:20px;border-radius:22px}.chat-delete-actions{flex-direction:column-reverse}.chat-delete-actions button{width:100%}}
-
 </style>
 
 <style id="simon-ui-refinement">
@@ -2520,20 +2494,6 @@ h1,h2,h3,h4,
 </head>
 <body>
 
-
-<div id="chatDeleteModal" class="chat-delete-modal" role="dialog" aria-modal="true" aria-labelledby="chatDeleteTitle">
-  <div class="chat-delete-box">
-    <div class="chat-delete-icon">🗑️</div>
-    <h3 id="chatDeleteTitle">Hapus Percakapan?</h3>
-    <p>Seluruh riwayat pesan dalam percakapan ini akan dihapus permanen dan tidak dapat dikembalikan.</p>
-    <div id="chatDeleteName" class="chat-delete-name">Percakapan</div>
-    <div class="chat-delete-actions">
-      <button type="button" class="chat-delete-cancel" onclick="closeChatDeleteModal()">Batal</button>
-      <button type="button" id="chatDeleteConfirmBtn" class="chat-delete-confirm" onclick="executeChatDelete()">Ya, Hapus Permanen</button>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
   let toastTimer=null;
@@ -2767,22 +2727,14 @@ const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').repla
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
 const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
-const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
-const CHAT_FUNCTIONS=new Set([
-  'getPenerimaPesanPimpinan',
-  'getPesanPimpinanUnread',
-  'getPesanPimpinan',
-  'getPesanPimpinanThread',
-  'mulaiPesanPimpinan',
-  'kirimPesanPimpinan',
-  'tandaiPesanDibaca',
-  'hapusPesanPimpinan'
-]);
+const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca','hapusPesanPimpinan']);
+async function call(fn,args=[]){
+  const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
+  const body={function:fn,args};
 
-async function postApi(endpoint,body){
-  let response;
+  let r;
   try{
-    response=await fetch(endpoint,{
+    r=await fetch(endpoint,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)
@@ -2791,43 +2743,18 @@ async function postApi(endpoint,body){
     throw Error('Koneksi ke server gagal. Periksa internet lalu coba lagi.');
   }
 
-  let data=null;
-  try{ data=await response.json(); }
-  catch{ throw Error('Server mengembalikan respons yang tidak valid.'); }
-
-  if(!response.ok) throw Error(data?.message||data?.error||('Permintaan gagal (HTTP '+response.status+').'));
-  if(data?.success===false) throw Error(data.message||data.error||'Permintaan ditolak oleh server.');
-  return data;
-}
-
-async function call(fn,args=[]){
-  const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
-  return postApi(endpoint,{function:fn,args});
-}
-
-// SATU fungsi penghapus chat. Tidak ada fallback atau fungsi delete ganda.
-async function deleteChatConversation(conversationId){
-  const id=String(conversationId||'').trim();
-  const username=String(state.user?.username||'').trim();
-  const role=String(state.user?.role||'').trim().toUpperCase();
-
-  if(!id) throw Error('ID percakapan tidak valid.');
-  if(!username) throw Error('Sesi pengguna tidak ditemukan. Silakan login kembali.');
-  if(!['ADMIN','PIMPINAN'].includes(role)) throw Error('Anda tidak memiliki izin menghapus percakapan.');
-
-  // ADMIN memakai satu Edge Function khusus.
-  if(role==='ADMIN'){
-    return postApi(ADMIN_DELETE_CHAT_API,{
-      adminUsername:username,
-      conversationId:id
-    });
+  let d=null;
+  try{d=await r.json()}catch{
+    throw Error('Server mengembalikan respons yang tidak valid.');
   }
 
-  // PIMPINAN hanya menghapus percakapan miliknya sendiri melalui chat-api.
-  return postApi(CHAT_API,{
-    function:'hapusPesanPimpinan',
-    args:[username,id]
-  });
+  if(!r.ok){
+    throw Error(d?.message||d?.error||('Permintaan gagal (HTTP '+r.status+').'));
+  }
+  if(d?.success===false){
+    throw Error(d.message||d.error||'Permintaan ditolak oleh server.');
+  }
+  return d;
 }
 
 function togglePassword(id,btn){
@@ -2976,8 +2903,8 @@ function renderChatList(){
     const id=String(t.id||t.percakapanId||'');
     const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
-    const deleteBtn=canDeleteChat && id
-      ? '<button type="button" class="chat-delete-btn" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();openChatDeleteModal('+JSON.stringify(id)+')">🗑</button>'
+    const deleteBtn=canDeleteChat
+      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusPercakapanChat('+JSON.stringify(id)+')">🗑</button>'
       : '';
     return '<div class="chat-item-row">'+
       '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
@@ -3113,75 +3040,52 @@ async function startChat(e){
   }catch(e){showToast(chatApiErrorMessage(e))}
 }
 
-let chatDeleteTargetId=null;
-
-function openChatDeleteModal(id){
+async function hapusPercakapanChat(id){
   const role=String(state.user?.role||'').trim().toUpperCase();
-  const conversationId=String(id||'').trim();
-
   if(!['ADMIN','PIMPINAN'].includes(role)){
     showToast('Anda tidak memiliki izin menghapus percakapan.');
     return;
   }
-  if(!conversationId) return;
+
+  const conversationId=String(id||'').trim();
+  if(!conversationId)return;
 
   const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===conversationId);
-  const nama=thread?.lawanNama||thread?.lawan||thread?.judul||'Percakapan ini';
+  const nama=thread?.lawanNama||thread?.lawan||thread?.judul||'percakapan ini';
 
-  chatDeleteTargetId=conversationId;
-  $('chatDeleteName').textContent=nama;
-  $('chatDeleteModal').classList.add('show');
-}
+  if(!confirm('Hapus percakapan ini?\\n\\n'+nama+'\\n\\nSeluruh riwayat pesan akan dihapus permanen.'))return;
 
-function closeChatDeleteModal(){
-  $('chatDeleteModal')?.classList.remove('show');
-  chatDeleteTargetId=null;
-}
-
-async function executeChatDelete(){
-  const conversationId=String(chatDeleteTargetId||'').trim();
-  if(!conversationId) return;
-
-  const btn=$('chatDeleteConfirmBtn');
-  if(btn){
-    btn.disabled=true;
-    btn.textContent='Menghapus...';
-  }
+  const btn=document.querySelector('.chat-delete-btn[data-chat-id="'+CSS.escape(conversationId)+'"]');
+  if(btn){btn.disabled=true;btn.textContent='…';}
 
   try{
-    // Hanya memanggil SATU fungsi penghapusan.
-    await deleteChatConversation(conversationId);
+    // SATU JALUR SAJA: index -> chat-api -> hapusPesanPimpinan -> database
+    const d=await call('hapusPesanPimpinan',[state.user.username,conversationId]);
 
-    // UI langsung dibersihkan setelah server menyatakan berhasil.
-    chatState.threads=chatState.threads.filter(x=>String(x.id||x.percakapanId||'')!==conversationId);
+    if(d?.success===false){
+      throw new Error(d?.message||'Percakapan gagal dihapus.');
+    }
 
-    if(String(chatState.activeId||'')===conversationId){
+    chatState.threads=chatState.threads.filter(
+      x=>String(x.id||x.percakapanId||'')!==conversationId
+    );
+
+    if(String(chatState.activeId)===conversationId){
       chatState.activeId=null;
       $('chatActive')?.classList.add('hidden');
       $('chatEmpty')?.classList.remove('hidden');
     }
 
-    closeChatDeleteModal();
     renderChatList();
     updateChatBadge();
-    showToast('Percakapan berhasil dihapus permanen.');
+    showToast('Percakapan berhasil dihapus.');
 
-    // Sinkronisasi ulang hanya sekali.
-    await loadChats();
   }catch(e){
-    console.error('Chat delete error:',e);
-    showToast('Gagal menghapus percakapan. '+String(e?.message||e||''));
-  }finally{
-    if(btn){
-      btn.disabled=false;
-      btn.textContent='Ya, Hapus Permanen';
-    }
+    console.error('hapusPercakapanChat:',e);
+    if(btn){btn.disabled=false;btn.textContent='🗑';}
+    showToast('Gagal menghapus: '+String(e?.message||e||'Kesalahan tidak diketahui.'));
   }
 }
-
-$('chatDeleteModal')?.addEventListener('click',e=>{
-  if(e.target===$('chatDeleteModal')) closeChatDeleteModal();
-});
 
 async function sendChatReply(e){
   e.preventDefault();
