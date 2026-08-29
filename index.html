@@ -3140,82 +3140,83 @@ async function refreshNotifications(){
   const role=String(state.user.role||'').trim().toUpperCase();
   const items=[];
 
-  try{
-    /*
-      ATURAN NOTIFIKASI:
-      1. ADMIN      = pendaftaran/verifikasi akun + chat dari Bupati/Pimpinan.
-      2. PPK        = verifikasi yang memang ditujukan ke PPK + chat dari Bupati/Pimpinan.
-      3. PPBJ       = verifikasi yang memang ditujukan ke PPBJ + chat dari Bupati/Pimpinan.
-      4. KABAG      = chat dari Bupati/Pimpinan saja.
-      5. PIMPINAN   = chat masuk.
-      6. Input laporan biasa TIDAK menjadi notif Admin.
-    */
+  // NOTIFIKASI FINAL:
+  // ADMIN  -> pendaftaran/verifikasi akun saja.
+  // PPK    -> verifikasi yang ditujukan ke username ini + chat pimpinan.
+  // PPBJ   -> verifikasi yang ditujukan ke username ini + chat pimpinan.
+  // KABAG  -> chat pimpinan saja.
+  // PIMPINAN-> chat masuk.
+  // Input laporan biasa -> TIDAK menjadi notif.
 
-    // Semua role tetap menerima notifikasi chat pimpinan.
-    if(['PIMPINAN','PPK','PPBJ','KABAG BPBJ','KABAG','ADMIN'].includes(role)){
-      try{
-        const d=await call('getPesanPimpinanUnread',[state.user.username]);
-        const n=Number(d?.count??d?.unread??0)||0;
-        if(n>0){
-          addNotificationItem(
-            items,
-            'pesan',
-            '💬',
-            'Pesan Pimpinan',
-            n+' pesan dari pimpinan belum dibaca.',
-            'pesan',
-            'openChatNotification'
-          );
-        }
-      }catch(e){}
+  // Chat pimpinan untuk semua role yang memang mempunyai akses chat,
+  // KECUALI Admin (Admin hanya read-only, tanpa notif generik chat).
+  if(['PIMPINAN','PPK','PPBJ','KABAG BPBJ','KABAG'].includes(role)){
+    try{
+      const d=await call('getPesanPimpinanUnread',[state.user.username]);
+      const n=Number(d?.count??d?.unread??0)||0;
+      if(n>0){
+        addNotificationItem(
+          items,
+          'pesan',
+          '💬',
+          'Pesan Pimpinan',
+          n+' pesan dari pimpinan belum dibaca.',
+          'pesan',
+          'openChatNotification'
+        );
+      }
+    }catch(e){
+      console.warn('Notif chat:',e);
     }
-
-    // PPK & PPBJ hanya menerima notif verifikasi yang memang menjadi kewenangannya.
-    if(['PPK','PPBJ'].includes(role)){
-      try{
-        const d=await call('getVerifikasiMasuk',[state.user.username]);
-        const rows=Array.isArray(d)?d:(Array.isArray(d?.daftar)?d.daftar:[]);
-        if(rows.length){
-          addNotificationItem(
-            items,
-            'verifikasi',
-            '✅',
-            'Verifikasi Masuk',
-            rows.length+' laporan menunggu verifikasi Anda.',
-            'verifikasi',
-            'openVerificationNotification'
-          );
-        }
-      }catch(e){}
-    }
-
-    // ADMIN hanya diberi notif pendaftaran/verifikasi akun.
-    // Tidak ada notif otomatis karena laporan monitoring masuk.
-    if(role==='ADMIN'){
-      try{
-        const d=await call('getPendaftaranMenunggu',[state.user.username]);
-        const rows=Array.isArray(d?.daftar)?d.daftar:[];
-        if(rows.length){
-          addNotificationItem(
-            items,
-            'akun',
-            '👤',
-            'Verifikasi Akun',
-            rows.length+' pendaftaran akun menunggu persetujuan.',
-            'admin',
-            'openAdminNotification'
-          );
-        }
-      }catch(e){}
-    }
-
-    notifyState.items=items;
-    renderNotifications();
-  }catch(e){
-    console.error(e);
-    notifyState.items=[];
-    renderNotifications();
   }
+
+  // PPK / PPBJ: hanya verifikasi yang benar-benar ditujukan
+  // ke username akun yang sedang login.
+  if(['PPK','PPBJ'].includes(role)){
+    try{
+      const d=await call('getVerifikasiMasuk',[state.user.username]);
+      const rows=Array.isArray(d)?d:(Array.isArray(d?.daftar)?d.daftar:[]);
+      if(rows.length){
+        addNotificationItem(
+          items,
+          'verifikasi',
+          '✅',
+          'Verifikasi Masuk',
+          rows.length+' laporan menunggu verifikasi Anda.',
+          'verifikasi',
+          'openVerificationNotification',
+          rows[0]?.laporan?.namaPaket||''
+        );
+      }
+    }catch(e){
+      console.warn('Notif verifikasi:',e);
+    }
+  }
+
+  // Admin: pendaftaran akun saja. Tidak ada notif input laporan.
+  if(role==='ADMIN'){
+    try{
+      const d=await call('getPendaftaranMenunggu',[state.user.username]);
+      const rows=Array.isArray(d?.daftar)?d.daftar:[];
+      if(rows.length){
+        addNotificationItem(
+          items,
+          'akun',
+          '👤',
+          'Verifikasi Akun',
+          rows.length+' pendaftaran akun menunggu persetujuan.',
+          'admin',
+          'openAdminNotification',
+          rows[0]?.nama||rows[0]?.username||''
+        );
+      }
+    }catch(e){
+      console.warn('Notif akun:',e);
+    }
+  }
+
+  notifyState.items=items;
+  renderNotifications();
 }
 function addNotificationItem(items,type,icon,title,text,target,action,meta){
   items.push({
