@@ -3857,7 +3857,71 @@ async function saveReport(e){
       submitBtn.textContent='Menyimpan...';
     }
 
-    const fotos=await filesToBase64();
+    /*
+  Validasi kepemilikan paket tepat sebelum SIMPAN.
+  Paket tetap muncul di suggestion; yang dibatasi hanya penyimpanan.
+  PPK  -> hanya username PPK yang pertama kali mengerjakan paket.
+  PPBJ -> hanya username yang tercatat sebagai tujuan PPBJ pada laporan.
+  Hapus semua laporan paket -> tidak ada laporan terkait -> paket otomatis reset.
+  Data diambil ulang dari backend agar tidak bergantung pada cache frontend.
+*/
+const freshReports=await call('getLaporanMingguan');
+const rupDipilih=String($('rRup')?.value||'').trim();
+const saya=String(state.user?.username||'').trim().toLowerCase();
+const roleSaya=String(state.user?.role||'').trim().toUpperCase();
+const terkait=(Array.isArray(freshReports)?freshReports:[])
+  .filter(r=>String(r?.kodeRup||'').trim()===rupDipilih);
+
+if(terkait.length){
+  if(roleSaya==='PPK'){
+    let pemilikPpk='';
+    try{
+      const daftarPpk=await call('getDaftarPPK');
+      const ppkUsernames=new Set(
+        (Array.isArray(daftarPpk)?daftarPpk:[])
+          .map(x=>String(x?.username||'').trim().toLowerCase())
+          .filter(Boolean)
+      );
+      const laporanPpk=terkait.filter(r=>
+        ppkUsernames.has(String(r?.dibuatOleh||'').trim().toLowerCase())
+      ).sort((a,b)=>{
+        const wa=Number(a?.mingguKe||0), wb=Number(b?.mingguKe||0);
+        if(wa!==wb)return wa-wb;
+        return String(a?.tanggal||a?.tanggalLaporan||'')
+          .localeCompare(String(b?.tanggal||b?.tanggalLaporan||''));
+      });
+
+      pemilikPpk=String(laporanPpk[0]?.dibuatOleh||'').trim().toLowerCase();
+    }catch(_){}
+
+    if(pemilikPpk && pemilikPpk!==saya){
+      const namaPemilik=terkait.find(r=>
+        String(r?.dibuatOleh||'').trim().toLowerCase()===pemilikPpk
+      )?.dibuatOleh||pemilikPpk;
+
+      throw Error(
+        'Laporan gagal disimpan. Paket ini sudah dikerjakan oleh PPK "'+
+        String(namaPemilik)+
+        '". Gunakan akun PPK yang menangani paket tersebut.'
+      );
+    }
+  }else if(roleSaya==='PPBJ'){
+    const ditujukanKeSaya=terkait.some(r=>{
+      const tujuan=String(
+        r?.ppbjUsername??r?.ppbj_tujuan??r?.ppbjTujuan??''
+      ).trim().toLowerCase();
+      return tujuan===saya;
+    });
+
+    if(!ditujukanKeSaya){
+      throw Error(
+        'Laporan gagal disimpan. Paket ini belum diteruskan kepada akun PPBJ Anda.'
+      );
+    }
+  }
+}
+
+const fotos=await filesToBase64();
     const payload={
       kodeRup:$('rRup')?.value||'',
       namaPaket:$('rPaket')?.value||'',
