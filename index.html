@@ -2904,7 +2904,7 @@ function renderChatList(){
     const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
     const deleteBtn=canDeleteChat
-      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusPercakapanChat('+JSON.stringify(id)+')">🗑</button>'
+      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusPercakapanChat('+JSON.stringify(id).replace(/"/g,'&quot;')+')">🗑</button>'
       : '';
     return '<div class="chat-item-row">'+
       '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
