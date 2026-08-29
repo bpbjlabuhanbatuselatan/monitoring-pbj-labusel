@@ -2529,7 +2529,7 @@ h1,h2,h3,h4,
     <div id="chatDeleteName" class="chat-delete-name">Percakapan</div>
     <div class="chat-delete-actions">
       <button type="button" class="chat-delete-cancel" onclick="closeChatDeleteModal()">Batal</button>
-      <button type="button" id="chatDeleteConfirmBtn" class="chat-delete-confirm">Ya, Hapus Permanen</button>
+      <button type="button" id="chatDeleteConfirmBtn" class="chat-delete-confirm" onclick="executeChatDelete()">Ya, Hapus Permanen</button>
     </div>
   </div>
 </div>
@@ -2800,27 +2800,30 @@ async function call(fn,args=[]){
 async function deleteChatConversation(username,conversationId,role){
   const user=String(username||'').trim();
   const id=String(conversationId||'').trim();
+  const userRole=String(role||'').trim().toUpperCase();
+
   if(!user||!id)throw Error('ID percakapan tidak valid.');
 
-  const attempts=[];
-  if(String(role||'').toUpperCase()==='ADMIN'){
-    attempts.push(
-      ()=>postApi(ADMIN_DELETE_CHAT_API,{function:'deleteChat',args:[user,id]}),
-      ()=>postApi(CHAT_API,{function:'adminHapusPercakapan',args:[user,id]}),
-      ()=>postApi(CHAT_API,{function:'hapusPesanPimpinan',args:[user,id]})
-    );
-  }else{
-    attempts.push(
-      ()=>postApi(CHAT_API,{function:'hapusPesanPimpinan',args:[user,id]}),
-      ()=>postApi(CHAT_API,{function:'deleteChat',args:[user,id]})
-    );
+  // SATU JALUR PENGHAPUSAN UNTUK SETIAP ROLE.
+  // ADMIN  -> Edge Function khusus admin-delete-chat.
+  // PIMPINAN -> chat-api bawaan untuk menghapus percakapannya sendiri.
+  if(userRole==='ADMIN'){
+    return postApi(ADMIN_DELETE_CHAT_API,{
+      function:'deleteChat',
+      adminUsername:user,
+      conversationId:id,
+      args:[user,id]
+    });
   }
 
-  let lastError=null;
-  for(const attempt of attempts){
-    try{return await attempt()}catch(e){lastError=e;console.warn('Delete chat fallback gagal:',e)}
+  if(userRole==='PIMPINAN'){
+    return postApi(CHAT_API,{
+      function:'hapusPesanPimpinan',
+      args:[user,id]
+    });
   }
-  throw lastError||Error('Percakapan gagal dihapus.');
+
+  throw Error('Anda tidak memiliki izin menghapus percakapan.');
 }
 
 function togglePassword(id,btn){
@@ -3163,10 +3166,7 @@ async function executeChatDelete(){
   }
 }
 
-// Kompatibilitas tombol lama.
-function hapusChatAdmin(id){openChatDeleteModal(id)}
-
-$('chatDeleteConfirmBtn')?.addEventListener('click',executeChatDelete);
+// Tombol konfirmasi memakai onclick langsung agar tidak bergantung pada event listener tambahan.
 $('chatDeleteModal')?.addEventListener('click',e=>{
   if(e.target===$('chatDeleteModal'))closeChatDeleteModal();
 });
