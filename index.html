@@ -2767,7 +2767,6 @@ const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').repla
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
 const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
-const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
 const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca','hapusPesanPimpinan']);
 
 async function postApi(endpoint,body){
@@ -2801,29 +2800,14 @@ async function deleteChatConversation(username,conversationId,role){
   const user=String(username||'').trim();
   const id=String(conversationId||'').trim();
   const userRole=String(role||'').trim().toUpperCase();
-
   if(!user||!id)throw Error('ID percakapan tidak valid.');
+  if(!['ADMIN','PIMPINAN'].includes(userRole))throw Error('Anda tidak memiliki izin menghapus percakapan.');
 
-  // SATU JALUR PENGHAPUSAN UNTUK SETIAP ROLE.
-  // ADMIN  -> Edge Function khusus admin-delete-chat.
-  // PIMPINAN -> chat-api bawaan untuk menghapus percakapannya sendiri.
-  if(userRole==='ADMIN'){
-    return postApi(ADMIN_DELETE_CHAT_API,{
-      function:'deleteChat',
-      adminUsername:user,
-      conversationId:id,
-      args:[user,id]
-    });
-  }
-
-  if(userRole==='PIMPINAN'){
-    return postApi(CHAT_API,{
-      function:'hapusPesanPimpinan',
-      args:[user,id]
-    });
-  }
-
-  throw Error('Anda tidak memiliki izin menghapus percakapan.');
+  // SATU JALUR SAJA: semua penghapusan chat lewat chat-api.
+  return postApi(CHAT_API,{
+    function:'hapusPesanPimpinan',
+    args:[user,id]
+  });
 }
 
 function togglePassword(id,btn){
