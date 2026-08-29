@@ -2935,7 +2935,9 @@ function renderChatList(){
     wrap.innerHTML='<div class="empty">Belum ada percakapan pimpinan.</div>';
     return;
   }
-  const isAdmin=String(state.user?.role||'').toUpperCase()==='ADMIN';
+  const chatRole=String(state.user?.role||'').toUpperCase();
+  const isAdmin=chatRole==='ADMIN';
+  const canDeleteChat=['ADMIN','PIMPINAN'].includes(chatRole);
   wrap.innerHTML=chatState.threads.map(t=>{
     const unread=Number(t.unread||t.unreadCount||0)||0;
     const counterpart=t.lawanNama||t.lawan||t.counterpart||'Percakapan';
