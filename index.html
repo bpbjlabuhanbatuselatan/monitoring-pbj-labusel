@@ -2159,10 +2159,10 @@ h1,h2,h3,h4,
     </div>
   </div>
 </section>
-<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
-<section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
+<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoringDebounced()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
+<section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReportsDebounced()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
 <section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
-<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Tidak Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="TIDAK DITERUSKAN">Tidak Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
+<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Tidak Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagementDebounced()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="TIDAK DITERUSKAN">Tidak Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
 <section id="aktivitas" class="page">
   <div class="heading">
     <div>
@@ -2946,6 +2946,14 @@ function getMonitoringLatestMap(){
   for(const p of state.projects)map[p.kodeRup]=monitorLatest(p);
   return map;
 }
+function getReportCountMap(){
+  const map={};
+  for(const r of state.reports){
+    const k=String(r.kodeRup||'');
+    map[k]=(map[k]||0)+1;
+  }
+  return map;
+}
 function updateMonitorSortUI(){
   const sel=$('monitorSortSelect');
   if(sel){
@@ -2976,10 +2984,10 @@ function changeMonitoringSort(value){
   updateMonitorSortUI();
   renderMonitoring();
 }
-function getMonitoringSortValue(p, latest){
+function getMonitoringSortValue(p, latest, countMap){
   const l=latest[p.kodeRup];
   const pr=pct(l?.progres||0);
-  const reportCount=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
+  const reportCount=(countMap&&countMap[String(p.kodeRup||'')])||0;
   const time=monitorDateValue(l);
   return {l,pr,nilai:num(p.totalNilai),laporanCount:reportCount,time};
 }
@@ -2989,9 +2997,10 @@ function renderMonitoring(){
     [p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q)
   );
   const latest=getMonitoringLatestMap();
+  const countMap=getReportCountMap();
 
   list.sort((a,b)=>{
-    const A=getMonitoringSortValue(a,latest), B=getMonitoringSortValue(b,latest);
+    const A=getMonitoringSortValue(a,latest,countMap), B=getMonitoringSortValue(b,latest,countMap);
 
     if(monitorSort.key==='updatedAt'){
       const noA=A.time===0,noB=B.time===0;
@@ -3019,7 +3028,7 @@ function renderMonitoring(){
 
   $('mb').innerHTML=list.map(p=>{
     const l=latest[p.kodeRup],pr=pct(l?.progres||0);
-    const jumlah=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
+    const jumlah=countMap[String(p.kodeRup||'')]||0;
     return '<tr><td>'+esc(p.kodeRup)+'</td><td><b>'+esc(p.namaPaket)+'</b><small class="monitor-last-update">'+
       (l?'Update: '+esc(l.tanggal||l.tanggalLaporan||'-')+' · '+esc(l.dibuatOleh||'-'):'Belum pernah update')+
       '</small></td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+
@@ -3033,7 +3042,23 @@ function reportStatus(r){
   return raw==='BELUM DITERUSKAN'?'TIDAK DITERUSKAN':raw;
 }
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
-function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" onclick="hapusLaporanManajemen('+JSON.stringify(r).replace(/"/g,'&quot;')+')">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
+function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" data-laporan-id="'+esc(r.idLaporan)+'" onclick="hapusLaporanManajemenById(this.dataset.laporanId)">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
+
+function debounce(fn,wait){
+  let t;
+  return function(...args){
+    clearTimeout(t);
+    t=setTimeout(()=>fn.apply(this,args),wait);
+  };
+}
+const renderMonitoringDebounced=debounce(renderMonitoring,200);
+const renderReportsDebounced=debounce(renderReports,200);
+const renderManagementDebounced=debounce(renderManagement,200);
+function hapusLaporanManajemenById(id){
+  const r=state.reports.find(x=>String(x.idLaporan)===String(id));
+  if(!r)return;
+  hapusLaporanManajemen(r);
+}
 
 
 async function hapusLaporanManajemen(laporan){
