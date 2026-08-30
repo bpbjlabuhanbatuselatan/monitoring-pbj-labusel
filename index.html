@@ -1730,56 +1730,6 @@ html,body,button,input,select,textarea{
   .chat-compose .btn{min-width:70px}
   .chat-new-box{border-radius:18px;padding:15px}
 }
-
-
-/* ===== DASHBOARD LAPORAN: 20 TERBARU + 10 NILAI TERTINGGI ===== */
-.dashboard-report-section{margin-top:14px}
-.dashboard-section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:0 2px 10px}
-.dashboard-section-head h3{margin:0;font-size:16px;font-weight:950}
-.dashboard-section-head p{margin:3px 0 0;color:var(--muted);font-size:9px;font-weight:750}
-.dashboard-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.dashboard-report-card{
-  position:relative;display:grid;grid-template-columns:82px minmax(0,1fr);gap:11px;
-  width:100%;padding:10px;border:1px solid var(--line);border-radius:13px;
-  background:var(--card);color:var(--text);box-shadow:var(--shadow);text-align:left;cursor:pointer;
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
-}
-.dashboard-report-card:hover{transform:translateY(-2px);border-color:#8bbbe0;box-shadow:0 12px 28px rgba(16,42,67,.10)}
-.dashboard-report-thumb{
-  width:82px;height:82px;border-radius:10px;overflow:hidden;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--lightblue),#f5f8fb);border:1px solid var(--line);
-}
-.dashboard-report-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.dashboard-report-thumb .thumb-placeholder{font-size:25px;opacity:.72}
-.dashboard-report-main{min-width:0}
-.dashboard-report-main .report-title{
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-  font-size:11px;font-weight:950;line-height:1.28;color:var(--text);margin-bottom:5px;
-}
-.dashboard-report-meta{display:flex;flex-wrap:wrap;gap:4px 7px;color:var(--muted);font-size:8px;font-weight:800}
-.dashboard-report-meta span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.dashboard-report-progress{margin-top:8px}
-.dashboard-report-progress-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:8px;color:var(--muted);font-weight:850}
-.dashboard-report-progress-row b{color:var(--blue);font-size:10px;font-weight:950}
-.dashboard-report-bar{height:5px;background:#e9eef3;border-radius:99px;overflow:hidden;margin-top:4px}
-.dashboard-report-bar i{display:block;height:100%;background:#1769aa;border-radius:99px}
-.dashboard-report-foot{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:8px;color:var(--muted);font-weight:800}
-.dashboard-report-foot span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dashboard-report-foot .detail-link{color:var(--blue);font-weight:950;white-space:nowrap}
-[data-theme="dark"] .dashboard-report-card{background:var(--card);border-color:var(--line)}
-[data-theme="dark"] .dashboard-report-card:hover{border-color:#3a6b86;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-[data-theme="dark"] .dashboard-report-thumb{background:linear-gradient(135deg,#162b3b,#111e29);border-color:#2a4658}
-[data-theme="dark"] .dashboard-report-bar{background:#263b4b}
-[data-theme="dark"] .dashboard-report-bar i{background:#5eb7ea}
-@media(max-width:650px){
-  .dashboard-report-grid{grid-template-columns:1fr;gap:8px}
-  .dashboard-report-card{grid-template-columns:68px minmax(0,1fr);padding:9px;gap:9px}
-  .dashboard-report-thumb{width:68px;height:68px}
-  .dashboard-section-head h3{font-size:14px}
-  .dashboard-section-head p{font-size:8px}
-  .dashboard-report-main .report-title{font-size:10px}
-}
-
 </style>
 
 <style id="simon-ui-refinement">
@@ -2541,7 +2491,37 @@ h1,h2,h3,h4,
 }
 </style>
 
-</head>
+<style>
+/* ===== DASHBOARD ONLY ===== */
+.dashboard-report-section{margin-top:15px}
+.dashboard-section-head{margin:0 2px 9px}
+.dashboard-section-head h3{margin:0;font-size:16px;font-weight:950}
+.dashboard-section-head p{margin:3px 0 0;color:var(--muted);font-size:9px;font-weight:750}
+.dashboard-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dashboard-report-card{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;align-items:stretch;width:100%;padding:9px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);text-align:left;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.dashboard-report-card:hover{transform:translateY(-2px);border-color:#8bbbe0;box-shadow:0 12px 26px rgba(16,42,67,.10)}
+.dashboard-report-thumb{width:78px;height:78px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:var(--lightblue);border:1px solid var(--line)}
+.dashboard-report-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.dashboard-report-thumb .thumb-placeholder{font-size:25px;opacity:.7}
+.dashboard-report-main{min-width:0}
+.dashboard-report-title{font-size:11px;font-weight:950;line-height:1.28;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.dashboard-report-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
+.dashboard-report-meta span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.dashboard-report-progress{margin-top:8px}
+.dashboard-report-progress-row{display:flex;justify-content:space-between;gap:7px;color:var(--muted);font-size:8px;font-weight:850}
+.dashboard-report-progress-row b{color:var(--blue);font-size:10px;font-weight:950}
+.dashboard-report-bar{height:5px;background:#e8edf2;border-radius:99px;overflow:hidden;margin-top:4px}
+.dashboard-report-bar i{display:block;height:100%;background:#1769aa;border-radius:99px}
+.dashboard-report-foot{display:flex;justify-content:space-between;gap:8px;margin-top:7px;color:var(--muted);font-size:8px;font-weight:800}
+.dashboard-report-foot span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dashboard-report-foot .dashboard-detail-link{color:var(--blue);font-weight:950;white-space:nowrap}
+[data-theme="dark"] .dashboard-report-card{background:var(--card);border-color:var(--line)}
+[data-theme="dark"] .dashboard-report-card:hover{border-color:#3a6b86;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+[data-theme="dark"] .dashboard-report-thumb{background:linear-gradient(135deg,#162b3b,#111e29);border-color:#2a4658}
+[data-theme="dark"] .dashboard-report-bar{background:#263b4b}
+[data-theme="dark"] .dashboard-report-bar i{background:#5eb7ea}
+@media(max-width:650px){.dashboard-report-grid{grid-template-columns:1fr;gap:8px}.dashboard-report-card{grid-template-columns:66px minmax(0,1fr);padding:8px;gap:9px}.dashboard-report-thumb{width:66px;height:66px}.dashboard-section-head h3{font-size:14px}.dashboard-section-head p{font-size:8px}.dashboard-report-title{font-size:10px}}
+</style></head>
 <body>
 
 <script>
@@ -2615,18 +2595,7 @@ h1,h2,h3,h4,
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
   <div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div>
 </div></header>
-<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="dashboard-report-section">
-  <div class="dashboard-section-head">
-    <div><h3>20 Laporan Terakhir</h3><p>Menampilkan laporan terbaru berdasarkan tanggal laporan.</p></div>
-  </div>
-  <div id="latestReports" class="dashboard-report-grid"></div>
-</div>
-<div class="dashboard-report-section">
-  <div class="dashboard-section-head">
-    <div><h3>10 Paket Nilai Tertinggi</h3><p>Ringkasan paket dengan nilai anggaran tertinggi.</p></div>
-  </div>
-  <div id="top10" class="dashboard-report-grid"></div>
-</div></section>
+<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="dashboard-report-section"><div class="dashboard-section-head"><div><h3>20 Laporan Terakhir</h3><p>Laporan terbaru yang masuk ke sistem.</p></div></div><div id="latestReports" class="dashboard-report-grid"></div></div><div class="dashboard-report-section"><div class="dashboard-section-head"><div><h3>10 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div><div id="top10" class="dashboard-report-grid"></div></div></section>
 <section id="analitik" class="page">
   <div class="heading">
     <div>
@@ -3384,44 +3353,36 @@ function setSide(open){
 function toggleSide(){setSide()}
 function closeSide(){setSide(false)}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
-function latestReportsSorted(){
-  return [...(state.reports||[])]
-    .map(r=>({r,date:parseMonitorDate(r.tanggal||r.createdAt||r.updatedAt||r.updateTerakhir)}))
-    .sort((a,b)=>b.date-a.date)
-    .slice(0,20)
-    .map(x=>x.r);
+function dashboardPhotoUrl(report){
+  const direct=report?.thumbnail||report?.thumbnailFoto||report?.fotoUrl||report?.foto;
+  if(typeof direct==='string')return direct;
+  if(direct&&typeof direct==='object')return direct.thumbnail||direct.linkFoto||direct.url||'';
+  return '';
 }
-function getReportPhotoUrl(r){
-  const arr=Array.isArray(r?.foto)?r.foto:[];
-  const f=arr[0];
-  if(typeof f==='string')return f;
-  if(f&&typeof f==='object')return f.thumbnail||f.linkFoto||f.url||f.src||'';
-  return r?.thumbnailFoto||r?.fotoUrl||r?.fotoUrl1||'';
+function dashboardDate(report){
+  return parseMonitorDate(report?.tanggal||report?.createdAt||report?.updatedAt||report?.updateTerakhir||'');
 }
-function reportRup(r){return String(r?.kodeRup||r?.rup||r?.kode_rup||'').trim()}
-function openDashboardDetail(rup){
-  const id=String(rup||'').trim();
-  if(id && typeof openDetail==='function')openDetail(id);
-}
-function reportCardHtml(r,opts={}){
-  const rup=reportRup(r);
-  const title=r?.namaPaket||'Paket tanpa nama';
-  const progress=pct(r?.progres??r?.progressFisik??0);
-  const photo=getReportPhotoUrl(r);
-  const minggu=r?.mingguKe??'-';
-  const tanggal=r?.tanggal||r?.createdAt||'-';
-  const dibuat=r?.dibuatOleh||r?.username||'-';
-  const lokasi=r?.lokasi||'-';
-  const photoHtml=photo
-    ? '<img loading="lazy" decoding="async" src="'+esc(photo)+'" alt="Foto laporan" onerror="this.style.display=&quot;none&quot;;this.nextElementSibling.style.display=&quot;grid&quot;"><span class="thumb-placeholder" style="display:none">📷</span>'
+function makeDashboardCard(report){
+  const rup=String(report?.kodeRup||'').trim();
+  const nama=report?.namaPaket||'Paket tanpa nama';
+  const progres=pct(report?.progres||0);
+  const minggu=report?.mingguKe??'-';
+  const tanggal=report?.tanggal||'-';
+  const pembuat=report?.dibuatOleh||'-';
+  const lokasi=report?.lokasi||'';
+  const photo=dashboardPhotoUrl(report);
+
+  const img=photo
+    ? '<img loading="lazy" decoding="async" src="'+esc(photo)+'" alt="Foto laporan"><span class="thumb-placeholder" style="display:none">📷</span>'
     : '<span class="thumb-placeholder">📷</span>';
-  return '<button type="button" class="dashboard-report-card" onclick="openDashboardDetail('+JSON.stringify(rup)+')" aria-label="Buka detail">'+
-    '<div class="dashboard-report-thumb">'+photoHtml+'</div>'+
+
+  return '<button type="button" class="dashboard-report-card" data-dashboard-rup="'+esc(rup)+'" aria-label="Lihat detail paket">'+
+    '<div class="dashboard-report-thumb">'+img+'</div>'+
     '<div class="dashboard-report-main">'+
-      '<div class="report-title">'+esc(title)+'</div>'+
+      '<div class="dashboard-report-title">'+esc(nama)+'</div>'+
       '<div class="dashboard-report-meta"><span>RUP '+esc(rup||'-')+'</span><span>Minggu '+esc(minggu)+'</span></div>'+
-      '<div class="dashboard-report-progress"><div class="dashboard-report-progress-row"><span>Progress Fisik</span><b>'+progress.toFixed(1)+'%</b></div><div class="dashboard-report-bar"><i style="width:'+progress+'%"></i></div></div>'+
-      '<div class="dashboard-report-foot"><span>'+esc(dibuat)+' · '+esc(lokasi)+'</span><span class="detail-link">Detail →</span></div>'+
+      '<div class="dashboard-report-progress"><div class="dashboard-report-progress-row"><span>Progress Fisik</span><b>'+progres.toFixed(1)+'%</b></div><div class="dashboard-report-bar"><i style="width:'+Math.max(0,Math.min(100,progres))+'%"></i></div></div>'+
+      '<div class="dashboard-report-foot"><span>'+esc(pembuat)+(lokasi?' · '+esc(lokasi):'')+'</span><span class="dashboard-detail-link">Detail →</span></div>'+
     '</div>'+
   '</button>';
 }
@@ -3434,22 +3395,67 @@ function renderDashboard(){
   $('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;
   $('sa').textContent=avg.toFixed(1)+'%';
 
-  const latestReports=latestReportsSorted();
-  $('latestReports').innerHTML=latestReports.map(r=>reportCardHtml(r)).join('')||
-    '<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
+  const reports=[...(state.reports||[])].sort((a,b)=>dashboardDate(b)-dashboardDate(a)).slice(0,20);
+  const latestWrap=$('latestReports');
+  if(latestWrap)latestWrap.innerHTML=reports.map(makeDashboardCard).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
 
-  const top=[...state.projects]
-    .sort((a,b)=>num(b.totalNilai)-num(a.totalNilai))
-    .slice(0,10);
-
-  $('top10').innerHTML=top.map(p=>{
+  const top=[...(state.projects||[])].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);
+  const topWrap=$('top10');
+  if(topWrap)topWrap.innerHTML=top.map(p=>{
     const l=latest[p.kodeRup];
-    const r=l?.report||l?.laporan||null;
-    const data=r?Object.assign({},r,{namaPaket:r.namaPaket||p.namaPaket,kodeRup:p.kodeRup}):{
-      namaPaket:p.namaPaket,kodeRup:p.kodeRup,progres:l?.progres||0
-    };
-    return reportCardHtml(data,{topValue:true});
+    const r=l?.report||{};
+    return makeDashboardCard({
+      ...r,
+      kodeRup:p.kodeRup,
+      namaPaket:r.namaPaket||p.namaPaket,
+      progres:l?.progres||0,
+      mingguKe:l?.w||r.mingguKe||'-',
+      dibuatOleh:r.dibuatOleh||'Belum ada laporan',
+      tanggal:r.tanggal||'',
+      lokasi:r.lokasi||'',
+      totalNilai:p.totalNilai
+    });
   }).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada data paket.</div>';
+
+  // Klik card menggunakan event delegation agar tidak mengganggu openDetail() yang sudah ada.
+  if(!window.__dashboardCardClickBound){
+    window.__dashboardCardClickBound=true;
+    document.addEventListener('click',function(e){
+      const card=e.target.closest('#dashboard .dashboard-report-card');
+      if(!card)return;
+      const rup=card.getAttribute('data-dashboard-rup')||'';
+      if(rup && typeof openDetail==='function')openDetail(rup);
+    });
+  }
+
+  // Foto tidak diambil 20x sekaligus. Hanya card yang masuk viewport yang meminta detail paket.
+  if('IntersectionObserver' in window){
+    const cards=[...document.querySelectorAll('#dashboard .dashboard-report-card')].filter(c=>!c.dataset.photoRequested);
+    const obs=new IntersectionObserver(async entries=>{
+      for(const entry of entries){
+        if(!entry.isIntersecting)continue;
+        const card=entry.target;
+        obs.unobserve(card);
+        card.dataset.photoRequested='1';
+        const rup=card.getAttribute('data-dashboard-rup')||'';
+        if(!rup)continue;
+        try{
+          const d=await call('getPimpinanProjectDetail',[rup]);
+          const detail=d?.data??d;
+          const laporan=Array.isArray(detail?.laporan)?detail.laporan:[];
+          const latestLap=laporan.length?laporan[laporan.length-1]:null;
+          const fotos=Array.isArray(latestLap?.foto)?latestLap.foto:(Array.isArray(detail?.foto)?detail.foto:[]);
+          const f=fotos[0];
+          const url=typeof f==='string'?f:(f?.thumbnail||f?.linkFoto||f?.url||'');
+          if(url){
+            const box=card.querySelector('.dashboard-report-thumb');
+            if(box)box.innerHTML='<img loading="lazy" decoding="async" src="'+esc(url)+'" alt="Foto laporan">';
+          }
+        }catch(_){}
+      }
+    },{rootMargin:'250px'});
+    cards.forEach(c=>obs.observe(c));
+  }
 }
 function parseMonitorDate(v){
   if(!v)return 0;
