@@ -1732,137 +1732,6 @@ html,body,button,input,select,textarea{
 }
 </style>
 
-<style id="simon-ui-refinement">
-/* ===== UI REFINEMENT: typography, spacing, contrast ===== */
-html,body,button,input,select,textarea{
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-}
-body{font-weight:400;letter-spacing:-.005em}
-button,input,select,textarea{font-weight:400}
-h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
-  font-weight:700;
-  letter-spacing:-.015em;
-}
-.heading h2{font-size:24px;line-height:1.2}
-.heading p,.brand p,.note,.topuser small{font-weight:400}
-.nav button{font-weight:500}
-.sidebrand b,.top>b,.topuser b{font-weight:650}
-.btn{font-weight:500}
-.btn.primary,.primary,.logout{font-weight:650}
-.field label,.table th,.stat span,.manage-stat span{
-  font-weight:600;
-}
-.field input,.field select,.field textarea,.search,.manage-filter{
-  font-weight:400;
-}
-.stat b,.manage-stat b,.top10-item .value,.detail-progress{
-  font-weight:700;
-}
-.table td{font-weight:400}
-.table td:first-child{font-weight:600}
-.badge{font-weight:600}
-.listitem b{font-weight:600}
-.listitem small{font-weight:400}
-.top10-item .name{font-weight:600}
-.top10-item .meta{font-weight:400}
-.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{
-  font-weight:600;
-}
-.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{
-  font-weight:400;
-}
-.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{
-  font-weight:600;
-}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{
-  font-weight:400;
-}
-/* Sedikit lebih lega, tanpa mengubah struktur/kolom tabel */
-.table th,.table td{padding:10px 8px}
-.table th{line-height:1.25}
-.table td{line-height:1.45}
-.listitem{padding:11px 0}
-/* Dark mode yang lebih ramah mata */
-[data-theme="dark"]{
-  --nav:#12324b;
-  --blue:#69b7ec;
-  --lightblue:#29465d;
-  --zebra:#223c50;
-  --bg:#172532;
-  --card:#213443;
-  --text:#edf5fa;
-  --muted:#b7c5cf;
-  --line:#385164;
-  --ok:#70d6a3;
-  --warn:#f2c46b;
-  --danger:#ff938a;
-  --shadow:0 10px 28px rgba(0,0,0,.18);
-}
-[data-theme="dark"] .login{
-  background:linear-gradient(135deg,#132c40,#1a2e3d);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card);
-  border-color:var(--line);
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1a2b39;
-  border-color:#40596b;
-  color:var(--text);
-}
-[data-theme="dark"] .table th{background:#29465d;color:#d8e6ee}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#213443}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#29465d}
-[data-theme="dark"] .table td{border-color:#355064;color:var(--text)}
-[data-theme="dark"] .badge{background:#314757;color:#dae6ec}
-[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
-  background:#1d303e;color:var(--text);border-color:var(--line)
-}
-[data-theme="dark"] .theme-toggle{
-  background:#294052;color:#edf5fa;border-color:#456174
-}
-[data-theme="dark"] .x{background:#2a4050;color:#edf5fa}
-[data-theme="dark"] .modal{background:rgba(10,22,32,.58)}
-/* Toast modern */
-.simon-toast-wrap{
-  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
-  display:flex;flex-direction:column;gap:8px;align-items:center;
-  width:min(92vw,420px);z-index:9999;pointer-events:none;
-  opacity:0;transition:opacity .18s ease,transform .18s ease;
-}
-.simon-toast-wrap.show{opacity:1;transform:translate(-50%,0)}
-.simon-toast{
-  width:100%;display:flex;align-items:flex-start;gap:10px;
-  padding:12px 14px;border:1px solid var(--line);border-radius:13px;
-  background:var(--card);color:var(--text);
-  box-shadow:0 12px 30px rgba(16,42,67,.16);
-  font-size:12px;font-weight:450;line-height:1.45;
-}
-.simon-toast-dot{
-  width:9px;height:9px;border-radius:50%;margin-top:5px;
-  background:var(--blue);flex:0 0 9px;
-}
-.simon-toast.success .simon-toast-dot{background:var(--ok)}
-.simon-toast.error .simon-toast-dot{background:var(--danger)}
-.simon-toast.warn .simon-toast-dot{background:var(--warn)}
-.simon-toast b{font-weight:650}
-@media(max-width:520px){
-  .heading h2{font-size:21px}
-  .heading p{font-size:11px}
-  .table th,.table td{padding:8px 8px}
-  .table td{line-height:1.4}
-  .simon-toast-wrap{bottom:14px}
-  .simon-toast{font-size:11px;padding:11px 12px}
-}
-</style>
 
 <style id="simon-side-ui">
 @media(max-width:900px){
@@ -1886,436 +1755,8 @@ h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
 }
 </style>
 
-<style id="simon-final-refinement">
-/* =========================================================
-   Si RAJA MONITOR — FINAL UI / PERFORMANCE REFINEMENT
-   Only presentation + lightweight rendering behavior.
-   No business logic, API endpoints, IDs, or data model changes.
-   ========================================================= */
-
-/* 1) Stable native font stack: no remote font request. */
-html,body,button,input,select,textarea{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
-  font-synthesis:none!important;
-  text-rendering:optimizeLegibility;
-}
-
-/* 2) Clear typographic hierarchy */
-body{font-weight:400;letter-spacing:-.003em}
-button,input,select,textarea{font-weight:400}
-h1,h2,h3,h4{font-weight:700}
-.brand h1,.heading h2,.modalhead h3{font-weight:700}
-.nav button{font-weight:500}
-.sidebrand b,.top>b,.topuser b{font-weight:600}
-.btn,.tabs button{font-weight:500}
-.btn.primary,.primary,.logout{font-weight:600}
-.field label,.table th,.stat span,.manage-stat span{font-weight:600}
-.table td{font-weight:400}
-.table td:first-child{font-weight:600}
-.badge{font-weight:600}
-.listitem b,.top10-item .name{font-weight:600}
-.listitem small,.top10-item .meta{font-weight:400}
-.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{font-weight:600}
-.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{font-weight:400}
-.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{font-weight:600}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-weight:400}
-
-/* 3) Slightly larger small text for readability */
-.brand p{font-size:12px}
-.field label{font-size:11px}
-.heading p{font-size:11px}
-.note{font-size:10px}
-.table th{font-size:10px}
-.table td{font-size:12px}
-.listitem small,.top10-item .meta{font-size:10px}
-.monitor-last-update{font-size:9px}
-.analytics-card-head span,.analytics-note{font-size:10px}
-.analytics-bar-row,.district-meta{font-size:10px}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-size:9px}
-
-/* 4) More breathing room without changing table columns/width */
-.table th,.table td{padding:10px 9px}
-.table th{line-height:1.25}
-.table td{line-height:1.5}
-
-/* 5) Login fields slightly more comfortable */
-.field{margin:11px 0}
-.field input,.field select,.field textarea{min-height:42px}
-
-/* 6) Remove unnecessary visual heaviness */
-.stat,.card,.top{box-shadow:0 5px 18px rgba(16,42,67,.055)}
-.modalbox{box-shadow:0 18px 45px rgba(16,42,67,.13)}
-@media(max-width:520px){
-  .stat,.card,.top{box-shadow:0 4px 14px rgba(16,42,67,.045)}
-}
-
-/* 7) Dark mode: readable but not pitch black */
-[data-theme="dark"]{
-  --nav:#173a55;
-  --blue:#73bde9;
-  --lightblue:#2d4b61;
-  --zebra:#254155;
-  --bg:#1a2a37;
-  --card:#243744;
-  --text:#eef5f9;
-  --muted:#becbd4;
-  --line:#3a5263;
-  --ok:#74d9a4;
-  --warn:#f3c66f;
-  --danger:#ff978d;
-  --shadow:0 7px 18px rgba(0,0,0,.16);
-}
-[data-theme="dark"] .login{
-  background:linear-gradient(135deg,#173447,#223948);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card);
-  color:var(--text);
-  border-color:var(--line);
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1d303d;
-  color:var(--text);
-  border-color:#456071;
-}
-[data-theme="dark"] .table th{
-  background:#2d4b61;
-  color:#e0ebf1;
-}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243744}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#2b4659}
-[data-theme="dark"] .table tbody tr:hover{background:#35566d}
-[data-theme="dark"] .table td{color:#eef5f9;border-color:#3a5364}
-[data-theme="dark"] .badge{background:#365064;color:#e2ebf0}
-[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
-  background:#203542;color:var(--text);border-color:var(--line)
-}
-[data-theme="dark"] .suggestion:hover{background:#2c4b60}
-[data-theme="dark"] .x{background:#314958;color:#eef5f9}
-[data-theme="dark"] .theme-toggle{background:#2d4b60;color:#eff7fb;border-color:#486375}
-[data-theme="dark"] .modal{background:rgba(10,24,34,.58)}
-[data-theme="dark"] .top10-list .top10-item{
-  background:linear-gradient(145deg,#294658 0%,#243b49 100%);
-  border-color:#456274;
-}
-[data-theme="dark"] .top10-item .name{color:#eff6fa}
-[data-theme="dark"] .top10-item .meta{color:#becbd4}
-[data-theme="dark"] .meta{background:#29404f;border-color:#456071}
-[data-theme="dark"] .adendum-box{background:#29404f;border-color:#4b6678}
-[data-theme="dark"] .switchrow button{background:#233744;color:#edf5f9;border-color:#405968}
-[data-theme="dark"] .switchrow button.active{background:#2d526a;border-color:#5a91b3}
-[data-theme="dark"] .detail-hero{background:linear-gradient(135deg,#28465a 0%,#233a48 52%,#2b4d62 100%);border-color:#4a687a}
-[data-theme="dark"] .detail-report-card{background:linear-gradient(145deg,#273d4a 0%,#243744 100%);border-color:#456071}
-[data-theme="dark"] .detail-report-card:nth-child(even){background:linear-gradient(145deg,#2d4a5c 0%,#253b49 100%)}
-[data-theme="dark"] .detail-work{background:#29404f;border-color:#456071;color:#d5e1e7}
-[data-theme="dark"] .detail-empty{background:#263d4b;color:#b9cad5;border-color:#4a6677}
-[data-theme="dark"] .bar{background:#385365}
-[data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#2b4657,#243744)}
-[data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#2a4455,#243744)}
-[data-theme="dark"] .analytics-event-icon,.chat-avatar{background:#31536a;color:#8fd2f4}
-
-/* 8) Bigger, clearer success/error toast */
-.simon-toast-wrap{
-  width:min(92vw,520px);
-  bottom:24px;
-  transform:translate(-50%,18px);
-}
-.simon-toast{
-  gap:12px;
-  padding:16px 17px;
-  border-radius:16px;
-  min-height:58px;
-  font-size:14px;
-  line-height:1.5;
-  font-weight:500;
-  border-width:1px;
-  box-shadow:0 14px 34px rgba(16,42,67,.20);
-}
-.simon-toast-dot{
-  width:11px;height:11px;flex:0 0 11px;margin-top:6px
-}
-.simon-toast b{font-weight:700}
-
-/* 9) Explicit success emphasis for save/report success */
-.simon-toast.success{
-  border-color:rgba(8,116,67,.28);
-}
-.simon-toast.success::before{
-  content:'✓';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--ok);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-.simon-toast.error{
-  border-color:rgba(180,35,24,.28);
-}
-.simon-toast.error::before{
-  content:'!';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--danger);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-.simon-toast.warn::before{
-  content:'i';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--warn);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-@media(max-width:520px){
-  .table th,.table td{padding:9px 8px}
-  .table td{font-size:11px;line-height:1.45}
-  .simon-toast-wrap{width:min(94vw,520px);bottom:15px}
-  .simon-toast{font-size:13px;padding:14px 15px;min-height:54px}
-}
-
-/* 10) Password controls kept prominent */
-.password-eye{font-weight:600!important}
-.forgot-password-btn{font-weight:500!important;font-size:11px}
-
-/* 11) Mobile sidebar should remain smooth and cheap to composite */
-@media(max-width:900px){
-  .sidebar{
-    will-change:transform;
-    backface-visibility:hidden;
-  }
-  .mobile-side-overlay{
-    contain:paint;
-  }
-}
-
-/* 12) Accessibility-friendly focus */
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--blue);
-  outline-offset:2px;
-}
-
-/* 13) Disable costly motion when user/device prefers reduced motion */
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
-}
-
-/* 14) Keep inline report-success message visible and readable when used */
-.report-save-msg{
-  font-size:12px!important;
-  line-height:1.45!important;
-  font-weight:500!important;
-  padding:10px 12px!important;
-}
-[data-theme="dark"] .report-save-msg{
-  background:#314b55!important;
-  color:#bff0d2!important;
-  border-color:#4d706f!important;
-}
-</style>
 
 
-<style id="simon-sf-lite">
-/* Si RAJA MONITOR — SF-style native typography, zero remote font loading.
-   Presentation only: does not alter application logic, APIs, IDs, or data. */
-
-html,body,button,input,select,textarea{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;
-  font-synthesis:none!important;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  text-rendering:optimizeLegibility;
-}
-
-body,
-button,input,select,textarea{
-  font-weight:400!important;
-  letter-spacing:-.003em;
-}
-
-/* Apple-like hierarchy */
-h1,h2,h3,h4,
-.brand h1,.heading h2,.modalhead h3{
-  font-weight:700!important;
-  letter-spacing:-.015em;
-}
-.sidebrand b,
-.top>b,.topuser b{
-  font-weight:600!important;
-}
-.nav button,
-.btn,.tabs button,
-.theme-toggle,
-.forgot-password-btn{
-  font-weight:500!important;
-}
-.primary,.btn.primary,.logout{
-  font-weight:600!important;
-}
-.field label,
-.table th,
-.stat span,
-.manage-stat span{
-  font-weight:600!important;
-}
-.table td{
-  font-weight:400!important;
-}
-.table td:first-child,
-.badge,
-.listitem b,
-.top10-item .name,
-.analytics-card-head h3,
-.analytics-event-main b,
-.chat-item-main b,
-.chat-thread-head b{
-  font-weight:600!important;
-}
-.listitem small,
-.top10-item .meta,
-.heading p,
-.topuser small,
-.brand p,
-.analytics-card-head span,
-.analytics-note,
-.chat-item-main small,
-.chat-item-time,
-.chat-thread-head small,
-.chat-context,
-.chat-hint{
-  font-weight:400!important;
-}
-
-/* Make small text readable without making the interface bulky */
-.table th{font-size:10px!important}
-.table td{font-size:11.5px!important;line-height:1.45!important}
-.listitem small,.top10-item .meta{font-size:10px!important}
-.heading p,.topuser small{font-size:10.5px!important}
-.monitor-last-update{font-size:9px!important}
-.analytics-card-head span,.analytics-note{font-size:9.5px!important}
-.chat-item-main small,.chat-item-time,.chat-thread-head small{font-size:9px!important}
-
-/* More breathing room, but preserve table dimensions/columns */
-.table th,.table td{padding:10px 9px!important}
-
-/* Keep controls comfortable */
-.field input,.field select,.field textarea{font-size:12px!important}
-
-/* Dark mode remains readable and not pitch black.
-   This is intentionally a modest tint shift, not a redesign. */
-[data-theme="dark"]{
-  --nav:#17384f;
-  --blue:#74bee9;
-  --lightblue:#2d4b60;
-  --zebra:#263f51;
-  --bg:#1b2a35;
-  --card:#243640;
-  --text:#eef4f7;
-  --muted:#becbd3;
-  --line:#3b5261;
-  --ok:#75d9a5;
-  --warn:#f1c66e;
-  --danger:#ff958c;
-  --shadow:0 6px 18px rgba(0,0,0,.15);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card)!important;
-  color:var(--text)!important;
-  border-color:var(--line)!important;
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1e303b!important;
-  color:var(--text)!important;
-  border-color:#486170!important;
-}
-[data-theme="dark"] .table th{
-  background:#2d4b60!important;
-  color:#e0e9ee!important;
-  border-color:#456071!important;
-}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243640!important}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#2a4556!important}
-[data-theme="dark"] .table tbody tr:hover{background:#35576b!important}
-[data-theme="dark"] .table td{color:#eef4f7!important;border-color:#3b5565!important}
-[data-theme="dark"] .suggestions,
-[data-theme="dark"] .suggestion{
-  background:#213640!important;
-  color:var(--text)!important;
-  border-color:var(--line)!important;
-}
-[data-theme="dark"] .x{background:#304955!important;color:#eef4f7!important}
-[data-theme="dark"] .theme-toggle{background:#2d4b60!important;color:#eef7fa!important;border-color:#4b6473!important}
-[data-theme="dark"] .modal{background:rgba(8,21,30,.56)!important}
-[data-theme="dark"] .badge{background:#385163!important;color:#e4edf1!important}
-[data-theme="dark"] .meta,
-[data-theme="dark"] .adendum-box{
-  background:#2a414e!important;
-  border-color:#466171!important;
-}
-[data-theme="dark"] .switchrow button{
-  background:#243842!important;color:#edf4f7!important;border-color:#405866!important;
-}
-[data-theme="dark"] .switchrow button.active{
-  background:#2d5268!important;border-color:#5b90b0!important;color:#e6f4fb!important;
-}
-
-/* Lightweight shadows/transitions for mobile */
-.stat,.card,.top{box-shadow:0 5px 16px rgba(16,42,67,.05)!important}
-@media(max-width:520px){
-  .stat,.card,.top{box-shadow:0 4px 12px rgba(16,42,67,.04)!important}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
-}
-
-/* Larger, obvious save/success feedback */
-.simon-toast-wrap{
-  width:min(92vw,520px)!important;
-  bottom:18px!important;
-}
-.simon-toast{
-  min-height:58px!important;
-  padding:15px 17px!important;
-  border-radius:16px!important;
-  font-size:14px!important;
-  line-height:1.45!important;
-  font-weight:500!important;
-}
-.simon-toast b{font-weight:700!important}
-@media(max-width:520px){
-  .simon-toast{font-size:13px!important;padding:14px 15px!important}
-}
-
-/* Keep password visibility + reset controls clear */
-.password-eye{font-weight:500!important}
-.forgot-password-btn{font-weight:500!important}
-</style>
 
 
 <style id="simon-final-bold-native-fast">
@@ -2328,10 +1769,10 @@ html,body,button,input,select,textarea{
   text-rendering:optimizeLegibility;
 }
 body{
-  font-weight:400!important;
+  font-weight:600!important;
   letter-spacing:-.004em;
 }
-button,input,select,textarea{font-weight:400!important}
+button,input,select,textarea{font-weight:600!important}
 
 /* Bold only where it earns attention */
 h1,h2,h3,h4,
@@ -2347,27 +1788,27 @@ h1,h2,h3,h4,
   font-weight:700!important;
 }
 .nav button,.btn,.tabs button,.theme-toggle,.forgot-password-btn{
-  font-weight:600!important;
+  font-weight:650!important;
 }
 .primary,.btn.primary,.logout{
   font-weight:700!important;
 }
 .field label,.table th,.stat span,.manage-stat span{
-  font-weight:600!important;
+  font-weight:700!important;
 }
-.table td{font-weight:400!important}
+.table td{font-weight:600!important}
 .table td:first-child,
 .badge,.listitem b,.top10-item .name,
 .analytics-bar-row b,.district-name,.district-value,
 .chat-bubble .chat-author{
-  font-weight:600!important;
+  font-weight:700!important;
 }
 .listitem small,.top10-item .meta,
 .heading p,.topuser small,.brand p,
 .analytics-card-head span,.analytics-note,
 .chat-item-main small,.chat-item-time,.chat-thread-head small,
 .chat-context,.chat-hint{
-  font-weight:400!important;
+  font-weight:650!important;
 }
 
 /* Readable minimum sizes */
@@ -2747,8 +2188,8 @@ h1,h2,h3,h4,
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label id="rTerusLabel">Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label id="rTujuanLabel">Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
-<div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
+<div id="reportModal" class="modal" onclick="if(event.target===this)closeModal('reportModal')"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label id="rTerusLabel">Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label id="rTujuanLabel">Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="detailModal" class="modal" onclick="if(event.target===this)closeModal('detailModal')"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
 const state={monitorSort:'terbaru',user:null,projects:[],reports:[],verifications:[],users:[],adendum:'TIDAK',terus:'TIDAK',selected:null,reportPhotoUrls:[]};
@@ -3870,6 +3311,10 @@ function closeModal(id){
   if(id==='reportModal')clearReportPhotoState();
   if(el)el.classList.remove('show');
 }
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape')return;
+  document.querySelectorAll('.modal.show,.chat-new-modal.show,.reset-password-modal.show').forEach(m=>m.classList.remove('show'));
+});
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
 function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value='';const isPPBJ=String(state.user?.role||'').toUpperCase()==='PPBJ';if($('rTerusLabel'))$('rTerusLabel').textContent=isPPBJ?'Diteruskan ke PPK?':'Diteruskan ke PPBJ?';if($('rTujuanLabel'))$('rTujuanLabel').textContent=isPPBJ?'Pilih PPK Tujuan':'Pilih PPBJ Tujuan';}
 function previewPhotos(){
