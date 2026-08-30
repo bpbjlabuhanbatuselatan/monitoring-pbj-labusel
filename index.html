@@ -2492,21 +2492,19 @@ h1,h2,h3,h4,
 </style>
 
 <style>
-/* ===== DASHBOARD ONLY ===== */
 .dashboard-report-section{margin-top:15px}
 .dashboard-section-head{margin:0 2px 9px}
 .dashboard-section-head h3{margin:0;font-size:16px;font-weight:950}
 .dashboard-section-head p{margin:3px 0 0;color:var(--muted);font-size:9px;font-weight:750}
 .dashboard-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.dashboard-report-card{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;align-items:stretch;width:100%;padding:9px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);text-align:left;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.dashboard-report-card{display:grid;grid-template-columns:82px minmax(0,1fr);gap:11px;width:100%;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);text-align:left;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
 .dashboard-report-card:hover{transform:translateY(-2px);border-color:#8bbbe0;box-shadow:0 12px 26px rgba(16,42,67,.10)}
-.dashboard-report-thumb{width:78px;height:78px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:var(--lightblue);border:1px solid var(--line)}
+.dashboard-report-thumb{width:82px;height:82px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:var(--lightblue);border:1px solid var(--line)}
 .dashboard-report-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.dashboard-report-thumb .thumb-placeholder{font-size:25px;opacity:.7}
+.dashboard-report-thumb .thumb-placeholder{font-size:24px;opacity:.65}
 .dashboard-report-main{min-width:0}
 .dashboard-report-title{font-size:11px;font-weight:950;line-height:1.28;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .dashboard-report-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
-.dashboard-report-meta span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .dashboard-report-progress{margin-top:8px}
 .dashboard-report-progress-row{display:flex;justify-content:space-between;gap:7px;color:var(--muted);font-size:8px;font-weight:850}
 .dashboard-report-progress-row b{color:var(--blue);font-size:10px;font-weight:950}
@@ -2514,13 +2512,14 @@ h1,h2,h3,h4,
 .dashboard-report-bar i{display:block;height:100%;background:#1769aa;border-radius:99px}
 .dashboard-report-foot{display:flex;justify-content:space-between;gap:8px;margin-top:7px;color:var(--muted);font-size:8px;font-weight:800}
 .dashboard-report-foot span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dashboard-report-foot .dashboard-detail-link{color:var(--blue);font-weight:950;white-space:nowrap}
-[data-theme="dark"] .dashboard-report-card{background:var(--card);border-color:var(--line)}
-[data-theme="dark"] .dashboard-report-card:hover{border-color:#3a6b86;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-[data-theme="dark"] .dashboard-report-thumb{background:linear-gradient(135deg,#162b3b,#111e29);border-color:#2a4658}
-[data-theme="dark"] .dashboard-report-bar{background:#263b4b}
-[data-theme="dark"] .dashboard-report-bar i{background:#5eb7ea}
-@media(max-width:650px){.dashboard-report-grid{grid-template-columns:1fr;gap:8px}.dashboard-report-card{grid-template-columns:66px minmax(0,1fr);padding:8px;gap:9px}.dashboard-report-thumb{width:66px;height:66px}.dashboard-section-head h3{font-size:14px}.dashboard-section-head p{font-size:8px}.dashboard-report-title{font-size:10px}}
+.dashboard-detail-link{color:var(--blue);font-weight:950;white-space:nowrap}
+@media(max-width:650px){
+ .dashboard-report-grid{grid-template-columns:1fr;gap:8px}
+ .dashboard-report-card{grid-template-columns:68px minmax(0,1fr);padding:8px;gap:9px}
+ .dashboard-report-thumb{width:68px;height:68px}
+ .dashboard-section-head h3{font-size:14px}.dashboard-section-head p{font-size:8px}
+ .dashboard-report-title{font-size:10px}
+}
 </style></head>
 <body>
 
@@ -2595,7 +2594,23 @@ h1,h2,h3,h4,
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
   <div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div>
 </div></header>
-<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="dashboard-report-section"><div class="dashboard-section-head"><div><h3>20 Laporan Terakhir</h3><p>Laporan terbaru yang masuk ke sistem.</p></div></div><div id="latestReports" class="dashboard-report-grid"></div></div><div class="dashboard-report-section"><div class="dashboard-section-head"><div><h3>10 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div><div id="top10" class="dashboard-report-grid"></div></div></section>
+<section id="dashboard" class="page active">
+<div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div>
+<div class="stats">
+<div class="stat"><span>Total Paket</span><b id="sp">0</b></div>
+<div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div>
+<div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div>
+<div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div>
+</div>
+<div class="dashboard-report-section">
+<div class="dashboard-section-head"><div><h3>20 Laporan Terakhir</h3><p>Laporan terbaru yang masuk ke sistem.</p></div></div>
+<div id="latestReports" class="dashboard-report-grid"></div>
+</div>
+<div class="dashboard-report-section">
+<div class="dashboard-section-head"><div><h3>10 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div>
+<div id="top10" class="dashboard-report-grid"></div>
+</div>
+</section>
 <section id="analitik" class="page">
   <div class="heading">
     <div>
@@ -3353,38 +3368,62 @@ function setSide(open){
 function toggleSide(){setSide()}
 function closeSide(){setSide(false)}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
-function dashboardPhotoUrl(report){
-  const direct=report?.thumbnail||report?.thumbnailFoto||report?.fotoUrl||report?.foto;
-  if(typeof direct==='string')return direct;
-  if(direct&&typeof direct==='object')return direct.thumbnail||direct.linkFoto||direct.url||'';
-  return '';
+function dashboardDetailPhotoFromWeeks(weeks){
+  const arr=Array.isArray(weeks)?weeks:[];
+  if(!arr.length)return '';
+  const ordered=[...arr].sort((a,b)=>(Number(b?.mingguKe)||0)-(Number(a?.mingguKe)||0));
+  const w=ordered[0];
+  const fotos=Array.isArray(w?.foto)?w.foto:[];
+  const f=fotos[0];
+  if(typeof f==='string')return f;
+  return f?.thumbnail||f?.linkFoto||f?.url||'';
 }
-function dashboardDate(report){
-  return parseMonitorDate(report?.tanggal||report?.createdAt||report?.updatedAt||report?.updateTerakhir||'');
-}
-function makeDashboardCard(report){
-  const rup=String(report?.kodeRup||'').trim();
-  const nama=report?.namaPaket||'Paket tanpa nama';
-  const progres=pct(report?.progres||0);
-  const minggu=report?.mingguKe??'-';
-  const tanggal=report?.tanggal||'-';
-  const pembuat=report?.dibuatOleh||'-';
-  const lokasi=report?.lokasi||'';
-  const photo=dashboardPhotoUrl(report);
-
-  const img=photo
-    ? '<img loading="lazy" decoding="async" src="'+esc(photo)+'" alt="Foto laporan"><span class="thumb-placeholder" style="display:none">📷</span>'
+function dashboardCardHtml(r){
+  const rup=String(r?.kodeRup||'').trim();
+  const progress=pct(r?.progres||0);
+  const photo=typeof r?.__dashboardPhoto==='string'?r.__dashboardPhoto:'';
+  const thumb=photo
+    ? '<img loading="lazy" decoding="async" src="'+esc(photo)+'" alt="Foto laporan">'
     : '<span class="thumb-placeholder">📷</span>';
-
   return '<button type="button" class="dashboard-report-card" data-dashboard-rup="'+esc(rup)+'" aria-label="Lihat detail paket">'+
-    '<div class="dashboard-report-thumb">'+img+'</div>'+
+    '<div class="dashboard-report-thumb">'+thumb+'</div>'+
     '<div class="dashboard-report-main">'+
-      '<div class="dashboard-report-title">'+esc(nama)+'</div>'+
-      '<div class="dashboard-report-meta"><span>RUP '+esc(rup||'-')+'</span><span>Minggu '+esc(minggu)+'</span></div>'+
-      '<div class="dashboard-report-progress"><div class="dashboard-report-progress-row"><span>Progress Fisik</span><b>'+progres.toFixed(1)+'%</b></div><div class="dashboard-report-bar"><i style="width:'+Math.max(0,Math.min(100,progres))+'%"></i></div></div>'+
-      '<div class="dashboard-report-foot"><span>'+esc(pembuat)+(lokasi?' · '+esc(lokasi):'')+'</span><span class="dashboard-detail-link">Detail →</span></div>'+
-    '</div>'+
-  '</button>';
+      '<div class="dashboard-report-title">'+esc(r?.namaPaket||'Paket tanpa nama')+'</div>'+
+      '<div class="dashboard-report-meta"><span>RUP '+esc(rup||'-')+'</span><span>Minggu '+esc(r?.mingguKe??'-')+'</span></div>'+
+      '<div class="dashboard-report-progress"><div class="dashboard-report-progress-row"><span>Progress Fisik</span><b>'+progress.toFixed(1)+'%</b></div><div class="dashboard-report-bar"><i style="width:'+progress+'%"></i></div></div>'+
+      '<div class="dashboard-report-foot"><span>'+esc(r?.dibuatOleh||'-')+(r?.lokasi?' · '+esc(r.lokasi):'')+'</span><span class="dashboard-detail-link">Detail →</span></div>'+
+    '</div></button>';
+}
+function dashboardBindCardClicks(){
+  document.querySelectorAll('#dashboard .dashboard-report-card').forEach(card=>{
+    if(card.dataset.bound==='1')return;
+    card.dataset.bound='1';
+    card.addEventListener('click',function(){
+      const rup=card.getAttribute('data-dashboard-rup')||'';
+      if(rup && typeof openDetail==='function')openDetail(rup);
+    });
+  });
+}
+async function loadDashboardThumbnails(){
+  const cards=[...document.querySelectorAll('#dashboard .dashboard-report-card')];
+  let index=0;
+  const worker=async()=>{
+    while(index<cards.length){
+      const card=cards[index++];
+      const rup=card.getAttribute('data-dashboard-rup')||'';
+      if(!rup)continue;
+      try{
+        const d=await call('getPimpinanProjectDetail',[rup]);
+        if(!d?.success)continue;
+        const url=dashboardDetailPhotoFromWeeks(d.minggu);
+        if(!url)continue;
+        const box=card.querySelector('.dashboard-report-thumb');
+        if(box)box.innerHTML='<img loading="lazy" decoding="async" src="'+esc(url)+'" alt="Foto laporan">';
+      }catch(_){}
+    }
+  };
+  // 3 worker paralel: foto tetap muncul, tapi tidak membuat 20 request sekaligus.
+  await Promise.all([worker(),worker(),worker()]);
 }
 function renderDashboard(){
   const latest=latestByRup();
@@ -3395,67 +3434,39 @@ function renderDashboard(){
   $('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;
   $('sa').textContent=avg.toFixed(1)+'%';
 
-  const reports=[...(state.reports||[])].sort((a,b)=>dashboardDate(b)-dashboardDate(a)).slice(0,20);
+  const reports=[...(state.reports||[])].sort((a,b)=>{
+    const da=parseMonitorDate(a?.tanggal||'');
+    const db=parseMonitorDate(b?.tanggal||'');
+    return db-da;
+  }).slice(0,20);
+
   const latestWrap=$('latestReports');
-  if(latestWrap)latestWrap.innerHTML=reports.map(makeDashboardCard).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
+  if(latestWrap){
+    latestWrap.innerHTML=reports.map(dashboardCardHtml).join('')||
+      '<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
+  }
 
   const top=[...(state.projects||[])].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);
   const topWrap=$('top10');
-  if(topWrap)topWrap.innerHTML=top.map(p=>{
-    const l=latest[p.kodeRup];
-    const r=l?.report||{};
-    return makeDashboardCard({
-      ...r,
-      kodeRup:p.kodeRup,
-      namaPaket:r.namaPaket||p.namaPaket,
-      progres:l?.progres||0,
-      mingguKe:l?.w||r.mingguKe||'-',
-      dibuatOleh:r.dibuatOleh||'Belum ada laporan',
-      tanggal:r.tanggal||'',
-      lokasi:r.lokasi||'',
-      totalNilai:p.totalNilai
-    });
-  }).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada data paket.</div>';
-
-  // Klik card menggunakan event delegation agar tidak mengganggu openDetail() yang sudah ada.
-  if(!window.__dashboardCardClickBound){
-    window.__dashboardCardClickBound=true;
-    document.addEventListener('click',function(e){
-      const card=e.target.closest('#dashboard .dashboard-report-card');
-      if(!card)return;
-      const rup=card.getAttribute('data-dashboard-rup')||'';
-      if(rup && typeof openDetail==='function')openDetail(rup);
-    });
+  if(topWrap){
+    topWrap.innerHTML=top.map(p=>{
+      const l=latest[p.kodeRup];
+      const r=l?.report||{};
+      return dashboardCardHtml({
+        ...r,
+        kodeRup:p.kodeRup,
+        namaPaket:r.namaPaket||p.namaPaket,
+        progres:l?.progres||0,
+        mingguKe:l?.w||r.mingguKe||'-',
+        dibuatOleh:r.dibuatOleh||'Belum ada laporan',
+        lokasi:r.lokasi||''
+      });
+    }).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada data paket.</div>';
   }
 
-  // Foto tidak diambil 20x sekaligus. Hanya card yang masuk viewport yang meminta detail paket.
-  if('IntersectionObserver' in window){
-    const cards=[...document.querySelectorAll('#dashboard .dashboard-report-card')].filter(c=>!c.dataset.photoRequested);
-    const obs=new IntersectionObserver(async entries=>{
-      for(const entry of entries){
-        if(!entry.isIntersecting)continue;
-        const card=entry.target;
-        obs.unobserve(card);
-        card.dataset.photoRequested='1';
-        const rup=card.getAttribute('data-dashboard-rup')||'';
-        if(!rup)continue;
-        try{
-          const d=await call('getPimpinanProjectDetail',[rup]);
-          const detail=d?.data??d;
-          const laporan=Array.isArray(detail?.laporan)?detail.laporan:[];
-          const latestLap=laporan.length?laporan[laporan.length-1]:null;
-          const fotos=Array.isArray(latestLap?.foto)?latestLap.foto:(Array.isArray(detail?.foto)?detail.foto:[]);
-          const f=fotos[0];
-          const url=typeof f==='string'?f:(f?.thumbnail||f?.linkFoto||f?.url||'');
-          if(url){
-            const box=card.querySelector('.dashboard-report-thumb');
-            if(box)box.innerHTML='<img loading="lazy" decoding="async" src="'+esc(url)+'" alt="Foto laporan">';
-          }
-        }catch(_){}
-      }
-    },{rootMargin:'250px'});
-    cards.forEach(c=>obs.observe(c));
-  }
+  dashboardBindCardClicks();
+  // Tidak menunda Dashboard: thumbnail dicari sesudah card sudah tampil.
+  setTimeout(()=>loadDashboardThumbnails(),0);
 }
 function parseMonitorDate(v){
   if(!v)return 0;
