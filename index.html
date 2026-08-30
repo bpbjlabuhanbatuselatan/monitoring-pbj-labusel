@@ -2356,17 +2356,19 @@ function chatApiErrorMessage(e){
   const m=String(e?.message||e||'');
   return m||'Pesan gagal dimuat.';
 }
-async function loadChats(){
+async function loadChats(silent){
   if(!chatRoleCanUse()||!$('pesan'))return;
-  $('chatList').innerHTML='<div class="loading-dot">Memuat percakapan...</div>';
+  if(!silent)$('chatList').innerHTML='<div class="loading-dot">Memuat percakapan...</div>';
   try{
     const d=await call('getPesanPimpinan',[state.user.username]);
     chatState.threads=Array.isArray(d?.threads)?d.threads:(Array.isArray(d)?d:[]);
     renderChatList();
     updateChatBadge();
   }catch(e){
-    $('chatList').innerHTML='<div class="empty">'+esc(chatApiErrorMessage(e))+'</div>';
-    chatState.threads=[];
+    if(!silent){
+      $('chatList').innerHTML='<div class="empty">'+esc(chatApiErrorMessage(e))+'</div>';
+      chatState.threads=[];
+    }
     updateChatBadge();
   }
 }
@@ -2430,8 +2432,8 @@ async function openChatThread(id){
       return '<div class="chat-bubble '+(me?'me':'')+'">'+context+'<span class="chat-author">'+esc(m.namaPengirim||m.pengirimNama||m.senderName||m.pengirim||'-')+'</span>'+esc(m.isi||m.message||m.teks||'')+'<span class="chat-time">'+esc(formatChatTime(m.createdAt||m.waktu||''))+'</span></div>';
     }).join(''):'<div class="empty">Belum ada pesan.</div>';
     const box=$('chatMessages');box.scrollTop=box.scrollHeight;
-    try{await call('tandaiPesanDibaca',[state.user.username,id])}catch{}
-    await loadChats();
+    // Tandai dibaca & refresh badge di belakang layar—tidak menahan tampilan pesan
+    call('tandaiPesanDibaca',[state.user.username,id]).catch(()=>{}).then(()=>loadChats(true));
   }catch(e){
     $('chatMessages').innerHTML='<div class="msg err">'+esc(chatApiErrorMessage(e))+'</div>';
   }
@@ -2519,7 +2521,7 @@ async function startChat(e){
   try{
     const d=await call('mulaiPesanPimpinan',[state.user.username,payload]);
     closeNewChat();
-    await loadChats();
+    await loadChats(true);
     const id=d?.percakapanId||d?.id||d?.threadId;
     if(id)await openChatThread(String(id));
     showToast('Pesan pimpinan berhasil dikirim.');
