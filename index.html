@@ -5,6 +5,60 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Si RAJA MONITOR — Labuhanbatu Selatan</title>
 <style>
+/* ===== LOGIN MOBILE SIMETRIS =====
+   Tokoh tampil jelas di atas; kartu form berada di bawahnya. */
+@media (max-width:520px), (max-aspect-ratio:4/5){
+  #login.login{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    gap:0!important;
+    min-height:100dvh!important;
+    padding:18px 14px 38px!important;
+    overflow-x:hidden!important;
+    background-position:center center!important;
+  }
+  #login .login-art{
+    position:relative!important;
+    z-index:2!important;
+    display:flex!important;
+    left:auto!important;
+    bottom:auto!important;
+    width:min(78vw,390px)!important;
+    max-height:230px!important;
+    margin:0 auto -8px!important;
+    opacity:1!important;
+    transform:none!important;
+    pointer-events:none!important;
+  }
+  #login .login-art img{
+    width:100%!important;
+    max-height:230px!important;
+    object-fit:contain!important;
+    object-position:center bottom!important;
+  }
+  #login .loginbox{
+    position:relative!important;
+    z-index:3!important;
+    width:min(520px,100%)!important;
+    max-height:none!important;
+    margin:0 auto!important;
+    padding:22px 20px 24px!important;
+    border-radius:25px!important;
+    overflow:visible!important;
+  }
+  #login .logos{gap:7px!important;margin-bottom:11px!important}
+  #login .logo{width:53px!important;height:53px!important}
+  #login .brand h1{font-size:24px!important;line-height:1.12!important}
+  #login .brand p{font-size:10px!important;line-height:1.4!important;margin:6px 0 15px!important}
+  #login .tabs{margin-bottom:13px!important}
+  #login .tabs button{padding:10px 7px!important;font-size:13px!important}
+  #login .field{margin:10px 0!important}
+  #login .field input,#login .field select{min-height:48px!important;font-size:16px!important}
+  #login .primary{min-height:50px!important;font-size:15px!important}
+  #login .note{font-size:9px!important;line-height:1.55!important;margin-top:14px!important}
+}
 /* ===== LOGIN PORTRAIT: HP normal dan mode "Situs desktop" di HP ===== */
 @media (max-width:520px), (max-aspect-ratio:4/5){
   #login.login{
