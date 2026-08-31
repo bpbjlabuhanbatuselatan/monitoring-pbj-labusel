@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Si RAJA MONITOR — Labuhanbatu Selatan</title>
 <style>
+/* ===== PERBAIKAN DARK MODE KHUSUS LOGIN =====
+   Menang atas aturan lama .login yang memakai !important. */
+[data-theme="dark"] #login.login{
+  background:
+    linear-gradient(90deg,rgba(3,20,35,.56) 0%,rgba(3,20,35,.22) 48%,rgba(3,20,35,.64) 100%),
+    url('login-labusel-background.png') center/cover no-repeat !important;
+}
+[data-theme="dark"] #login .loginbox{
+  background:rgba(14,37,53,.92)!important;
+  color:#edf6fc!important;
+  border-color:rgba(159,204,231,.30)!important;
+  box-shadow:0 24px 64px rgba(0,0,0,.38)!important;
+}
+[data-theme="dark"] #login .brand p,
+[data-theme="dark"] #login .note,
+[data-theme="dark"] #login .login-identity,
+[data-theme="dark"] #login .login-identity span,
+[data-theme="dark"] #login .login-identity-tags{color:#b9ccda!important}
+[data-theme="dark"] #login .tabs{background:#071b2b!important}
+[data-theme="dark"] #login .tabs button{color:#c9d8e3!important}
+[data-theme="dark"] #login .tabs button.active{background:#0b4675!important;color:#fff!important}
+[data-theme="dark"] #login .field label{color:#d8e8f3!important}
+[data-theme="dark"] #login .field input,
+[data-theme="dark"] #login .field select{background:#102f43!important;color:#fff!important;border-color:#496d84!important}
+[data-theme="dark"] #login .primary{background:#0a4d80!important}
+@media (max-width:900px){
+  [data-theme="dark"] #login.login{background-position:center!important}
+}
 /* ===== LOGIN HERO KHUSUS: tidak memengaruhi dashboard/monitoring ===== */
 #login.login{
   position:relative;
