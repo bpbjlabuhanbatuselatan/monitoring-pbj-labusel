@@ -773,13 +773,13 @@
 .chat-inbox-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
 .chat-inbox-head h3{margin:0;font-size:14px;font-weight:950}
 .chat-inbox-head span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:700}
-.chat-list{display:grid;gap:6px;max-height:490px;overflow:auto}
+.chat-list{display:grid;gap:6px;max-height:490px;overflow-y:auto;overflow-x:hidden}
 .chat-item{width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:11px;padding:10px;text-align:left;display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:start}
 .chat-item:hover,.chat-item.active{background:var(--lightblue);border-color:#8bbbe0}
 .chat-avatar{width:32px;height:32px;border-radius:9px;background:#e3f1fb;color:var(--blue);display:grid;place-items:center;font-size:11px;font-weight:950}
-.chat-item-main{min-width:0}
+.chat-item-main{min-width:0;overflow:hidden}
 .chat-item-main b{display:block;font-size:10px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat-item-main small{display:block;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.35;font-weight:750}
+.chat-item-main small{display:block;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.35;font-weight:750;overflow-wrap:anywhere;word-break:break-word}
 .chat-item-time{color:var(--muted);font-size:8px;font-weight:800;white-space:nowrap}
 .chat-unread{min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#d95d4f;color:#fff;display:inline-grid;place-items:center;font-size:8px;font-weight:950}
 .chat-empty{height:100%;min-height:500px;display:grid;place-content:center;justify-items:center;text-align:center;color:var(--muted);gap:5px;padding:25px}
@@ -788,15 +788,15 @@
 .chat-empty span{font-size:9px;max-width:260px;line-height:1.45}
 .chat-thread{display:flex;flex-direction:column}
 .chat-thread-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.chat-thread-head b{display:block;font-size:13px;font-weight:950}
-.chat-thread-head small{display:block;margin-top:3px;color:var(--muted);font-size:8px;font-weight:750}
+.chat-thread-head b{display:block;font-size:13px;font-weight:950;overflow-wrap:anywhere;word-break:break-word}
+.chat-thread-head small{display:block;margin-top:3px;color:var(--muted);font-size:8px;font-weight:750;overflow-wrap:anywhere;word-break:break-word}
 .chat-priority{display:inline-flex;padding:5px 8px;border-radius:99px;background:#fff0e8;color:#b54708;font-size:8px;font-weight:950}
 .chat-messages{flex:1;min-height:390px;max-height:430px;overflow:auto;padding:12px 4px;display:grid;align-content:start;gap:8px}
 .chat-bubble{max-width:78%;padding:9px 11px;border-radius:12px;border:1px solid var(--line);font-size:10px;line-height:1.45;font-weight:750}
 .chat-bubble.me{margin-left:auto;background:var(--lightblue);border-color:#b5d4ea}
 .chat-bubble .chat-author{display:block;font-size:8px;font-weight:950;margin-bottom:3px;color:var(--blue)}
 .chat-bubble .chat-time{display:block;margin-top:5px;font-size:7px;color:var(--muted);font-weight:700}
-.chat-context{margin-bottom:7px;padding:8px 9px;border-radius:9px;background:var(--lightblue);border:1px solid var(--line);font-size:8px;color:var(--muted);font-weight:800}
+.chat-context{margin-bottom:7px;padding:8px 9px;border-radius:9px;background:var(--lightblue);border:1px solid var(--line);font-size:8px;color:var(--muted);font-weight:800;overflow-wrap:anywhere;word-break:break-word}
 .chat-compose{display:grid;grid-template-columns:1fr auto;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
 .chat-compose textarea{width:100%;min-height:44px;resize:vertical}
 .chat-compose .btn{min-width:78px}
@@ -1730,165 +1730,8 @@ html,body,button,input,select,textarea{
   .chat-compose .btn{min-width:70px}
   .chat-new-box{border-radius:18px;padding:15px}
 }
-
-/* ===== PESAN PIMPINAN: DELETE MODAL + UI REFINEMENT ===== */
-.chat-delete-btn{border-radius:12px;transition:.2s ease}
-.chat-delete-btn:hover{transform:translateY(-1px) scale(1.04)}
-.chat-item-row{position:relative}
-.chat-item{min-height:74px}
-.chat-item-main b{font-weight:800;letter-spacing:.1px}
-.chat-item-main small{line-height:1.45}
-.chat-bubble{border-radius:18px;box-shadow:0 4px 14px rgba(20,40,60,.05);line-height:1.5}
-.chat-bubble.me{border-bottom-right-radius:6px}
-.chat-bubble:not(.me){border-bottom-left-radius:6px}
-.chat-author{font-weight:800;margin-bottom:4px}
-.chat-delete-modal{position:fixed;inset:0;z-index:99999;background:rgba(10,24,38,.48);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:18px}
-.chat-delete-modal.show{display:flex}
-.chat-delete-box{width:min(430px,100%);background:#fff;border-radius:24px;padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.24);animation:chatDeleteIn .22s ease}
-.chat-delete-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:27px;background:#fff0ef;margin-bottom:14px}
-.chat-delete-box h3{margin:0 0 8px;font-size:20px;font-weight:900}
-.chat-delete-box p{margin:0;color:#64748b;line-height:1.55}
-.chat-delete-name{margin-top:14px;padding:12px 14px;border-radius:14px;background:#f7fafc;font-weight:800;word-break:break-word}
-.chat-delete-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
-.chat-delete-actions button{border-radius:13px;padding:11px 16px;font-weight:800;border:1px solid #dbe4ea;cursor:pointer}
-.chat-delete-cancel{background:#fff}
-.chat-delete-confirm{background:#dc2626!important;color:#fff;border-color:#dc2626!important}
-@keyframes chatDeleteIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-@media(max-width:600px){.chat-delete-box{padding:20px;border-radius:22px}.chat-delete-actions{flex-direction:column-reverse}.chat-delete-actions button{width:100%}}
-
 </style>
 
-<style id="simon-ui-refinement">
-/* ===== UI REFINEMENT: typography, spacing, contrast ===== */
-html,body,button,input,select,textarea{
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-}
-body{font-weight:400;letter-spacing:-.005em}
-button,input,select,textarea{font-weight:400}
-h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
-  font-weight:700;
-  letter-spacing:-.015em;
-}
-.heading h2{font-size:24px;line-height:1.2}
-.heading p,.brand p,.note,.topuser small{font-weight:400}
-.nav button{font-weight:500}
-.sidebrand b,.top>b,.topuser b{font-weight:650}
-.btn{font-weight:500}
-.btn.primary,.primary,.logout{font-weight:650}
-.field label,.table th,.stat span,.manage-stat span{
-  font-weight:600;
-}
-.field input,.field select,.field textarea,.search,.manage-filter{
-  font-weight:400;
-}
-.stat b,.manage-stat b,.top10-item .value,.detail-progress{
-  font-weight:700;
-}
-.table td{font-weight:400}
-.table td:first-child{font-weight:600}
-.badge{font-weight:600}
-.listitem b{font-weight:600}
-.listitem small{font-weight:400}
-.top10-item .name{font-weight:600}
-.top10-item .meta{font-weight:400}
-.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{
-  font-weight:600;
-}
-.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{
-  font-weight:400;
-}
-.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{
-  font-weight:600;
-}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{
-  font-weight:400;
-}
-/* Sedikit lebih lega, tanpa mengubah struktur/kolom tabel */
-.table th,.table td{padding:10px 8px}
-.table th{line-height:1.25}
-.table td{line-height:1.45}
-.listitem{padding:11px 0}
-/* Dark mode yang lebih ramah mata */
-[data-theme="dark"]{
-  --nav:#12324b;
-  --blue:#69b7ec;
-  --lightblue:#29465d;
-  --zebra:#223c50;
-  --bg:#172532;
-  --card:#213443;
-  --text:#edf5fa;
-  --muted:#b7c5cf;
-  --line:#385164;
-  --ok:#70d6a3;
-  --warn:#f2c46b;
-  --danger:#ff938a;
-  --shadow:0 10px 28px rgba(0,0,0,.18);
-}
-[data-theme="dark"] .login{
-  background:linear-gradient(135deg,#132c40,#1a2e3d);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card);
-  border-color:var(--line);
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1a2b39;
-  border-color:#40596b;
-  color:var(--text);
-}
-[data-theme="dark"] .table th{background:#29465d;color:#d8e6ee}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#213443}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#29465d}
-[data-theme="dark"] .table td{border-color:#355064;color:var(--text)}
-[data-theme="dark"] .badge{background:#314757;color:#dae6ec}
-[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
-  background:#1d303e;color:var(--text);border-color:var(--line)
-}
-[data-theme="dark"] .theme-toggle{
-  background:#294052;color:#edf5fa;border-color:#456174
-}
-[data-theme="dark"] .x{background:#2a4050;color:#edf5fa}
-[data-theme="dark"] .modal{background:rgba(10,22,32,.58)}
-/* Toast modern */
-.simon-toast-wrap{
-  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
-  display:flex;flex-direction:column;gap:8px;align-items:center;
-  width:min(92vw,420px);z-index:9999;pointer-events:none;
-  opacity:0;transition:opacity .18s ease,transform .18s ease;
-}
-.simon-toast-wrap.show{opacity:1;transform:translate(-50%,0)}
-.simon-toast{
-  width:100%;display:flex;align-items:flex-start;gap:10px;
-  padding:12px 14px;border:1px solid var(--line);border-radius:13px;
-  background:var(--card);color:var(--text);
-  box-shadow:0 12px 30px rgba(16,42,67,.16);
-  font-size:12px;font-weight:450;line-height:1.45;
-}
-.simon-toast-dot{
-  width:9px;height:9px;border-radius:50%;margin-top:5px;
-  background:var(--blue);flex:0 0 9px;
-}
-.simon-toast.success .simon-toast-dot{background:var(--ok)}
-.simon-toast.error .simon-toast-dot{background:var(--danger)}
-.simon-toast.warn .simon-toast-dot{background:var(--warn)}
-.simon-toast b{font-weight:650}
-@media(max-width:520px){
-  .heading h2{font-size:21px}
-  .heading p{font-size:11px}
-  .table th,.table td{padding:8px 8px}
-  .table td{line-height:1.4}
-  .simon-toast-wrap{bottom:14px}
-  .simon-toast{font-size:11px;padding:11px 12px}
-}
-</style>
 
 <style id="simon-side-ui">
 @media(max-width:900px){
@@ -1912,436 +1755,8 @@ h1,h2,h3,h4,.brand h1,.card h3,.heading h2,.modalhead h3{
 }
 </style>
 
-<style id="simon-final-refinement">
-/* =========================================================
-   Si RAJA MONITOR — FINAL UI / PERFORMANCE REFINEMENT
-   Only presentation + lightweight rendering behavior.
-   No business logic, API endpoints, IDs, or data model changes.
-   ========================================================= */
-
-/* 1) Stable native font stack: no remote font request. */
-html,body,button,input,select,textarea{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif!important;
-  font-synthesis:none!important;
-  text-rendering:optimizeLegibility;
-}
-
-/* 2) Clear typographic hierarchy */
-body{font-weight:400;letter-spacing:-.003em}
-button,input,select,textarea{font-weight:400}
-h1,h2,h3,h4{font-weight:700}
-.brand h1,.heading h2,.modalhead h3{font-weight:700}
-.nav button{font-weight:500}
-.sidebrand b,.top>b,.topuser b{font-weight:600}
-.btn,.tabs button{font-weight:500}
-.btn.primary,.primary,.logout{font-weight:600}
-.field label,.table th,.stat span,.manage-stat span{font-weight:600}
-.table td{font-weight:400}
-.table td:first-child{font-weight:600}
-.badge{font-weight:600}
-.listitem b,.top10-item .name{font-weight:600}
-.listitem small,.top10-item .meta{font-weight:400}
-.analytics-card-head h3,.analytics-bar-row b,.district-name,.district-value{font-weight:600}
-.analytics-card-head span,.analytics-note,.district-meta,.progress-legend-item small{font-weight:400}
-.chat-item-main b,.chat-thread-head b,.chat-bubble .chat-author{font-weight:600}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-weight:400}
-
-/* 3) Slightly larger small text for readability */
-.brand p{font-size:12px}
-.field label{font-size:11px}
-.heading p{font-size:11px}
-.note{font-size:10px}
-.table th{font-size:10px}
-.table td{font-size:12px}
-.listitem small,.top10-item .meta{font-size:10px}
-.monitor-last-update{font-size:9px}
-.analytics-card-head span,.analytics-note{font-size:10px}
-.analytics-bar-row,.district-meta{font-size:10px}
-.chat-item-main small,.chat-item-time,.chat-thread-head small,.chat-context,.chat-hint{font-size:9px}
-
-/* 4) More breathing room without changing table columns/width */
-.table th,.table td{padding:10px 9px}
-.table th{line-height:1.25}
-.table td{line-height:1.5}
-
-/* 5) Login fields slightly more comfortable */
-.field{margin:11px 0}
-.field input,.field select,.field textarea{min-height:42px}
-
-/* 6) Remove unnecessary visual heaviness */
-.stat,.card,.top{box-shadow:0 5px 18px rgba(16,42,67,.055)}
-.modalbox{box-shadow:0 18px 45px rgba(16,42,67,.13)}
-@media(max-width:520px){
-  .stat,.card,.top{box-shadow:0 4px 14px rgba(16,42,67,.045)}
-}
-
-/* 7) Dark mode: readable but not pitch black */
-[data-theme="dark"]{
-  --nav:#173a55;
-  --blue:#73bde9;
-  --lightblue:#2d4b61;
-  --zebra:#254155;
-  --bg:#1a2a37;
-  --card:#243744;
-  --text:#eef5f9;
-  --muted:#becbd4;
-  --line:#3a5263;
-  --ok:#74d9a4;
-  --warn:#f3c66f;
-  --danger:#ff978d;
-  --shadow:0 7px 18px rgba(0,0,0,.16);
-}
-[data-theme="dark"] .login{
-  background:linear-gradient(135deg,#173447,#223948);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card);
-  color:var(--text);
-  border-color:var(--line);
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1d303d;
-  color:var(--text);
-  border-color:#456071;
-}
-[data-theme="dark"] .table th{
-  background:#2d4b61;
-  color:#e0ebf1;
-}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243744}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#2b4659}
-[data-theme="dark"] .table tbody tr:hover{background:#35566d}
-[data-theme="dark"] .table td{color:#eef5f9;border-color:#3a5364}
-[data-theme="dark"] .badge{background:#365064;color:#e2ebf0}
-[data-theme="dark"] .suggestions,[data-theme="dark"] .suggestion{
-  background:#203542;color:var(--text);border-color:var(--line)
-}
-[data-theme="dark"] .suggestion:hover{background:#2c4b60}
-[data-theme="dark"] .x{background:#314958;color:#eef5f9}
-[data-theme="dark"] .theme-toggle{background:#2d4b60;color:#eff7fb;border-color:#486375}
-[data-theme="dark"] .modal{background:rgba(10,24,34,.58)}
-[data-theme="dark"] .top10-list .top10-item{
-  background:linear-gradient(145deg,#294658 0%,#243b49 100%);
-  border-color:#456274;
-}
-[data-theme="dark"] .top10-item .name{color:#eff6fa}
-[data-theme="dark"] .top10-item .meta{color:#becbd4}
-[data-theme="dark"] .meta{background:#29404f;border-color:#456071}
-[data-theme="dark"] .adendum-box{background:#29404f;border-color:#4b6678}
-[data-theme="dark"] .switchrow button{background:#233744;color:#edf5f9;border-color:#405968}
-[data-theme="dark"] .switchrow button.active{background:#2d526a;border-color:#5a91b3}
-[data-theme="dark"] .detail-hero{background:linear-gradient(135deg,#28465a 0%,#233a48 52%,#2b4d62 100%);border-color:#4a687a}
-[data-theme="dark"] .detail-report-card{background:linear-gradient(145deg,#273d4a 0%,#243744 100%);border-color:#456071}
-[data-theme="dark"] .detail-report-card:nth-child(even){background:linear-gradient(145deg,#2d4a5c 0%,#253b49 100%)}
-[data-theme="dark"] .detail-work{background:#29404f;border-color:#456071;color:#d5e1e7}
-[data-theme="dark"] .detail-empty{background:#263d4b;color:#b9cad5;border-color:#4a6677}
-[data-theme="dark"] .bar{background:#385365}
-[data-theme="dark"] .analytics-mini{background:linear-gradient(135deg,#2b4657,#243744)}
-[data-theme="dark"] .analytics-event{background:linear-gradient(135deg,#2a4455,#243744)}
-[data-theme="dark"] .analytics-event-icon,.chat-avatar{background:#31536a;color:#8fd2f4}
-
-/* 8) Bigger, clearer success/error toast */
-.simon-toast-wrap{
-  width:min(92vw,520px);
-  bottom:24px;
-  transform:translate(-50%,18px);
-}
-.simon-toast{
-  gap:12px;
-  padding:16px 17px;
-  border-radius:16px;
-  min-height:58px;
-  font-size:14px;
-  line-height:1.5;
-  font-weight:500;
-  border-width:1px;
-  box-shadow:0 14px 34px rgba(16,42,67,.20);
-}
-.simon-toast-dot{
-  width:11px;height:11px;flex:0 0 11px;margin-top:6px
-}
-.simon-toast b{font-weight:700}
-
-/* 9) Explicit success emphasis for save/report success */
-.simon-toast.success{
-  border-color:rgba(8,116,67,.28);
-}
-.simon-toast.success::before{
-  content:'✓';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--ok);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-.simon-toast.error{
-  border-color:rgba(180,35,24,.28);
-}
-.simon-toast.error::before{
-  content:'!';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--danger);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-.simon-toast.warn::before{
-  content:'i';
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;flex:0 0 28px;
-  background:var(--warn);color:#fff;
-  font-weight:800;font-size:16px;
-  margin-top:0;
-}
-@media(max-width:520px){
-  .table th,.table td{padding:9px 8px}
-  .table td{font-size:11px;line-height:1.45}
-  .simon-toast-wrap{width:min(94vw,520px);bottom:15px}
-  .simon-toast{font-size:13px;padding:14px 15px;min-height:54px}
-}
-
-/* 10) Password controls kept prominent */
-.password-eye{font-weight:600!important}
-.forgot-password-btn{font-weight:500!important;font-size:11px}
-
-/* 11) Mobile sidebar should remain smooth and cheap to composite */
-@media(max-width:900px){
-  .sidebar{
-    will-change:transform;
-    backface-visibility:hidden;
-  }
-  .mobile-side-overlay{
-    contain:paint;
-  }
-}
-
-/* 12) Accessibility-friendly focus */
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--blue);
-  outline-offset:2px;
-}
-
-/* 13) Disable costly motion when user/device prefers reduced motion */
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
-}
-
-/* 14) Keep inline report-success message visible and readable when used */
-.report-save-msg{
-  font-size:12px!important;
-  line-height:1.45!important;
-  font-weight:500!important;
-  padding:10px 12px!important;
-}
-[data-theme="dark"] .report-save-msg{
-  background:#314b55!important;
-  color:#bff0d2!important;
-  border-color:#4d706f!important;
-}
-</style>
 
 
-<style id="simon-sf-lite">
-/* Si RAJA MONITOR — SF-style native typography, zero remote font loading.
-   Presentation only: does not alter application logic, APIs, IDs, or data. */
-
-html,body,button,input,select,textarea{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif!important;
-  font-synthesis:none!important;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  text-rendering:optimizeLegibility;
-}
-
-body,
-button,input,select,textarea{
-  font-weight:400!important;
-  letter-spacing:-.003em;
-}
-
-/* Apple-like hierarchy */
-h1,h2,h3,h4,
-.brand h1,.heading h2,.modalhead h3{
-  font-weight:700!important;
-  letter-spacing:-.015em;
-}
-.sidebrand b,
-.top>b,.topuser b{
-  font-weight:600!important;
-}
-.nav button,
-.btn,.tabs button,
-.theme-toggle,
-.forgot-password-btn{
-  font-weight:500!important;
-}
-.primary,.btn.primary,.logout{
-  font-weight:600!important;
-}
-.field label,
-.table th,
-.stat span,
-.manage-stat span{
-  font-weight:600!important;
-}
-.table td{
-  font-weight:400!important;
-}
-.table td:first-child,
-.badge,
-.listitem b,
-.top10-item .name,
-.analytics-card-head h3,
-.analytics-event-main b,
-.chat-item-main b,
-.chat-thread-head b{
-  font-weight:600!important;
-}
-.listitem small,
-.top10-item .meta,
-.heading p,
-.topuser small,
-.brand p,
-.analytics-card-head span,
-.analytics-note,
-.chat-item-main small,
-.chat-item-time,
-.chat-thread-head small,
-.chat-context,
-.chat-hint{
-  font-weight:400!important;
-}
-
-/* Make small text readable without making the interface bulky */
-.table th{font-size:10px!important}
-.table td{font-size:11.5px!important;line-height:1.45!important}
-.listitem small,.top10-item .meta{font-size:10px!important}
-.heading p,.topuser small{font-size:10.5px!important}
-.monitor-last-update{font-size:9px!important}
-.analytics-card-head span,.analytics-note{font-size:9.5px!important}
-.chat-item-main small,.chat-item-time,.chat-thread-head small{font-size:9px!important}
-
-/* More breathing room, but preserve table dimensions/columns */
-.table th,.table td{padding:10px 9px!important}
-
-/* Keep controls comfortable */
-.field input,.field select,.field textarea{font-size:12px!important}
-
-/* Dark mode remains readable and not pitch black.
-   This is intentionally a modest tint shift, not a redesign. */
-[data-theme="dark"]{
-  --nav:#17384f;
-  --blue:#74bee9;
-  --lightblue:#2d4b60;
-  --zebra:#263f51;
-  --bg:#1b2a35;
-  --card:#243640;
-  --text:#eef4f7;
-  --muted:#becbd3;
-  --line:#3b5261;
-  --ok:#75d9a5;
-  --warn:#f1c66e;
-  --danger:#ff958c;
-  --shadow:0 6px 18px rgba(0,0,0,.15);
-}
-[data-theme="dark"] .top,
-[data-theme="dark"] .card,
-[data-theme="dark"] .stat,
-[data-theme="dark"] .modalbox,
-[data-theme="dark"] .loginbox{
-  background:var(--card)!important;
-  color:var(--text)!important;
-  border-color:var(--line)!important;
-}
-[data-theme="dark"] .field input,
-[data-theme="dark"] .field select,
-[data-theme="dark"] .field textarea,
-[data-theme="dark"] .search,
-[data-theme="dark"] .manage-filter{
-  background:#1e303b!important;
-  color:var(--text)!important;
-  border-color:#486170!important;
-}
-[data-theme="dark"] .table th{
-  background:#2d4b60!important;
-  color:#e0e9ee!important;
-  border-color:#456071!important;
-}
-[data-theme="dark"] .table tbody tr:nth-child(odd){background:#243640!important}
-[data-theme="dark"] .table tbody tr:nth-child(even){background:#2a4556!important}
-[data-theme="dark"] .table tbody tr:hover{background:#35576b!important}
-[data-theme="dark"] .table td{color:#eef4f7!important;border-color:#3b5565!important}
-[data-theme="dark"] .suggestions,
-[data-theme="dark"] .suggestion{
-  background:#213640!important;
-  color:var(--text)!important;
-  border-color:var(--line)!important;
-}
-[data-theme="dark"] .x{background:#304955!important;color:#eef4f7!important}
-[data-theme="dark"] .theme-toggle{background:#2d4b60!important;color:#eef7fa!important;border-color:#4b6473!important}
-[data-theme="dark"] .modal{background:rgba(8,21,30,.56)!important}
-[data-theme="dark"] .badge{background:#385163!important;color:#e4edf1!important}
-[data-theme="dark"] .meta,
-[data-theme="dark"] .adendum-box{
-  background:#2a414e!important;
-  border-color:#466171!important;
-}
-[data-theme="dark"] .switchrow button{
-  background:#243842!important;color:#edf4f7!important;border-color:#405866!important;
-}
-[data-theme="dark"] .switchrow button.active{
-  background:#2d5268!important;border-color:#5b90b0!important;color:#e6f4fb!important;
-}
-
-/* Lightweight shadows/transitions for mobile */
-.stat,.card,.top{box-shadow:0 5px 16px rgba(16,42,67,.05)!important}
-@media(max-width:520px){
-  .stat,.card,.top{box-shadow:0 4px 12px rgba(16,42,67,.04)!important}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
-}
-
-/* Larger, obvious save/success feedback */
-.simon-toast-wrap{
-  width:min(92vw,520px)!important;
-  bottom:18px!important;
-}
-.simon-toast{
-  min-height:58px!important;
-  padding:15px 17px!important;
-  border-radius:16px!important;
-  font-size:14px!important;
-  line-height:1.45!important;
-  font-weight:500!important;
-}
-.simon-toast b{font-weight:700!important}
-@media(max-width:520px){
-  .simon-toast{font-size:13px!important;padding:14px 15px!important}
-}
-
-/* Keep password visibility + reset controls clear */
-.password-eye{font-weight:500!important}
-.forgot-password-btn{font-weight:500!important}
-</style>
 
 
 <style id="simon-final-bold-native-fast">
@@ -2354,10 +1769,10 @@ html,body,button,input,select,textarea{
   text-rendering:optimizeLegibility;
 }
 body{
-  font-weight:400!important;
+  font-weight:600!important;
   letter-spacing:-.004em;
 }
-button,input,select,textarea{font-weight:400!important}
+button,input,select,textarea{font-weight:600!important}
 
 /* Bold only where it earns attention */
 h1,h2,h3,h4,
@@ -2373,27 +1788,27 @@ h1,h2,h3,h4,
   font-weight:700!important;
 }
 .nav button,.btn,.tabs button,.theme-toggle,.forgot-password-btn{
-  font-weight:600!important;
+  font-weight:650!important;
 }
 .primary,.btn.primary,.logout{
   font-weight:700!important;
 }
 .field label,.table th,.stat span,.manage-stat span{
-  font-weight:600!important;
+  font-weight:700!important;
 }
-.table td{font-weight:400!important}
+.table td{font-weight:600!important}
 .table td:first-child,
 .badge,.listitem b,.top10-item .name,
 .analytics-bar-row b,.district-name,.district-value,
 .chat-bubble .chat-author{
-  font-weight:600!important;
+  font-weight:700!important;
 }
 .listitem small,.top10-item .meta,
 .heading p,.topuser small,.brand p,
 .analytics-card-head span,.analytics-note,
 .chat-item-main small,.chat-item-time,.chat-thread-head small,
 .chat-context,.chat-hint{
-  font-weight:400!important;
+  font-weight:650!important;
 }
 
 /* Readable minimum sizes */
@@ -2517,55 +1932,102 @@ h1,h2,h3,h4,
 }
 </style>
 
-
-<style id="simon-toast-final-fix">
-#simonToastWrap.simon-toast-wrap{
-  z-index:2147483647!important;
-  pointer-events:none!important;
-}
-#simonToastWrap.simon-toast-wrap.show{
-  opacity:1!important;
-  transform:translate(-50%,0)!important;
-}
-#simonToastWrap .simon-toast.success{
-  display:flex!important;
-  visibility:visible!important;
-  opacity:1!important;
+<style>
+.dashboard-report-section{margin-top:15px}
+.dashboard-section-head{margin:0 2px 9px}
+.dashboard-section-head h3{margin:0;font-size:16px;font-weight:950}
+.dashboard-section-head p{margin:3px 0 0;color:var(--muted);font-size:9px;font-weight:750}
+.dashboard-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dashboard-report-card{display:grid;grid-template-columns:82px minmax(0,1fr);gap:11px;width:100%;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);text-align:left;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.dashboard-report-card:hover{transform:translateY(-2px);border-color:#8bbbe0;box-shadow:0 12px 26px rgba(16,42,67,.10)}
+.dashboard-report-thumb{width:82px;height:82px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:var(--lightblue);border:1px solid var(--line)}
+.dashboard-report-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.dashboard-report-thumb .thumb-placeholder{font-size:24px;opacity:.65}
+.dashboard-report-main{min-width:0}
+.dashboard-report-title{font-size:11px;font-weight:950;line-height:1.28;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.dashboard-report-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;color:var(--muted);font-size:8px;font-weight:800}
+.dashboard-report-progress{margin-top:8px}
+.dashboard-report-progress-row{display:flex;justify-content:space-between;gap:7px;color:var(--muted);font-size:8px;font-weight:850}
+.dashboard-report-progress-row b{color:var(--blue);font-size:10px;font-weight:950}
+.dashboard-report-bar{height:5px;background:#e8edf2;border-radius:99px;overflow:hidden;margin-top:4px}
+.dashboard-report-bar i{display:block;height:100%;background:#1769aa;border-radius:99px}
+.dashboard-report-foot{display:flex;justify-content:space-between;gap:8px;margin-top:7px;color:var(--muted);font-size:8px;font-weight:800}
+.dashboard-report-foot span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dashboard-detail-link{color:var(--blue);font-weight:950;white-space:nowrap}
+@media(max-width:650px){
+ .dashboard-report-grid{grid-template-columns:1fr;gap:8px}
+ .dashboard-report-card{grid-template-columns:68px minmax(0,1fr);padding:8px;gap:9px}
+ .dashboard-report-thumb{width:68px;height:68px}
+ .dashboard-section-head h3{font-size:14px}.dashboard-section-head p{font-size:8px}
+ .dashboard-report-title{font-size:10px}
 }
 </style>
-
+<!-- FIX KHUSUS: NOTIFIKASI SUKSES / showToast -->
+<style id="fix-notifikasi-sukses">
+.simon-toast-wrap{
+  position:fixed!important;
+  left:50%!important;
+  bottom:18px!important;
+  width:min(92vw,520px)!important;
+  transform:translate(-50%,24px)!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  z-index:2147483647!important;
+  pointer-events:none!important;
+  transition:opacity .22s ease,transform .22s ease,visibility .22s ease!important;
+}
+.simon-toast-wrap.show{
+  opacity:1!important;
+  visibility:visible!important;
+  transform:translate(-50%,0)!important;
+}
+.simon-toast{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:11px!important;
+  min-height:58px!important;
+  padding:15px 17px!important;
+  border-radius:16px!important;
+  font-size:14px!important;
+  line-height:1.45!important;
+  font-weight:500!important;
+  color:#fff!important;
+  background:#244a68!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  box-shadow:0 12px 30px rgba(16,42,67,.28)!important;
+}
+.simon-toast.success{background:#16784b!important;}
+.simon-toast.error{background:#b83b3b!important;}
+.simon-toast.warn{background:#a96d16!important;}
+.simon-toast.info{background:#244a68!important;}
+.simon-toast-dot{
+  flex:0 0 10px!important;
+  width:10px!important;
+  height:10px!important;
+  margin-top:5px!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  box-shadow:0 0 0 4px rgba(255,255,255,.14)!important;
+}
+@media(max-width:520px){
+  .simon-toast{font-size:13px!important;padding:14px 15px!important;}
+}
+</style>
 </head>
 <body>
-
-
-<div id="chatDeleteModal" class="chat-delete-modal" role="dialog" aria-modal="true" aria-labelledby="chatDeleteTitle">
-  <div class="chat-delete-box">
-    <div class="chat-delete-icon">🗑️</div>
-    <h3 id="chatDeleteTitle">Hapus Percakapan?</h3>
-    <p>Seluruh riwayat pesan dalam percakapan ini akan dihapus permanen dan tidak dapat dikembalikan.</p>
-    <div id="chatDeleteName" class="chat-delete-name">Percakapan</div>
-    <div class="chat-delete-actions">
-      <button type="button" class="chat-delete-cancel" onclick="closeChatDeleteModal()">Batal</button>
-      <button type="button" id="chatDeleteConfirmBtn" class="chat-delete-confirm">Ya, Hapus Permanen</button>
-    </div>
-  </div>
-</div>
 
 <script>
 (function(){
   let toastTimer=null;
-
   window.showToast=function(message,type){
-    const text=String(message??'').trim() || 'Berhasil.';
-    let kind=String(type||'').toLowerCase();
-
+    const text=String(message??'');
+    let kind=type;
     if(!kind){
-      if(/gagal|error|ditolak|tidak berhasil|wajib|salah/i.test(text)) kind='error';
-      else if(/peringatan|perhatian|konfirmasi|harus|belum/i.test(text)) kind='warn';
-      else if(/berhasil|sukses|tersimpan|disimpan|diperbarui|dihapus|terkirim/i.test(text)) kind='success';
+      if(/gagal|error|ditolak|tidak berhasil|wajib|salah/i.test(text))kind='error';
+      else if(/peringatan|perhatian|konfirmasi|harus|belum/i.test(text))kind='warn';
+      else if(/berhasil|sukses|tersimpan|disimpan|diperbarui|dihapus|terkirim/i.test(text))kind='success';
       else kind='info';
     }
-
     let wrap=document.getElementById('simonToastWrap');
     if(!wrap){
       wrap=document.createElement('div');
@@ -2573,36 +2035,20 @@ h1,h2,h3,h4,
       wrap.className='simon-toast-wrap';
       document.body.appendChild(wrap);
     }
-
-    // Selalu reset state lama agar toast berikutnya, termasuk SUCCESS,
-    // tidak tertahan pada state animasi sebelumnya.
-    clearTimeout(toastTimer);
-    wrap.classList.remove('show');
     wrap.innerHTML='';
-
     const item=document.createElement('div');
     item.className='simon-toast '+kind;
-
     const dot=document.createElement('span');
     dot.className='simon-toast-dot';
-
     const body=document.createElement('div');
     body.textContent=text;
-
     item.append(dot,body);
     wrap.appendChild(item);
-
-    // Force reflow lalu tampilkan ulang.
-    void wrap.offsetWidth;
-    requestAnimationFrame(function(){
-      wrap.classList.add('show');
-    });
-
-    toastTimer=setTimeout(function(){
+    requestAnimationFrame(()=>wrap.classList.add('show'));
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>{
       wrap.classList.remove('show');
-      setTimeout(function(){
-        if(wrap && !wrap.classList.contains('show')) wrap.innerHTML='';
-      },220);
+      setTimeout(()=>{if(wrap&&!wrap.classList.contains('show'))wrap.innerHTML=''},220);
     },3200);
   };
 })();
@@ -2614,7 +2060,7 @@ h1,h2,h3,h4,
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
 <div class="tabs"><button id="tl" class="active" onclick="authTab('login')">Masuk</button><button id="tr" onclick="authTab('reg')">Daftar Akun</button></div>
 <form id="lf" onsubmit="doLogin(event)"><div class="field"><label>Username</label><input id="lu" required autocomplete="username"></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="lp" type="password" required autocomplete="current-password"><button type="button" class="password-eye" onclick="togglePassword('lp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><button class="primary">Masuk ke Sistem</button><button type="button" class="forgot-password-btn" onclick="openResetPassword()">Lupa / Reset Password</button></form>
-<form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="rp" type="password" minlength="6" required><button type="button" class="password-eye" onclick="togglePassword('rp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PPBJ</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
+<form id="rf" class="hidden" onsubmit="doRegister(event)"><div class="field"><label>Nama Lengkap</label><input id="rn" required></div><div class="field"><label>Username</label><input id="ru" required></div><div class="field password-field"><label>Password</label><div class="password-wrap"><input id="rp" type="password" minlength="6" required><button type="button" class="password-eye" onclick="togglePassword('rp',this)" aria-label="Tampilkan password" title="Tampilkan password">👁</button></div></div><div class="field"><label>Peran</label><select id="rr"><option>PPK</option><option>PIMPINAN</option><option>KABAG BPBJ</option></select></div><button class="primary">Ajukan Pendaftaran</button></form>
 <div id="am"></div><div class="note">🏛 Dikelola BPBJ Kabupaten Labuhanbatu Selatan<br><span class="login-identity-tags">◈ Terintegrasi&nbsp;&nbsp;•&nbsp;&nbsp;📊 Terpantau&nbsp;&nbsp;•&nbsp;&nbsp;✓ Akuntabel</span></div>
 </div></div>
 <div id="app" class="app hidden"><aside id="side" class="sidebar"><div class="sidebrand"><img src="logo-labusel.png"><b>Si RAJA MONITOR<br>LABUSEL</b></div><nav class="nav" id="nav"></nav><div class="sidefoot"><button class="logout" onclick="logout()">Keluar</button></div></aside>
@@ -2641,7 +2087,19 @@ h1,h2,h3,h4,
   <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
   <div class="topuser"><div class="avatar" id="av">U</div><div><b id="un">Pengguna</b><small id="ur">-</small></div></div>
 </div></header>
-<section id="dashboard" class="page active"><div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div><div class="stats"><div class="stat"><span>Total Paket</span><b id="sp">0</b></div><div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div><div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div><div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div></div><div class="grid2"><div class="card"><h3>10 Paket Nilai Tertinggi</h3><div id="top10" class="top10-list"></div></div></div></section>
+<section id="dashboard" class="page active">
+<div class="heading"><div><h2>Dashboard</h2><p>Ringkasan monitoring pekerjaan fisik.</p></div></div>
+<div class="stats">
+<div class="stat"><span>Total Paket</span><b id="sp">0</b></div>
+<div class="stat"><span>Total Laporan Mingguan</span><b id="sl">0</b></div>
+<div class="stat"><span>Paket Sudah Melapor</span><b id="sb">0</b></div>
+<div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div>
+</div>
+<div class="dashboard-report-section">
+<div class="dashboard-section-head"><div><h3>20 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div>
+<div id="top10" class="dashboard-report-grid"></div>
+</div>
+</section>
 <section id="analitik" class="page">
   <div class="heading">
     <div>
@@ -2708,7 +2166,7 @@ h1,h2,h3,h4,
   <div class="heading">
     <div>
       <h2>💬 Pesan Pimpinan</h2>
-      <p>Komunikasi resmi pimpinan dengan PPK, PPBJ, dan Kabag BPBJ.</p>
+      <p>Komunikasi resmi pimpinan dengan PPK dan Kabag BPBJ.</p>
     </div>
     <button id="newChatBtn" class="btn primary" onclick="openNewChat()">+ Pesan Baru</button>
   </div>
@@ -2749,10 +2207,9 @@ h1,h2,h3,h4,
     </div>
   </div>
 </section>
-<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoring()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
-<section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReports()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
-<section id="verifikasi" class="page"><div class="heading"><div><h2>Verifikasi Masuk</h2><p>Laporan yang diteruskan kepada akun kamu.</p></div></div><div class="card"><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Dari</th><th>Aksi</th></tr></thead><tbody id="vb"></tbody></table></div></div></section>
-<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div><div class="manage-stat"><span>Tidak Diteruskan</span><b id="mlBelum">0</b></div><div class="manage-stat"><span>Diterima</span><b id="mlDiterima">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagement()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option><option value="TIDAK DITERUSKAN">Tidak Diteruskan</option><option value="DITERUSKAN">Diteruskan</option><option value="DITERIMA">Diterima</option><option value="DIKEMBALIKAN">Dikembalikan</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
+<section id="monitoring" class="page"><div class="heading"><div><h2>Monitoring Paket</h2><p>Pantau progres dan riwayat laporan setiap paket.</p></div></div><div class="card"><div class="toolbar"><select id="monitorSortSelect" class="monitor-sort-select" onchange="changeMonitoringSort(this.value)" aria-label="Urutkan monitoring paket"><option value="updated-desc">🕐 Terbaru dilaporkan</option><option value="updated-asc">🕐 Terlama dilaporkan</option><option value="progress-desc">📈 Progress tertinggi</option><option value="progress-asc">📉 Progress terendah</option><option value="value-desc">💰 Nilai tertinggi</option><option value="value-asc">💰 Nilai terendah</option></select><input id="ms" class="search" placeholder="Cari kode RUP, nama paket, penyedia, lokasi..." oninput="renderMonitoringDebounced()"></div><div class="tablewrap"><table class="table monitor-table"><thead><tr><th>RUP</th><th>Nama Paket</th><th><button class="sort-btn" data-sort="value" onclick="toggleMonitoringSort('value')">Nilai <span>↕</span></button></th><th><button class="sort-btn" data-sort="progress" onclick="toggleMonitoringSort('progress')">Progres Terakhir <span>↕</span></button></th><th>Laporan</th><th>Status</th><th></th></tr></thead><tbody id="mb"></tbody></table></div></div></section>
+<section id="laporan" class="page"><div class="heading"><div><h2>Laporan Mingguan</h2><p>Riwayat laporan progres fisik.</p></div><button class="btn primary" onclick="openReport()">+ Input Laporan</button></div><div class="card"><div class="toolbar"><input id="ls" class="search" placeholder="Cari RUP, nama paket, penyedia..." oninput="renderReportsDebounced()"></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th></tr></thead><tbody id="lb"></tbody></table></div></div></section>
+<section id="manajemen" class="page"><div class="heading"><div><h2>Manajemen Laporan</h2><p>Kelola dan pantau seluruh laporan yang masuk.</p></div></div><div class="card"><div class="manage-stats"><div class="manage-stat"><span>Total Laporan</span><b id="mlTotal">0</b></div></div><div class="toolbar"><input id="mlSearch" class="search" placeholder="Cari RUP, nama paket, pembuat..." oninput="renderManagementDebounced()"><select id="mlFilter" class="manage-filter" onchange="renderManagement()"><option value="SEMUA">Semua Status</option></select></div><div class="tablewrap"><table class="table"><thead><tr><th>Tanggal</th><th>Paket</th><th>Minggu</th><th>Progres</th><th>Pembuat</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="mlBody"></tbody></table></div></div></section>
 <section id="aktivitas" class="page">
   <div class="heading">
     <div>
@@ -2778,8 +2235,8 @@ h1,h2,h3,h4,
 
 <section id="admin" class="page"><div class="heading"><div><h2>Manajemen Akun</h2><p>Aktivasi akun dan pengelolaan pengguna.</p></div></div><div class="card"><div id="pending"></div></div><div class="card" style="margin-top:12px"><div class="tablewrap"><table class="table"><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="ub"></tbody></table></div></div></section>
 </main></div>
-<div id="reportModal" class="modal"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label id="rTerusLabel">Diteruskan ke PPBJ?</label><div class="switchrow"><button type="button" id="terNo" class="active" onclick="setTerus('TIDAK')">Tidak</button><button type="button" id="terYes" onclick="setTerus('YA')">Ya</button></div></div><div id="ppbjField" class="field full hidden"><label id="rTujuanLabel">Pilih PPBJ Tujuan</label><select id="rPpbj"><option value="">Memuat...</option></select></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
-<div id="detailModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
+<div id="reportModal" class="modal" onclick="if(event.target===this)closeModal('reportModal')"><div class="modalbox report-form"><div class="modalhead"><h3>Input Laporan Mingguan</h3><button class="x" onclick="closeModal('reportModal')">✕</button></div><form onsubmit="saveReport(event)"><div class="formgrid"><div class="field full"><label>Cari & Pilih Paket</label><div class="autocomplete"><input id="packageSearch" autocomplete="off" placeholder="Ketik kode RUP atau nama paket..." oninput="searchPackages()" onfocus="searchPackages()" required><input id="rRup" type="hidden"><div id="suggestions" class="suggestions hidden"></div></div></div><div class="field"><label>Nama Paket</label><textarea id="rPaket" rows="5" readonly></textarea></div><div class="field"><label>Nama Penyedia</label><input id="rPenyedia" placeholder="Ketik nama penyedia..."></div><div class="field"><label>Minggu Ke</label><input id="rMinggu" readonly></div><div class="field"><label>Progres Fisik (%)</label><input id="rProgres" type="number" min="0" max="100" step="0.01" required oninput="validateProgressInput()"><div id="progressValidation" class="progress-validation hidden"></div></div><div class="field"><label>Lokasi</label><select id="rLokasi" required><option value="">Pilih Kecamatan</option><option>Sungai Kanan</option><option>Torgamba</option><option>Kotapinang</option><option>Silangkitang</option><option>Kampung Rakyat</option></select></div><div class="field"><label>Tanggal Laporan</label><input id="rTanggal" type="date" required></div><div class="field full"><label>Adendum</label><div class="switchrow"><button type="button" id="adNo" class="active" onclick="setAdendum('TIDAK')">Tidak</button><button type="button" id="adYes" onclick="setAdendum('YA')">Ya</button></div></div><div id="adendumFields" class="adendum-box full hidden"><h4>Detail Adendum</h4><div class="formgrid"><div class="field"><label>Nomor Adendum</label><input id="rNoAd"></div><div class="field"><label>Tanggal Adendum</label><input id="rTglAd" type="date"></div><div class="field"><label>Nilai Adendum</label><input id="rNilaiAd" placeholder="Rp"></div><div class="field"><label>Keterangan Adendum</label><input id="rKetAd"></div></div></div><div class="field full"><label>Keterangan Pekerjaan</label><textarea id="rKet" placeholder="Catatan progres pekerjaan minggu ini..."></textarea></div><div class="field full"><label>Foto Dokumentasi (maks. 5)</label><input id="rFoto" type="file" accept="image/*" multiple onchange="previewPhotos()"><div id="photoPreview" class="photo-preview"></div><div id="photoCompressHint" class="photo-compress-hint">Foto akan dikompres otomatis saat disimpan.</div></div></div><div id="reportSaveMsg" class="report-save-msg hidden"></div><button class="primary" type="submit">Simpan Laporan</button></form></div></div>
+<div id="detailModal" class="modal" onclick="if(event.target===this)closeModal('detailModal')"><div class="modalbox"><div class="modalhead"><h3>Detail Monitoring Paket</h3><button class="x" onclick="closeModal('detailModal')">✕</button></div><div id="detailContent"></div></div></div>
 <script>
 const API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/gas-api';
 const state={monitorSort:'terbaru',user:null,projects:[],reports:[],verifications:[],users:[],adendum:'TIDAK',terus:'TIDAK',selected:null,reportPhotoUrls:[]};
@@ -2802,15 +2259,11 @@ const $=id=>document.getElementById(id);const esc=v=>String(v??'').replace(/[&<>
 const pct=v=>Math.max(0,Math.min(100,Number(String(v??'').replace(',','.').replace('%',''))||0));
 function num(v){let s=String(v??'').replace(/Rp/gi,'').replace(/\s/g,'').replace(/\./g,'').replace(',','.');return Number(s)||0}
 function money(v){return 'Rp '+(num(v)).toLocaleString('id-ID')}
-const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';const ADMIN_DELETE_CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/admin-delete-chat';
+const CHAT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/chat-api';
 const CHAT_FUNCTIONS=new Set(['getPenerimaPesanPimpinan','getPesanPimpinanUnread','getPesanPimpinan','getPesanPimpinanThread','mulaiPesanPimpinan','kirimPesanPimpinan','tandaiPesanDibaca','hapusPesanPimpinan']);
 async function call(fn,args=[]){
-  const endpoint=fn==='adminHapusPercakapan'
-    ?ADMIN_DELETE_CHAT_API
-    :(CHAT_FUNCTIONS.has(fn)?CHAT_API:API);
-  const body=fn==='adminHapusPercakapan'
-    ?{function:'deleteChat',args}
-    :{function:fn,args};
+  const endpoint=CHAT_FUNCTIONS.has(fn)?CHAT_API:API;
+  const body={function:fn,args};
 
   let r;
   try{
@@ -2912,14 +2365,13 @@ async function doRegister(e){e.preventDefault();authMsg('Mendaftarkan akun...',t
 function buildNav(){
   const r=String(state.user.role||'').toUpperCase();
   let items=[['dashboard','Dashboard']];
-  if(['KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['laporan','Laporan Mingguan']);
+  if(['KABAG BPBJ','KABAG','ADMIN','PPK'].includes(r)) items.push(['laporan','Laporan Mingguan']);
   items.push(['monitoring','Monitoring Paket']);
   items.push(['analitik','Dashboard Analitik']);
-  if(['PPK','PPBJ'].includes(r)) items.push(['verifikasi','Verifikasi Masuk']);
   if(['ADMIN','KABAG BPBJ','KABAG'].includes(r)) items.push(['manajemen','Manajemen Laporan']);
   if(['ADMIN','KABAG BPBJ','KABAG'].includes(r)) items.push(['aktivitas','Log Aktivitas']);
   if(r==='ADMIN') items.push(['admin','Manajemen Akun']);
-  if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK','PPBJ'].includes(r)) items.push(['pesan','Pesan Pimpinan']);
+  if(['PIMPINAN','KABAG BPBJ','KABAG','ADMIN','PPK'].includes(r)) items.push(['pesan','Pesan Pimpinan']);
 
   const icons={dashboard:'▣',monitoring:'◉',laporan:'◷',pesan:'💬',analitik:'📊',verifikasi:'✓',manajemen:'▤',aktivitas:'🕘',admin:'♙'};
   $('nav').innerHTML=items.map(([id,t])=>{
@@ -2934,7 +2386,7 @@ function buildNav(){
   updateChatBadge();
 }
 async function boot(){ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('un').textContent=state.user.nama;$('ur').textContent=state.user.role;$('av').textContent=(state.user.nama||'U').charAt(0).toUpperCase();buildNav();state.monitorSort='terbaru';await loadData();showPage('dashboard');startNotificationPolling()}
-async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(['PPK','PPBJ'].includes(String(state.user.role).toUpperCase()))loadVerifications();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);showToast(e.message)}}
+async function loadData(){try{const [p,r]=await Promise.all([call('getMasterProyek'),call('getLaporanMingguan')]);state.projects=p||[];state.reports=r||[];renderDashboard();renderMonitoring();renderReports();renderManagement();renderAnalytics();if(String(state.user.role).toUpperCase()==='ADMIN')loadAdmin()}catch(e){console.error(e);showToast(e.message)}}
 
 const chatState={threads:[],activeId:null,selectedRecipients:[],priority:false,loading:false};
 
@@ -2943,24 +2395,26 @@ function idUserCanStartChat(){
 }
 
 function chatRoleCanUse(){
-  return ['PIMPINAN','PPK','PPBJ','KABAG BPBJ','KABAG','ADMIN'].includes(String(state.user?.role||'').toUpperCase());
+  return ['PIMPINAN','PPK','KABAG BPBJ','KABAG','ADMIN'].includes(String(state.user?.role||'').toUpperCase());
 }
 
 function chatApiErrorMessage(e){
   const m=String(e?.message||e||'');
   return m||'Pesan gagal dimuat.';
 }
-async function loadChats(){
+async function loadChats(silent){
   if(!chatRoleCanUse()||!$('pesan'))return;
-  $('chatList').innerHTML='<div class="loading-dot">Memuat percakapan...</div>';
+  if(!silent)$('chatList').innerHTML='<div class="loading-dot">Memuat percakapan...</div>';
   try{
     const d=await call('getPesanPimpinan',[state.user.username]);
     chatState.threads=Array.isArray(d?.threads)?d.threads:(Array.isArray(d)?d:[]);
     renderChatList();
     updateChatBadge();
   }catch(e){
-    $('chatList').innerHTML='<div class="empty">'+esc(chatApiErrorMessage(e))+'</div>';
-    chatState.threads=[];
+    if(!silent){
+      $('chatList').innerHTML='<div class="empty">'+esc(chatApiErrorMessage(e))+'</div>';
+      chatState.threads=[];
+    }
     updateChatBadge();
   }
 }
@@ -2984,7 +2438,7 @@ function renderChatList(){
     const initials=String(counterpart).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
     const adminTag=isAdmin?'<span class="chat-readonly-tag">LIHAT SAJA</span>':'';
     const deleteBtn=canDeleteChat
-      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();openChatDeleteModal('+JSON.stringify(id)+')">🗑</button>'
+      ? '<button type="button" class="chat-delete-btn" data-chat-id="'+esc(id)+'" title="Hapus percakapan" aria-label="Hapus percakapan" onclick="event.stopPropagation();hapusPercakapanChat('+JSON.stringify(id).replace(/"/g,'&quot;')+')">🗑</button>'
       : '';
     return '<div class="chat-item-row">'+
       '<button class="chat-item '+(chatState.activeId===id?'active':'')+'" onclick="openChatThread('+JSON.stringify(id).replace(/"/g,'&quot;')+')">'+
@@ -3024,8 +2478,8 @@ async function openChatThread(id){
       return '<div class="chat-bubble '+(me?'me':'')+'">'+context+'<span class="chat-author">'+esc(m.namaPengirim||m.pengirimNama||m.senderName||m.pengirim||'-')+'</span>'+esc(m.isi||m.message||m.teks||'')+'<span class="chat-time">'+esc(formatChatTime(m.createdAt||m.waktu||''))+'</span></div>';
     }).join(''):'<div class="empty">Belum ada pesan.</div>';
     const box=$('chatMessages');box.scrollTop=box.scrollHeight;
-    try{await call('tandaiPesanDibaca',[state.user.username,id])}catch{}
-    await loadChats();
+    // Tandai dibaca & refresh badge di belakang layar—tidak menahan tampilan pesan
+    call('tandaiPesanDibaca',[state.user.username,id]).catch(()=>{}).then(()=>loadChats(true));
   }catch(e){
     $('chatMessages').innerHTML='<div class="msg err">'+esc(chatApiErrorMessage(e))+'</div>';
   }
@@ -3054,10 +2508,10 @@ async function loadChatRecipients(){
   try{
     const d=await call('getPenerimaPesanPimpinan',[]);
     const list=Array.isArray(d?.users)?d.users:(Array.isArray(d)?d:[]);
-    const filtered=list.filter(u=>['PPK','PPBJ','KABAG BPBJ','KABAG'].includes(String(u.role||'').toUpperCase()));
+    const filtered=list.filter(u=>['PPK','KABAG BPBJ','KABAG'].includes(String(u.role||'').toUpperCase()));
     const sel=$('chatRecipientSelect');
     if(!sel)return;
-    sel.innerHTML='<option value="">Pilih PPK, PPBJ, atau Kabag...</option>'+
+    sel.innerHTML='<option value="">Pilih PPK atau Kabag...</option>'+
       filtered.map(u=>'<option value="'+esc(u.username||'')+'">'+esc(u.nama||u.username||'-')+' — '+esc(u.role||'-')+'</option>').join('');
   }catch(e){
     const sel=$('chatRecipientSelect');
@@ -3113,81 +2567,59 @@ async function startChat(e){
   try{
     const d=await call('mulaiPesanPimpinan',[state.user.username,payload]);
     closeNewChat();
-    await loadChats();
+    await loadChats(true);
     const id=d?.percakapanId||d?.id||d?.threadId;
     if(id)await openChatThread(String(id));
     showToast('Pesan pimpinan berhasil dikirim.');
   }catch(e){showToast(chatApiErrorMessage(e))}
 }
 
-let chatDeleteTargetId=null;
-
-function openChatDeleteModal(id){
+async function hapusPercakapanChat(id){
   const role=String(state.user?.role||'').trim().toUpperCase();
   if(!['ADMIN','PIMPINAN'].includes(role)){
     showToast('Anda tidak memiliki izin menghapus percakapan.');
     return;
   }
+
   const conversationId=String(id||'').trim();
   if(!conversationId)return;
+
   const thread=chatState.threads.find(x=>String(x.id||x.percakapanId||'')===conversationId);
-  const nama=thread?.lawanNama||thread?.lawan||thread?.judul||'Percakapan ini';
-  chatDeleteTargetId=conversationId;
-  $('chatDeleteName').textContent=nama;
-  $('chatDeleteModal').classList.add('show');
-}
+  const nama=thread?.lawanNama||thread?.lawan||thread?.judul||'percakapan ini';
 
-function closeChatDeleteModal(){
-  $('chatDeleteModal')?.classList.remove('show');
-  chatDeleteTargetId=null;
-}
+  if(!confirm('Hapus percakapan ini?\\n\\n'+nama+'\\n\\nSeluruh riwayat pesan akan dihapus permanen.'))return;
 
-async function executeChatDelete(){
-  const role=String(state.user?.role||'').trim().toUpperCase();
-  const conversationId=String(chatDeleteTargetId||'').trim();
-  if(!conversationId)return;
-
-  const btn=$('chatDeleteConfirmBtn');
-  if(btn){btn.disabled=true;btn.textContent='Menghapus...';}
+  const btn=document.querySelector('.chat-delete-btn[data-chat-id="'+CSS.escape(conversationId)+'"]');
+  if(btn){btn.disabled=true;btn.textContent='…';}
 
   try{
-    let d;
-    if(role==='ADMIN'){
-      d=await call('adminHapusPercakapan',[state.user.username,conversationId]);
-    }else if(role==='PIMPINAN'){
-      d=await call('hapusPesanPimpinan',[state.user.username,conversationId]);
-    }else{
-      throw Error('Anda tidak memiliki izin menghapus percakapan.');
+    // SATU JALUR SAJA: index -> chat-api -> hapusPesanPimpinan -> database
+    const d=await call('hapusPesanPimpinan',[state.user.username,conversationId]);
+
+    if(d?.success===false){
+      throw new Error(d?.message||'Percakapan gagal dihapus.');
     }
 
-    if(d?.success===false)throw Error(d?.message||'Percakapan gagal dihapus.');
+    chatState.threads=chatState.threads.filter(
+      x=>String(x.id||x.percakapanId||'')!==conversationId
+    );
 
-    chatState.threads=chatState.threads.filter(x=>String(x.id||x.percakapanId||'')!==conversationId);
     if(String(chatState.activeId)===conversationId){
       chatState.activeId=null;
       $('chatActive')?.classList.add('hidden');
       $('chatEmpty')?.classList.remove('hidden');
     }
+
     renderChatList();
     updateChatBadge();
-    closeChatDeleteModal();
-    showToast('Percakapan berhasil dihapus permanen.');
-    loadChats().catch(e=>console.warn('Sinkronisasi chat:',e));
+    showToast('Percakapan berhasil dihapus.');
+
   }catch(e){
-    console.error('hapus percakapan',e);
-    showToast('Gagal menghapus percakapan. '+String(e?.message||e||''));
-  }finally{
-    if(btn){btn.disabled=false;btn.textContent='Ya, Hapus Permanen';}
+    console.error('hapusPercakapanChat:',e);
+    if(btn){btn.disabled=false;btn.textContent='🗑';}
+    showToast('Gagal menghapus: '+String(e?.message||e||'Kesalahan tidak diketahui.'));
   }
 }
-
-// Kompatibilitas tombol lama.
-function hapusChatAdmin(id){openChatDeleteModal(id)}
-
-$('chatDeleteConfirmBtn')?.addEventListener('click',executeChatDelete);
-$('chatDeleteModal')?.addEventListener('click',e=>{
-  if(e.target===$('chatDeleteModal'))closeChatDeleteModal();
-});
 
 async function sendChatReply(e){
   e.preventDefault();
@@ -3281,14 +2713,13 @@ async function refreshNotifications(){
   // NOTIFIKASI FINAL:
   // ADMIN  -> pendaftaran/verifikasi akun saja.
   // PPK    -> verifikasi yang ditujukan ke username ini + chat pimpinan.
-  // PPBJ   -> verifikasi yang ditujukan ke username ini + chat pimpinan.
-  // KABAG  -> chat pimpinan saja.
+  //   // KABAG  -> chat pimpinan saja.
   // PIMPINAN-> chat masuk.
   // Input laporan biasa -> TIDAK menjadi notif.
 
   // Chat pimpinan untuk semua role yang memang mempunyai akses chat,
   // KECUALI Admin (Admin hanya read-only, tanpa notif generik chat).
-  if(['PIMPINAN','PPK','PPBJ','KABAG BPBJ','KABAG'].includes(role)){
+  if(['PIMPINAN','PPK','KABAG BPBJ','KABAG'].includes(role)){
     try{
       const d=await call('getPesanPimpinanUnread',[state.user.username]);
       const n=Number(d?.count??d?.unread??0)||0;
@@ -3308,9 +2739,7 @@ async function refreshNotifications(){
     }
   }
 
-  // PPK / PPBJ: hanya verifikasi yang benar-benar ditujukan
-  // ke username akun yang sedang login.
-  if(['PPK','PPBJ'].includes(role)){
+    if(['PPK'].includes(role)){
     try{
       const d=await call('getVerifikasiMasuk',[state.user.username]);
       const rows=Array.isArray(d)?d:(Array.isArray(d?.daftar)?d.daftar:[]);
@@ -3425,7 +2854,106 @@ function setSide(open){
 function toggleSide(){setSide()}
 function closeSide(){setSide(false)}
 function latestByRup(){const m={};for(const r of state.reports){const w=Number(r.mingguKe)||0;if(!m[r.kodeRup]||w>m[r.kodeRup].w)m[r.kodeRup]={w,progres:pct(r.progres),report:r}}return m}
-function renderDashboard(){const latest=latestByRup();const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;$('sp').textContent=state.projects.length;$('sl').textContent=state.reports.length;$('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;$('sa').textContent=avg.toFixed(1)+'%';const top=[...state.projects].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);$('top10').innerHTML=top.map((p,i)=>{const l=latest[p.kodeRup],pr=l?.progres||0;return '<div class="top10-item"><span class="rank">'+(i+1)+'</span><span class="name">'+esc(p.namaPaket)+'</span><span class="value">'+money(p.totalNilai)+'</span><span class="meta">'+esc(p.kodeRup)+' · '+(l?'Progres '+pr.toFixed(1)+'%':'Belum ada laporan')+'</span><div class="bar"><i style="width:'+pr+'%"></i></div></div>'}).join('')||'<div class="empty">Belum ada data paket.</div>'}
+function dashboardDetailPhotoFromWeeks(weeks){
+  const arr=Array.isArray(weeks)?weeks:[];
+  if(!arr.length)return '';
+  const ordered=[...arr].sort((a,b)=>(Number(b?.mingguKe)||0)-(Number(a?.mingguKe)||0));
+  const w=ordered[0];
+  const fotos=Array.isArray(w?.foto)?w.foto:[];
+  const f=fotos[0];
+  if(typeof f==='string')return f;
+  return f?.thumbnail||f?.linkFoto||f?.url||'';
+}
+function dashboardCardHtml(r){
+  const rup=String(r?.kodeRup||'').trim();
+  const progress=pct(r?.progres||0);
+  const photo=typeof r?.__dashboardPhoto==='string'?r.__dashboardPhoto:'';
+  const thumb=photo
+    ? '<img loading="lazy" decoding="async" src="'+esc(photo)+'" alt="Foto laporan">'
+    : '<span class="thumb-placeholder">📷</span>';
+  return '<button type="button" class="dashboard-report-card" data-dashboard-rup="'+esc(rup)+'" aria-label="Lihat detail paket">'+
+    '<div class="dashboard-report-thumb">'+thumb+'</div>'+
+    '<div class="dashboard-report-main">'+
+      '<div class="dashboard-report-title">'+esc(r?.namaPaket||'Paket tanpa nama')+'</div>'+
+      '<div class="dashboard-report-meta"><span>RUP '+esc(rup||'-')+'</span><span>Minggu '+esc(r?.mingguKe??'-')+'</span></div>'+
+      '<div class="dashboard-report-progress"><div class="dashboard-report-progress-row"><span>Progress Fisik</span><b>'+progress.toFixed(1)+'%</b></div><div class="dashboard-report-bar"><i style="width:'+progress+'%"></i></div></div>'+
+      '<div class="dashboard-report-foot"><span>'+esc(r?.dibuatOleh||'-')+(r?.lokasi?' · '+esc(r.lokasi):'')+'</span><span class="dashboard-detail-link">Detail →</span></div>'+
+    '</div></button>';
+}
+function dashboardBindCardClicks(){
+  document.querySelectorAll('#dashboard .dashboard-report-card').forEach(card=>{
+    if(card.dataset.bound==='1')return;
+    card.dataset.bound='1';
+    card.addEventListener('click',function(){
+      const rup=card.getAttribute('data-dashboard-rup')||'';
+      if(rup && typeof openDetail==='function')openDetail(rup);
+    });
+  });
+}
+async function loadDashboardThumbnails(){
+  const cards=[...document.querySelectorAll('#dashboard .dashboard-report-card')];
+  let index=0;
+  const worker=async()=>{
+    while(index<cards.length){
+      const card=cards[index++];
+      const rup=card.getAttribute('data-dashboard-rup')||'';
+      if(!rup)continue;
+      try{
+        const d=await call('getPimpinanProjectDetail',[rup]);
+        if(!d?.success)continue;
+        const url=dashboardDetailPhotoFromWeeks(d.minggu);
+        if(!url)continue;
+        const box=card.querySelector('.dashboard-report-thumb');
+        if(box)box.innerHTML='<img loading="lazy" decoding="async" src="'+esc(url)+'" alt="Foto laporan">';
+      }catch(_){}
+    }
+  };
+  // 3 worker paralel: foto tetap muncul, tapi tidak membuat 20 request sekaligus.
+  await Promise.all([worker(),worker(),worker()]);
+}
+function renderDashboard(){
+  const latest=latestByRup();
+  const vals=state.projects.map(p=>latest[p.kodeRup]?.progres||0);
+  const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+  $('sp').textContent=state.projects.length;
+  $('sl').textContent=state.reports.length;
+  $('sb').textContent=state.projects.filter(p=>latest[p.kodeRup]).length;
+  $('sa').textContent=avg.toFixed(1)+'%';
+
+  const reports=[...(state.reports||[])].sort((a,b)=>{
+    const da=parseMonitorDate(a?.tanggal||'');
+    const db=parseMonitorDate(b?.tanggal||'');
+    return db-da;
+  }).slice(0,20);
+
+  const latestWrap=$('latestReports');
+  if(latestWrap){
+    latestWrap.innerHTML=reports.map(dashboardCardHtml).join('')||
+      '<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
+  }
+
+  const top=[...(state.projects||[])].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,20);
+  const topWrap=$('top10');
+  if(topWrap){
+    topWrap.innerHTML=top.map(p=>{
+      const l=latest[p.kodeRup];
+      const r=l?.report||{};
+      return dashboardCardHtml({
+        ...r,
+        kodeRup:p.kodeRup,
+        namaPaket:r.namaPaket||p.namaPaket,
+        progres:l?.progres||0,
+        mingguKe:l?.w||r.mingguKe||'-',
+        dibuatOleh:r.dibuatOleh||'Belum ada laporan',
+        lokasi:r.lokasi||''
+      });
+    }).join('')||'<div class="empty" style="grid-column:1/-1">Belum ada data paket.</div>';
+  }
+
+  dashboardBindCardClicks();
+  // Tidak menunda Dashboard: thumbnail dicari sesudah card sudah tampil.
+  setTimeout(()=>loadDashboardThumbnails(),0);
+}
 function parseMonitorDate(v){
   if(!v)return 0;
   const s=String(v).trim();
@@ -3461,6 +2989,14 @@ function getMonitoringLatestMap(){
   for(const p of state.projects)map[p.kodeRup]=monitorLatest(p);
   return map;
 }
+function getReportCountMap(){
+  const map={};
+  for(const r of state.reports){
+    const k=String(r.kodeRup||'');
+    map[k]=(map[k]||0)+1;
+  }
+  return map;
+}
 function updateMonitorSortUI(){
   const sel=$('monitorSortSelect');
   if(sel){
@@ -3491,10 +3027,10 @@ function changeMonitoringSort(value){
   updateMonitorSortUI();
   renderMonitoring();
 }
-function getMonitoringSortValue(p, latest){
+function getMonitoringSortValue(p, latest, countMap){
   const l=latest[p.kodeRup];
   const pr=pct(l?.progres||0);
-  const reportCount=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
+  const reportCount=(countMap&&countMap[String(p.kodeRup||'')])||0;
   const time=monitorDateValue(l);
   return {l,pr,nilai:num(p.totalNilai),laporanCount:reportCount,time};
 }
@@ -3504,9 +3040,10 @@ function renderMonitoring(){
     [p.kodeRup,p.namaPaket,p.namaPenyedia,p.lokasi].join(' ').toLowerCase().includes(q)
   );
   const latest=getMonitoringLatestMap();
+  const countMap=getReportCountMap();
 
   list.sort((a,b)=>{
-    const A=getMonitoringSortValue(a,latest), B=getMonitoringSortValue(b,latest);
+    const A=getMonitoringSortValue(a,latest,countMap), B=getMonitoringSortValue(b,latest,countMap);
 
     if(monitorSort.key==='updatedAt'){
       const noA=A.time===0,noB=B.time===0;
@@ -3534,21 +3071,60 @@ function renderMonitoring(){
 
   $('mb').innerHTML=list.map(p=>{
     const l=latest[p.kodeRup],pr=pct(l?.progres||0);
-    const jumlah=state.reports.filter(x=>String(x.kodeRup||'')===String(p.kodeRup||'')).length;
+    const jumlah=countMap[String(p.kodeRup||'')]||0;
     return '<tr><td>'+esc(p.kodeRup)+'</td><td><b>'+esc(p.namaPaket)+'</b><small class="monitor-last-update">'+
       (l?'Update: '+esc(l.tanggal||l.tanggalLaporan||'-')+' · '+esc(l.dibuatOleh||'-'):'Belum pernah update')+
       '</small></td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+
-      jumlah+' laporan</td><td><span class="badge '+(pr>0?'warn':'')+'">'+(pr>0?'BERJALAN':'BELUM ADA LAPORAN')+
+      jumlah+' laporan</td><td><span class="badge '+(pr>=100?'ok':(pr>0?'warn':''))+'">'+(pr>=100?'SELESAI':(pr>0?'BERJALAN':'BELUM ADA LAPORAN'))+
       '</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>';
   }).join('');
 }
 
 function reportStatus(r){
-  const raw=String(r.verifikasi?.status||r.status||'BELUM DITERUSKAN').toUpperCase();
-  return raw==='BELUM DITERUSKAN'?'TIDAK DITERUSKAN':raw;
+  const p=pct(r?.progres||0);
+  return p>=100?'SELESAI':(p>0?'BERJALAN':'BELUM ADA PROGRES');
 }
 function renderReports(){const q=($('ls')?.value||'').toLowerCase();const rows=state.reports.filter(r=>[r.kodeRup,r.namaPaket,r.namaPenyedia].join(' ').toLowerCase().includes(q));$('lb').innerHTML=rows.map(r=>'<tr><td>'+esc(r.tanggal)+'</td><td><b>'+esc(r.namaPaket)+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup)+'</small></td><td>'+esc(r.mingguKe)+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh)+'</td><td><span class="badge '+(reportStatus(r)==='DITERIMA'?'ok':reportStatus(r)==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(reportStatus(r))+'</span></td></tr>').join('')||'<tr><td colspan="6" class="empty">Belum ada laporan.</td></tr>'}
-function renderManagement(){if(!$('mlBody'))return;const q=($('mlSearch')?.value||'').toLowerCase();const f=($('mlFilter')?.value||'SEMUA').toUpperCase();const rows=state.reports.filter(r=>{const s=reportStatus(r);const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();return text.includes(q)&&(f==='SEMUA'||s===f)});const total=state.reports.length;const belum=state.reports.filter(r=>reportStatus(r)==='BELUM DITERUSKAN').length;const diterima=state.reports.filter(r=>reportStatus(r)==='DITERIMA').length;$('mlTotal').textContent=total;$('mlBelum').textContent=belum;$('mlDiterima').textContent=diterima;$('mlBody').innerHTML=rows.map(r=>{const s=reportStatus(r);return '<tr><td>'+esc(r.tanggal||'-')+'</td><td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td><td>'+esc(r.mingguKe||'-')+'</td><td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td><td>'+esc(r.dibuatOleh||'-')+'</td><td><span class="badge '+(s==='DITERIMA'?'ok':s==='DIKEMBALIKAN'?'bad':'warn')+'">'+esc(s)+'</span></td><td><button class="btn btn-delete-report" onclick="hapusLaporanManajemen('+JSON.stringify(r).replace(/"/g,'&quot;')+')">Hapus Laporan</button></td></tr>'}).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>'}
+function renderManagement(){
+  if(!$('mlBody'))return;
+  const q=($('mlSearch')?.value||'').toLowerCase();
+  const f=($('mlFilter')?.value||'SEMUA').toUpperCase();
+  const rows=state.reports.filter(r=>{
+    const status=reportStatus(r);
+    const text=[r.kodeRup,r.namaPaket,r.namaPenyedia,r.dibuatOleh,r.lokasi].join(' ').toLowerCase();
+    return text.includes(q)&&(f==='SEMUA'||status===f);
+  });
+  if($('mlTotal'))$('mlTotal').textContent=state.reports.length;
+  $('mlBody').innerHTML=rows.map(r=>{
+    const status=reportStatus(r);
+    const cls=status==='SELESAI'?'ok':status==='BERJALAN'?'warn':'';
+    return '<tr>'+
+      '<td>'+esc(r.tanggal||'-')+'</td>'+
+      '<td><b>'+esc(r.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(r.kodeRup||'')+'</small></td>'+
+      '<td>'+esc(r.mingguKe||'-')+'</td>'+
+      '<td><div style="display:flex;gap:7px;align-items:center"><div class="bar"><i style="width:'+pct(r.progres)+'%"></i></div><b>'+pct(r.progres).toFixed(1)+'%</b></div></td>'+
+      '<td>'+esc(r.dibuatOleh||'-')+'</td>'+
+      '<td><span class="badge '+cls+'">'+esc(status)+'</span></td>'+
+      '<td><button class="btn btn-delete-report" data-laporan-id="'+esc(r.idLaporan)+'" onclick="hapusLaporanManajemenById(this.dataset.laporanId)">Hapus Laporan</button></td>'+
+    '</tr>';
+  }).join('')||'<tr><td colspan="7" class="empty">Tidak ada laporan yang sesuai.</td></tr>';
+}
+
+function debounce(fn,wait){
+  let t;
+  return function(...args){
+    clearTimeout(t);
+    t=setTimeout(()=>fn.apply(this,args),wait);
+  };
+}
+const renderMonitoringDebounced=debounce(renderMonitoring,200);
+const renderReportsDebounced=debounce(renderReports,200);
+const renderManagementDebounced=debounce(renderManagement,200);
+function hapusLaporanManajemenById(id){
+  const r=state.reports.find(x=>String(x.idLaporan)===String(id));
+  if(!r)return;
+  hapusLaporanManajemen(r);
+}
 
 
 async function hapusLaporanManajemen(laporan){
@@ -3686,18 +3262,6 @@ function openReport(){
   if($('progressValidation'))$('progressValidation').textContent='';
   $('rKet').value='';
   setAdendum('TIDAK');
-  setTerus('TIDAK');
-  const reportRole=String(state.user?.role||'').toUpperCase();
-  const isPPBJ=reportRole==='PPBJ';
-  $('rTerusLabel').textContent=isPPBJ?'Diteruskan ke PPK?':'Diteruskan ke PPBJ?';
-  $('rTujuanLabel').textContent=isPPBJ?'Pilih PPK Tujuan':'Pilih PPBJ Tujuan';
-  $('rPpbj').innerHTML='<option value="">Memuat...</option>';
-  const tujuanFn=isPPBJ?'getDaftarPPK':'getDaftarPPBJ';
-  const tujuanPlaceholder=isPPBJ?'Pilih PPK...':'Pilih PPBJ...';
-  call(tujuanFn).then(a=>{
-    $('rPpbj').innerHTML='<option value="">'+tujuanPlaceholder+'</option>'+
-      ((a||[]).map(x=>'<option value="'+esc(x.username)+'">'+esc(x.nama)+' — '+esc(x.username)+'</option>').join(''));
-  }).catch(e=>{$('rPpbj').innerHTML='<option value="">Gagal memuat</option>'});
 }
 function lastReportForRup(rup){
   const rs=(state.reports||[]).filter(r=>String(r.kodeRup||'')===String(rup||''));
@@ -3828,8 +3392,11 @@ function closeModal(id){
   if(id==='reportModal')clearReportPhotoState();
   if(el)el.classList.remove('show');
 }
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape')return;
+  document.querySelectorAll('.modal.show,.chat-new-modal.show,.reset-password-modal.show').forEach(m=>m.classList.remove('show'));
+});
 function setAdendum(v){state.adendum=v;$('adNo').classList.toggle('active',v==='TIDAK');$('adYes').classList.toggle('active',v==='YA');$('adendumFields').classList.toggle('hidden',v!=='YA');if(v!=='YA'){$('rNoAd').value='';$('rTglAd').value='';$('rNilaiAd').value='';$('rKetAd').value=''}}
-function setTerus(v){state.terus=v;$('terNo').classList.toggle('active',v==='TIDAK');$('terYes').classList.toggle('active',v==='YA');$('ppbjField').classList.toggle('hidden',v!=='YA');if(v!=='YA')$('rPpbj').value='';const isPPBJ=String(state.user?.role||'').toUpperCase()==='PPBJ';if($('rTerusLabel'))$('rTerusLabel').textContent=isPPBJ?'Diteruskan ke PPK?':'Diteruskan ke PPBJ?';if($('rTujuanLabel'))$('rTujuanLabel').textContent=isPPBJ?'Pilih PPK Tujuan':'Pilih PPBJ Tujuan';}
 function previewPhotos(){
   const input=$('rFoto');
   const preview=$('photoPreview');
@@ -3959,7 +3526,6 @@ async function saveReport(e){
   Validasi kepemilikan paket tepat sebelum SIMPAN.
   Paket tetap muncul di suggestion; yang dibatasi hanya penyimpanan.
   PPK  -> hanya username PPK yang pertama kali mengerjakan paket.
-  PPBJ -> hanya username yang tercatat sebagai tujuan PPBJ pada laporan.
   Hapus semua laporan paket -> tidak ada laporan terkait -> paket otomatis reset.
   Data diambil ulang dari backend agar tidak bergantung pada cache frontend.
 */
@@ -4003,19 +3569,6 @@ if(terkait.length){
         '". Gunakan akun PPK yang menangani paket tersebut.'
       );
     }
-  }else if(roleSaya==='PPBJ'){
-    const ditujukanKeSaya=terkait.some(r=>{
-      const tujuan=String(
-        r?.ppbjUsername??r?.ppbj_tujuan??r?.ppbjTujuan??''
-      ).trim().toLowerCase();
-      return tujuan===saya;
-    });
-
-    if(!ditujukanKeSaya){
-      throw Error(
-        'Laporan gagal disimpan. Paket ini belum diteruskan kepada akun PPBJ Anda.'
-      );
-    }
   }
 }
 
@@ -4033,8 +3586,6 @@ const fotos=await filesToBase64();
       progres:$('rProgres')?.value||'',
       keterangan:$('rKet')?.value||'',
       dibuatOleh:state.user?.username||'',
-      diteruskan:state.terus||'TIDAK',
-      ppbjUsername:$('rPpbj')?.value||'',
       foto:fotos
     };
 
@@ -4122,8 +3673,7 @@ async function openDetail(rup){
     $('detailContent').innerHTML='<div class="msg err">'+esc(e.message)+'</div>';
   }
 }
-async function loadVerifications(){try{const d=await call('getVerifikasiMasuk',[state.user.username]);state.verifications=d||[];$('vb').innerHTML=state.verifications.map(v=>'<tr><td>'+esc(v.tanggal)+'</td><td><b>'+esc(v.laporan?.namaPaket||'-')+'</b><small style="display:block;color:#98a2b3">'+esc(v.laporan?.kodeRup||'')+'</small></td><td>'+esc(v.laporan?.mingguKe||'-')+'</td><td>'+pct(v.laporan?.progres).toFixed(1)+'%</td><td>'+esc(v.dari)+'</td><td><button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DITERIMA\')">Terima</button> <button class="btn" onclick="verify(\''+esc(v.idVerifikasi)+'\',\'DIKEMBALIKAN\')">Kembalikan</button></td></tr>').join('')||'<tr><td colspan="6" class="empty">Tidak ada laporan yang menunggu verifikasi.</td></tr>'}catch(e){console.error(e)}}
-async function verify(id,status){let cat='';if(status==='DIKEMBALIKAN'){cat=prompt('Catatan pengembalian wajib diisi:')||'';if(!cat)return}try{const d=await call('prosesVerifikasi',[{idVerifikasi:id,usernamePenerima:state.user.username,statusBaru:status,catatan:cat}]);showToast(d.message);await loadVerifications();await loadData()}catch(e){showToast(e.message)}}
+
 async function loadAdmin(){
   try{
     const [d,p]=await Promise.all([
@@ -4244,7 +3794,7 @@ setTimeout(updateChatBadge,500);
       <div class="field">
         <label>Penerima</label>
         <select id="chatRecipientSelect" class="chat-recipient-select" onchange="selectChatRecipient(this.value)">
-          <option value="">Pilih PPK, PPBJ, atau Kabag...</option>
+          <option value="">Pilih PPK atau Kabag...</option>
         </select>
       </div>
       <div class="field">
