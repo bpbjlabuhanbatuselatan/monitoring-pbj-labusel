@@ -2044,11 +2044,7 @@ h1,h2,h3,h4,
 <div class="stat"><span>Rata-rata Progres</span><b id="sa">0%</b></div>
 </div>
 <div class="dashboard-report-section">
-<div class="dashboard-section-head"><div><h3>20 Laporan Terakhir</h3><p>Laporan terbaru yang masuk ke sistem.</p></div></div>
-<div id="latestReports" class="dashboard-report-grid"></div>
-</div>
-<div class="dashboard-report-section">
-<div class="dashboard-section-head"><div><h3>10 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div>
+<div class="dashboard-section-head"><div><h3>20 Paket Nilai Tertinggi</h3><p>Daftar paket dengan nilai anggaran tertinggi.</p></div></div>
 <div id="top10" class="dashboard-report-grid"></div>
 </div>
 </section>
@@ -2889,7 +2885,7 @@ function renderDashboard(){
       '<div class="empty" style="grid-column:1/-1">Belum ada laporan mingguan.</div>';
   }
 
-  const top=[...(state.projects||[])].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,10);
+  const top=[...(state.projects||[])].sort((a,b)=>num(b.totalNilai)-num(a.totalNilai)).slice(0,20);
   const topWrap=$('top10');
   if(topWrap){
     topWrap.innerHTML=top.map(p=>{
@@ -3032,7 +3028,7 @@ function renderMonitoring(){
     return '<tr><td>'+esc(p.kodeRup)+'</td><td><b>'+esc(p.namaPaket)+'</b><small class="monitor-last-update">'+
       (l?'Update: '+esc(l.tanggal||l.tanggalLaporan||'-')+' · '+esc(l.dibuatOleh||'-'):'Belum pernah update')+
       '</small></td><td>'+money(p.totalNilai)+'</td><td><div style="display:flex;align-items:center;gap:6px"><div class="bar"><i style="width:'+pr+'%"></i></div><b>'+pr.toFixed(1)+'%</b></div></td><td>'+
-      jumlah+' laporan</td><td><span class="badge '+(pr>0?'warn':'')+'">'+(pr>0?'BERJALAN':'BELUM ADA LAPORAN')+
+      jumlah+' laporan</td><td><span class="badge '+(pr>=100?'ok':(pr>0?'warn':''))+'">'+(pr>=100?'SELESAI':(pr>0?'BERJALAN':'BELUM ADA LAPORAN'))+
       '</span></td><td><button class="btn" onclick="openDetail('+JSON.stringify(p.kodeRup).replace(/"/g,'&quot;')+')">Detail</button></td></tr>';
   }).join('');
 }
