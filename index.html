@@ -5,6 +5,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Si RAJA MONITOR — Labuhanbatu Selatan</title>
 <style>
+/* ===== LOGIN PORTRAIT: HP normal dan mode "Situs desktop" di HP ===== */
+@media (max-width:520px), (max-aspect-ratio:4/5){
+  #login.login{
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    min-height:100dvh!important;
+    padding:clamp(18px,5vw,34px) 14px 46px!important;
+    background-position:42% center!important;
+  }
+  #login .loginbox{
+    width:min(520px,100%)!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:clamp(20px,5.5vw,30px)!important;
+    border-radius:24px!important;
+    overflow:visible!important;
+  }
+  /* Tokoh tetap menjadi aksen lembut, tidak menutup kolom input. */
+  #login .login-art{
+    display:block!important;
+    left:50%!important;
+    bottom:-18px!important;
+    width:min(94vw,560px)!important;
+    max-height:47vh!important;
+    opacity:.13!important;
+    transform:translateX(-50%)!important;
+  }
+  #login .login-art img{max-height:47vh!important}
+  #login .logos{gap:8px!important;margin-bottom:13px!important}
+  #login .logo{width:58px!important;height:58px!important}
+  #login .brand h1{font-size:clamp(23px,6vw,28px)!important;line-height:1.12!important}
+  #login .brand p{font-size:11px!important;line-height:1.42!important;margin:7px 0 17px!important}
+  #login .tabs{margin-bottom:14px!important}
+  #login .tabs button{padding:11px 8px!important;font-size:13px!important}
+  #login .field{margin:11px 0!important}
+  #login .field input,#login .field select{min-height:50px!important;font-size:16px!important}
+  #login .primary{min-height:52px!important;font-size:15px!important}
+  #login .note{font-size:10px!important;line-height:1.6!important;margin-top:15px!important}
+}
 /* ===== PERBAIKAN DARK MODE KHUSUS LOGIN =====
    Menang atas aturan lama .login yang memakai !important. */
 [data-theme="dark"] #login.login{
