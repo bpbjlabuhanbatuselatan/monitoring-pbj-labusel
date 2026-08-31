@@ -3622,6 +3622,59 @@ async function openDetail(rup){
   }
 }
 
+async function loadAdmin(){
+  try{
+    const [d,p]=await Promise.all([
+      call('getAdminDashboardData',[state.user.username]),
+      call('getPendaftaranMenunggu',[state.user.username])
+    ]);
+
+    const accounts=Array.isArray(d?.daftar)?d.daftar:[];
+    const pending=Array.isArray(p?.daftar)?p.daftar:[];
+
+    // Akun pending selalu ditempatkan paling atas tabel.
+    const pendingRows=pending.map(u=>{
+      return '<tr class="account-pending-row">'+
+        '<td><b>'+esc(u.nama||'-')+'</b></td>'+
+        '<td><b>'+esc(u.username||'-')+'</b></td>'+
+        '<td>'+esc(u.role||'-')+'</td>'+
+        '<td><span class="badge warn">MENUNGGU VERIFIKASI</span></td>'+
+        '<td class="account-actions">'+
+          '<button class="btn" onclick="processReg(\''+esc(u.username||'')+'\',\'SETUJUI\')">Setujui</button> '+
+          '<button class="btn btn-account-delete" onclick="processReg(\''+esc(u.username||'')+'\',\'TOLAK\')">Tolak</button>'+
+        '</td>'+
+      '</tr>';
+    }).join('');
+
+    const accountRows=accounts.map(u=>{
+      const st=String(u.status||'').toUpperCase();
+      const statusBtn=st==='AKTIF'
+        ?'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'NONAKTIF\')">Nonaktifkan</button>'
+        :'<button class="btn btn-account-toggle" onclick="setStatus(\''+esc(u.username)+'\',\'AKTIF\')">Aktifkan</button>';
+
+      return '<tr>'+
+        '<td>'+esc(u.nama||'-')+'</td>'+
+        '<td>'+esc(u.username||'-')+'</td>'+
+        '<td>'+esc(u.role||'-')+'</td>'+
+        '<td><span class="badge '+(st==='AKTIF'?'ok':'warn')+'">'+esc(u.status||'-')+'</span></td>'+
+        '<td class="account-actions">'+statusBtn+
+        ' <button class="btn btn-account-reset" onclick="resetPasswordByAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Reset Password</button>'+ 
+        ' <button class="btn btn-account-delete" onclick="hapusAkunAdmin(\''+esc(u.username||'')+'\',\''+esc(u.nama||'')+'\')">Hapus</button></td>'+
+      '</tr>';
+    }).join('');
+
+    $('ub').innerHTML=(pendingRows+accountRows)||'<tr><td colspan="5" class="empty">Belum ada akun.</td></tr>';
+
+    $('pending').innerHTML=pending.length
+      ? '<div class="admin-pending-summary"><b>🔔 '+pending.length+' pendaftaran menunggu verifikasi</b><span>Permintaan verifikasi berada paling atas pada daftar akun.</span></div>'
+      : '<div class="empty">Tidak ada pendaftaran menunggu.</div>';
+
+    // Segarkan badge lonceng setelah data akun diperbarui.
+    refreshNotifications();
+  }catch(e){
+    console.error(e);
+  }
+}
 const ACCOUNT_API='https://msfkpwwqrpbmgdtlbwdo.supabase.co/functions/v1/account-api';
 const ACCOUNT_API_FUNCTIONS=new Set(['adminHapusAkun','adminResetPassword','resetPassword','checkResetStatus']);
 const originalCall=call;
