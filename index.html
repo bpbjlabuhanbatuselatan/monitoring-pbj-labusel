@@ -5,6 +5,67 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Si RAJA MONITOR — Labuhanbatu Selatan</title>
 <style>
+/* ===== LOGIN HERO KHUSUS: tidak memengaruhi dashboard/monitoring ===== */
+#login.login{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  min-height:100dvh;
+  padding:clamp(24px,4vw,58px) clamp(24px,7vw,130px);
+  background:
+    linear-gradient(90deg,rgba(5,27,47,.10) 0%,rgba(5,27,47,.02) 44%,rgba(5,27,47,.16) 100%),
+    url('login-labusel-background.png') center/cover no-repeat;
+}
+#login .login-art{
+  position:absolute;
+  z-index:1;
+  left:clamp(18px,5vw,100px);
+  bottom:0;
+  width:min(47vw,720px);
+  max-height:84vh;
+  display:flex;
+  align-items:flex-end;
+  pointer-events:none;
+}
+#login .login-art img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:84vh;
+  object-fit:contain;
+  object-position:left bottom;
+}
+#login .loginbox{
+  position:relative;
+  z-index:2;
+  width:min(510px,42vw);
+  max-height:calc(100dvh - 48px);
+  overflow:auto;
+  margin:0;
+  padding:28px 32px;
+  border:1px solid rgba(255,255,255,.76);
+  border-radius:28px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 24px 64px rgba(2,24,43,.24);
+  backdrop-filter:blur(7px);
+}
+#login .logo{width:70px;height:70px}
+#login .primary{background:#052c4d}
+#login .tabs button.active{background:#052c4d;color:#fff}
+@media (max-width:900px){
+  #login.login{justify-content:center;padding:22px 16px;background-position:center}
+  #login .login-art{opacity:.22;left:50%;bottom:-10px;width:min(94vw,620px);transform:translateX(-50%)}
+  #login .loginbox{width:min(500px,100%);max-height:calc(100dvh - 44px);padding:24px}
+}
+@media (max-width:520px){
+  #login.login{align-items:flex-start;padding:14px 12px}
+  #login .login-art{display:none}
+  #login .loginbox{max-height:none;padding:19px 18px;border-radius:22px}
+  #login .logo{width:56px;height:56px}
+}
 :root{--nav:#0b2b4d;--blue:#1769aa;--lightblue:#eaf4fc;--zebra:#edf7ff;--bg:#f4f7fb;--card:#fff;--text:#102a43;--muted:#4f5f6d;--line:#dfe8f1;--ok:#087443;--warn:#b54708;--danger:#b42318;--shadow:0 8px 25px rgba(16,42,67,.08)}[data-theme="dark"]{--nav:#071a2d;--blue:#4ea3e8;--lightblue:#17324a;--zebra:#1b3a54;--bg:#08131f;--card:#0f1f2d;--text:#e6eef5;--muted:#9db0c2;--line:#244258;--ok:#4fd18b;--warn:#f4b860;--danger:#ff7b73;--shadow:0 10px 30px rgba(0,0,0,.28)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-synthesis:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:700}button,input,select,textarea{font-family:inherit;font:inherit;font-weight:700;font-synthesis:none}button{cursor:pointer}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#eaf2f9,#f8fafc)}.loginbox{width:min(450px,100%);background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 22px 60px #0b2b4d18}.logos{display:flex;justify-content:center;gap:10px;margin-bottom:17px}.logo{width:66px;height:66px;object-fit:contain;border:1px solid #edf1f5;border-radius:14px;padding:4px;background:#fff}.brand{text-align:center}.brand h1{font-size:25px;margin:0;font-weight:950}.brand p{font-size:12px;line-height:1.5;color:var(--muted);font-weight:700;margin:6px 0 18px}.tabs{display:flex;gap:4px;background:#f1f4f7;padding:4px;border-radius:11px;margin-bottom:15px}.tabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:10px;font-weight:850;color:var(--muted)}.tabs button.active{background:#fff;color:var(--text);box-shadow:0 2px 7px #0001}.field{margin:10px 0}.field label{display:block;font-size:11px;font-weight:850;margin-bottom:5px;color:#344054}.field input,.field select,.field textarea{width:100%;border:1px solid #d5dee8;border-radius:10px;padding:11px 12px;outline:0;background:#fff;color:var(--text)}.field textarea{min-height:90px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#65a3db;box-shadow:0 0 0 3px #1769aa14}.primary{width:100%;border:0;border-radius:10px;padding:12px;background:var(--nav);color:#fff;font-weight:900}.msg{margin-top:10px;padding:10px;border-radius:9px;font-size:11px;font-weight:800}.msg.err{background:#fff1f0;color:var(--danger)}.msg.ok{background:#ecfdf3;color:var(--ok)}.note{text-align:center;font-size:10px;color:#5f6b76;margin-top:14px;font-weight:700}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:var(--nav);color:#fff;padding:15px 13px;z-index:30}.sidebrand{display:flex;gap:9px;align-items:center;padding:7px 8px 18px;border-bottom:1px solid #ffffff18}.sidebrand img{width:42px;height:42px;background:#fff;border-radius:11px;padding:3px}.sidebrand b{font-size:13px;line-height:1.15}.nav{display:grid;gap:5px;margin-top:16px}.nav button{border:0;background:transparent;color:#d9e7f5;text-align:left;padding:11px 12px;border-radius:9px;font-weight:800;font-size:12px}.nav button:hover,.nav button.active{background:#ffffff15;color:#fff}.sidefoot{position:absolute;left:13px;right:13px;bottom:14px}.logout{width:100%;border:0;border-radius:9px;padding:10px;background:#fff;color:var(--nav);font-weight:900}.main{margin-left:245px;padding:14px;min-height:100vh}.top{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:var(--shadow);margin-bottom:15px}.hamb{display:none;border:0;background:var(--nav);color:#fff;border-radius:8px;padding:8px 10px;font-weight:900}.topuser{display:flex;align-items:center;gap:9px}.avatar{width:36px;height:36px;border-radius:10px;background:#e7f1fb;color:var(--blue);display:grid;place-items:center;font-weight:950}.topuser small{display:block;font-size:10px;color:var(--muted);margin-top:2px;font-weight:700}.page{display:none}.page.active{display:block}.heading{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:7px 2px 14px}.heading h2{margin:0;font-size:24px}.heading p{margin:4px 0 0;color:var(--muted);font-size:11px;font-weight:750}.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:9px;padding:9px 12px;font-size:11px;font-weight:850}.btn.primary{background:var(--nav);border-color:var(--nav);color:#fff;width:auto}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow)}.stat span{font-size:9px;text-transform:uppercase;color:var(--muted);font-weight:900}.stat b{display:block;font-size:25px;margin-top:4px}.grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow)}.card h3{font-size:14px;margin:0 0 11px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.search{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;padding:10px 11px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px}.table th,.table td{padding:9px 8px;border-bottom:1px solid #edf1f5;text-align:left;font-size:11px;vertical-align:top}.table th{font-size:9px;color:#566572;text-transform:uppercase;background:var(--lightblue)}.table tbody tr:nth-child(odd){background:#fff}.table tbody tr:nth-child(even){background:#eaf4fc}.table tbody tr:hover{background:#dceefa}.table td{font-weight:700}.table td:first-child{font-weight:850}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:99px;background:#eef2f6;color:#475467;font-size:9px;font-weight:900}.badge.ok{background:#ecfdf3;color:#087443}.badge.warn{background:#fffaeb;color:#b54708}.badge.bad{background:#fff1f0;color:#b42318}.bar{height:7px;background:#edf1f5;border-radius:99px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;background:#1769aa;border-radius:99px}.listitem{padding:9px 0;border-bottom:1px solid #edf1f5}.listitem b{font-size:11px}.listitem small{display:block;color:#98a2b3;font-size:9px;margin-top:3px;font-weight:700}.empty{text-align:center;padding:25px;color:#98a2b3;font-size:11px;font-weight:700}.top10-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.top10-list .top10-item{position:relative;padding:10px 12px;border:1px solid #d8e6f1;border-radius:11px;background:#eaf4fc;min-height:78px}.top10-list .top10-item:nth-child(odd){background:var(--zebra)}.top10-item .rank{display:inline-grid;place-items:center;width:23px;height:23px;border-radius:7px;background:var(--nav);color:#fff;font-size:10px;font-weight:950;margin-right:6px;vertical-align:middle}.top10-item .name{font-size:11px;font-weight:900;line-height:1.25}.top10-item .value{float:right;font-size:11px;font-weight:950;color:var(--nav);margin-left:8px}.top10-item .meta{display:block;color:#5d6974;font-size:9px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top10-item .bar{margin-top:7px;width:100%;height:5px;min-width:0}.top10-item .bar i{background:#1769aa}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}.modal{position:fixed;inset:0;background:#07152699;display:none;align-items:center;justify-content:center;padding:14px;z-index:100}.modal.show{display:flex}.modalbox{width:min(760px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:16px;padding:17px}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}.modalhead h3{margin:0;font-size:16px}.x{border:0;background:#f1f3f5;border-radius:8px;padding:7px 10px}.photo-preview{display:flex;gap:7px;flex-wrap:wrap}.photo-preview img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.autocomplete{position:relative}.suggestions{position:absolute;left:0;right:0;top:100%;margin-top:3px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px #102a4318;z-index:150;max-height:260px;overflow:auto}.suggestion{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid #edf1f5;padding:10px 11px}.suggestion:hover{background:#f4f8fc}.suggestion b{display:block;font-size:11px}.suggestion small{display:block;color:var(--muted);font-size:9px;margin-top:3px;font-weight:700}.detail-head{display:grid;grid-template-columns:1.4fr .6fr;gap:12px}.detail-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.meta{background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:9px}.meta span{display:block;font-size:8px;color:var(--muted);font-weight:900;text-transform:uppercase}.meta b{display:block;font-size:11px;margin-top:3px}.timeline{display:grid;gap:8px}.timeline-item{border:1px solid var(--line);border-radius:11px;padding:11px}.timeline-top{display:flex;justify-content:space-between;gap:8px}.adendum-box{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:11px}.adendum-box h4{margin:0 0 8px;font-size:12px}.switchrow{display:flex;gap:8px}.switchrow button{flex:1;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;font-weight:900}.switchrow button.active{background:#e8f2fc;border-color:#76a8df;color:var(--nav)}.manage-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:11px}.manage-stat{padding:11px;border-radius:10px;background:var(--lightblue);border:1px solid #d8e8f5}.manage-stat span{display:block;font-size:8px;color:var(--muted);font-weight:900;text-transform:uppercase}.manage-stat b{display:block;font-size:18px;margin-top:3px}.manage-filter{max-width:170px;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff;color:var(--text);font-size:11px}
 /* ===== DETAIL LAPORAN PREMIUM - hanya untuk modal detail ===== */
 #detailModal .modalbox{
@@ -2054,7 +2115,7 @@ h1,h2,h3,h4,
 })();
 </script>
 
-<div id="login" class="login"><div class="loginbox">
+<div id="login" class="login"><div class="login-art" aria-hidden="true"><img src="pejabat-labusel-cutout.png" alt=""></div><div class="loginbox">
 <button id="loginThemeToggle" class="theme-toggle login-theme-toggle" onclick="toggleTheme()" title="Ganti tema">🌙 <span>Dark</span></button>
 <div class="logos"><img class="logo" src="logo-labusel.png"><img class="logo" src="logo-lkpp.png"><img class="logo" src="logo-ukpbj.png"></div>
 <div class="brand"><h1>Si RAJA MONITOR</h1><p>Monitoring Progres Pekerjaan Fisik<br>Kabupaten Labuhanbatu Selatan</p></div>
